@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KI-Assistenten Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>KI-Assistenten Dashboard</h1>
+  <form id="dashboardForm">
+    <label>📅 Neukunden/Monat:
+      <input type="number" id="newCustomers" required />
+    </label>
+    <label>💶 Monatsumsatz (€):
+      <input type="number" id="revenue" required />
+    </label>
+    <label>🔁 Abgebrochene Anfragen:
+      <input type="number" id="abandonedCalls" />
+    </label>
+    <label>📞 Telefongespräche vorher:
+      <input type="number" id="callsBefore" />
+    </label>
+    <label>📞 Telefongespräche nachher:
+      <input type="number" id="callsAfter" />
+    </label>
+    <button type="submit">Auswertung anzeigen</button>
+  </form>
+  <div id="result"></div>
+  <script src="script.js"></script>
+</body>
+</html>
