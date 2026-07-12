@@ -1,32 +1,423 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KI-Assistenten Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Five Fingers – KI-Kommunikationszentrale · Demo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>KI-Assistenten Dashboard</h1>
-  <form id="dashboardForm">
-    <label>📅 Neukunden/Monat:
-      <input type="number" id="newCustomers" required />
-    </label>
-    <label>💶 Monatsumsatz (€):
-      <input type="number" id="revenue" required />
-    </label>
-    <label>🔁 Abgebrochene Anfragen:
-      <input type="number" id="abandonedCalls" />
-    </label>
-    <label>📞 Telefongespräche vorher:
-      <input type="number" id="callsBefore" />
-    </label>
-    <label>📞 Telefongespräche nachher:
-      <input type="number" id="callsAfter" />
-    </label>
-    <button type="submit">Auswertung anzeigen</button>
-  </form>
-  <div id="result"></div>
+  <div class="app">
+
+    <!-- ═══════════ SIDEBAR ═══════════ -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-row">
+          <svg class="brand-hand" viewBox="0 0 64 64" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round">
+              <path d="M14 34 L10 22"/>
+              <path d="M24 30 L22 12"/>
+              <path d="M33 29 L33 9"/>
+              <path d="M42 30 L44 13"/>
+              <path d="M50 34 L54 23"/>
+            </g>
+            <path d="M13 33 C13 33 12 46 20 53 C26 58 40 58 46 53 C54 46 52 33 52 33 C46 28 20 28 13 33 Z" fill="currentColor"/>
+          </svg>
+          <div class="brand-word">FIVE<span>FINGERS</span></div>
+        </div>
+        <div class="brand-claim">Eine Hand für den Mittelstand.<br><em>Damit kein Kunde mehr durch die Finger gleitet.</em></div>
+      </div>
+
+      <nav class="nav" aria-label="Hauptnavigation">
+        <button class="active" data-view-target="dashboard">Übersicht <span class="badge badge-accent">KPI</span></button>
+        <button data-view-target="inbox">Posteingang <span class="badge" id="navInboxCount">7</span></button>
+        <button data-view-target="calendar">Kalender <span class="badge" id="navCalCount">7</span></button>
+        <button data-view-target="outbox">Postausgang <span class="badge" id="navOutboxCount">4</span></button>
+        <button data-view-target="phone">Telefon <span class="badge" id="navPhoneCount">2</span></button>
+        <button data-view-target="social">Social Media <span class="badge">Demo</span></button>
+        <button data-view-target="customers">Kunden <span class="badge" id="navCustomerCount">6</span></button>
+        <button data-view-target="tokens">KI &amp; Token <span class="badge" id="navTokenBadge">43%</span></button>
+        <button data-view-target="testaccount">Test-Modus <span class="badge badge-accent">Live</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="token-mini">
+          <div class="token-mini-head">
+            <div class="ring" id="tokenRing"><span id="tokenRingLabel">43%</span></div>
+            <div>
+              <strong>Token-Budget</strong>
+              <small id="tokenMiniUsed">516k von 1,2M verbraucht</small>
+              <strong class="token-left" id="tokenMiniLeft">684k übrig</strong>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-row"><span><i class="dot dot-red"></i>Manuell</span><strong class="c-red" id="legendRed">2</strong></div>
+          <div class="legend-row"><span><i class="dot dot-yellow"></i>Prüfen</span><strong class="c-yellow" id="legendYellow">3</strong></div>
+          <div class="legend-row"><span><i class="dot dot-green"></i>Automatisch</span><strong class="c-green" id="legendGreen">2</strong></div>
+        </div>
+        <div class="sidebar-legal">
+          © 2026 Synlex UG · <a href="https://fivefingers.io" target="_blank" rel="noopener">fivefingers.io</a><br>
+          DSGVO-konform · EU AI Act ready
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════ HAUPTBEREICH ═══════════ -->
+    <section class="work">
+      <header class="topbar">
+        <div class="topbar-titles">
+          <h1 id="pageTitle">Übersicht</h1>
+          <p id="pageSubtitle">Alle Kanäle, alle Vorgänge, ein Blick – die Kommandozentrale von Five Fingers.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-demo" id="btnLiveDemo">▶ Live-Demo</button>
+          <button class="btn btn-tour" id="btnTour">Tour starten</button>
+          <div class="status-tabs" aria-label="Ampelstatus">
+            <span class="status-pill red" id="pillRed">Rot · 2</span>
+            <span class="status-pill yellow" id="pillYellow">Gelb · 3</span>
+            <span class="status-pill green" id="pillGreen">Grün · 2</span>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- ═══ ÜBERSICHT / KPI ═══ -->
+        <section class="view active" data-view="dashboard">
+          <div class="kpi-grid" id="kpiGrid">
+            <div class="kpi-tile">
+              <span class="kpi-label">Ø Antwortzeit heute</span>
+              <span class="kpi-value"><span data-count="1.8" data-decimals="1">0</span><small> Min</small></span>
+              <span class="kpi-delta up">vorher Ø 8 Std – 99 % schneller</span>
+            </div>
+            <div class="kpi-tile">
+              <span class="kpi-label">Gesparte Zeit diese Woche</span>
+              <span class="kpi-value"><span data-count="19">0</span><small> Std</small></span>
+              <span class="kpi-delta up">≈ 988 Std pro Jahr</span>
+            </div>
+            <div class="kpi-tile">
+              <span class="kpi-label">Automatisierungsquote</span>
+              <span class="kpi-value"><span data-count="38">0</span><small> %</small></span>
+              <span class="kpi-delta">Grüne Vorgänge, regelbasiert</span>
+            </div>
+            <div class="kpi-tile">
+              <span class="kpi-label">Verlorene Anfragen</span>
+              <span class="kpi-value kpi-zero"><span data-count="0">0</span></span>
+              <span class="kpi-delta up">Kein Kunde gleitet durch die Finger</span>
+            </div>
+          </div>
+
+          <div class="dash-grid">
+            <div class="dash-card">
+              <h2>Die fünf Finger</h2>
+              <p class="dash-sub">Jeder Assistent kennt denselben Kunden und dieselben Vorgänge. Klick öffnet das Modul.</p>
+              <div class="finger-grid">
+                <button class="finger" data-goto="phone">
+                  <span class="finger-name">Daumen</span>
+                  <strong>Telefon-Assistent</strong>
+                  <span>24/7 erreichbar. Kein Anruf geht verloren.</span>
+                </button>
+                <button class="finger" data-goto="inbox">
+                  <span class="finger-name">Zeigefinger</span>
+                  <strong>E-Mail-Assistent</strong>
+                  <span>Versteht Kontext. Antwortet. Priorisiert.</span>
+                </button>
+                <button class="finger" data-goto="calendar">
+                  <span class="finger-name">Mittelfinger</span>
+                  <strong>Kalender-Assistent</strong>
+                  <span>Termine automatisch erkannt &amp; eingetragen.</span>
+                </button>
+                <button class="finger" data-goto="dashboard">
+                  <span class="finger-name">Ringfinger</span>
+                  <strong>Dashboard</strong>
+                  <span>Alle Vorgänge. Alle KPIs. Ein Blick.</span>
+                </button>
+                <button class="finger" data-goto="social">
+                  <span class="finger-name">Kleiner Finger</span>
+                  <strong>Social-Media-Assistent</strong>
+                  <span>Versteht Zielgruppen. Erstellt Content.</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <h2>Vorgänge diese Woche</h2>
+              <p class="dash-sub">Bearbeitete Kommunikationsvorgänge pro Tag, alle Kanäle.</p>
+              <div class="chart" id="weekChart" role="img" aria-label="Balkendiagramm: bearbeitete Vorgänge pro Wochentag"></div>
+              <div class="chart-tooltip" id="chartTooltip" hidden></div>
+            </div>
+
+            <div class="dash-card">
+              <h2>Live-Aktivität</h2>
+              <p class="dash-sub">Was die Assistenten gerade tun. Klick öffnet den Vorgang.</p>
+              <div class="activity-feed" id="activityFeed"></div>
+            </div>
+
+            <div class="dash-card roi-card">
+              <h2>Ihr Nutzen in Zahlen</h2>
+              <div class="metric"><span>Zurückgewonnene Arbeitszeit</span><strong>19 Std/Woche</strong></div>
+              <div class="metric"><span>Zeitwert pro Jahr</span><strong>≈ 49.400 €</strong></div>
+              <div class="metric"><span>Vorteil bereits in Jahr 1</span><strong class="c-green">+20.812 €</strong></div>
+              <div class="metric"><span>Antwortzeit E-Mail</span><strong>&lt; 2 Minuten</strong></div>
+              <p class="roi-note">Konservativ gerechnet – zusätzliche Umsätze durch schnellere Reaktion sind noch nicht enthalten.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ POSTEINGANG ═══ -->
+        <section class="view" data-view="inbox">
+          <div class="board" id="board" aria-label="Ampel-Pinwand">
+            <div class="column" data-status="red">
+              <div class="column-head">
+                <div class="column-title">
+                  <i class="dot dot-red"></i>
+                  <div><strong>Manuell</strong><span>Persönlich bearbeiten</span></div>
+                </div>
+                <span class="count count-red" data-count-for="red">0</span>
+              </div>
+              <div class="column-body" data-body="red"></div>
+            </div>
+            <div class="column" data-status="yellow">
+              <div class="column-head">
+                <div class="column-title">
+                  <i class="dot dot-yellow"></i>
+                  <div><strong>Prüfen</strong><span>Vor Senden kontrollieren</span></div>
+                </div>
+                <span class="count count-yellow" data-count-for="yellow">0</span>
+              </div>
+              <div class="column-body" data-body="yellow"></div>
+            </div>
+            <div class="column" data-status="green">
+              <div class="column-head">
+                <div class="column-title">
+                  <i class="dot dot-green"></i>
+                  <div><strong>Automatisch</strong><span>KI darf nach Regeln senden</span></div>
+                </div>
+                <span class="count count-green" data-count-for="green">0</span>
+              </div>
+              <div class="column-body" data-body="green"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ KALENDER ═══ -->
+        <section class="view" data-view="calendar">
+          <div class="calendar-grid" id="calendarGrid" aria-label="Kalenderwoche"></div>
+        </section>
+
+        <!-- ═══ POSTAUSGANG ═══ -->
+        <section class="view" data-view="outbox">
+          <table class="table">
+            <thead>
+              <tr><th>Empfänger</th><th>Betreff</th><th>Status</th><th>KI</th><th>Token</th><th>Zeit</th></tr>
+            </thead>
+            <tbody id="outboxBody"></tbody>
+          </table>
+        </section>
+
+        <!-- ═══ TELEFON ═══ -->
+        <section class="view" data-view="phone">
+          <div class="test-layout">
+            <div class="form-card">
+              <h2>Telefon-Assistent</h2>
+              <p>Nimmt Anrufe außerhalb der Geschäftszeiten oder bei besetzter Leitung an, transkribiert, fragt den Rückrufwunsch ab und übergibt alles an die Ampellogik.</p>
+              <div class="connection-box">
+                Ansage: „Hi, ich bin der telefonische Assistent von Alexander Sänger. Bitte hinterlasse eine Nachricht. Drücke 1 für Rückruf, 2 nur zur Information."
+              </div>
+              <div id="phoneCards"></div>
+              <button class="action primary" type="button" id="btnSimulateCall">📞 Eingehenden Anruf simulieren</button>
+            </div>
+            <div class="result-card">
+              <h2>Ablauf im MVP</h2>
+              <div class="metric"><span>Wann aktiv?</span><strong>Besetzt / nach Feierabend</strong></div>
+              <div class="metric"><span>Option 1</span><strong>Rückruf vereinbaren</strong></div>
+              <div class="metric"><span>Option 2</span><strong>Nur informieren</strong></div>
+              <div class="metric"><span>Ausgabe</span><strong>Transkript + Ampelstatus</strong></div>
+              <div class="metric"><span>Terminwunsch</span><strong>E-Mail/Kalender anpingen</strong></div>
+              <h3>Warum so und nicht als Callcenter-Bot?</h3>
+              <p>Telefon wird bewusst als sicherer Nachrichtendienst gezeigt: Transkript, Rückruflogik, Weitergabe an E-Mail und Kalender – volle Kontrolle statt Blackbox.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ SOCIAL MEDIA ═══ -->
+        <section class="view" data-view="social">
+          <div class="test-layout">
+            <div class="form-card">
+              <h2>Social-Media-Assistent</h2>
+              <p>Nutzt Kundenhistorie, CRM-Kontext, Produktdaten und Zielgruppenprofil für eine kanalübergreifende Content-Strategie. Veröffentlicht wird erst nach Freigabe.</p>
+              <div class="field">
+                <label for="socialCustomer">Kundenprofil</label>
+                <select id="socialCustomer">
+                  <option>Synlex Demo – serviceintensiver KMU-Anbieter</option>
+                  <option>Fahrschule – Privatkunden &amp; Eltern</option>
+                  <option>Immobilien – Eigentümer &amp; Käufer</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="socialProduct">Neues Produkt / Kampagne</label>
+                <input id="socialProduct" value="Five Fingers Core-Paket für KMU-Kommunikation">
+              </div>
+              <button class="action primary" type="button" id="createSocialPlan">✨ Content-Strategie erzeugen</button>
+            </div>
+            <div class="result-card">
+              <h2>Strategie-Vorschlag</h2>
+              <p id="socialIntro">Adressatengerechte Ansprache für Entscheider in serviceintensiven KMU.</p>
+              <div class="test-feed" id="socialFeed">
+                <div class="feed-item"><strong>LinkedIn</strong><span>Problemorientierter Post: „Warum gute Kundenkommunikation nicht an vollen Postfächern scheitern darf."</span></div>
+                <div class="feed-item"><strong>Instagram / Facebook</strong><span>Kurzer Praxis-Case: E-Mail kommt rein, Kontext wird geladen, Antwortentwurf ist bereit.</span></div>
+                <div class="feed-item"><strong>Newsletter</strong><span>Vertrauensaufbau: KI als Assistenz, nicht als Blackbox. Der Mensch gibt frei.</span></div>
+              </div>
+              <h3>Leitplanken</h3>
+              <div class="metric"><span>Quelle</span><strong>CRM + Produktdaten</strong></div>
+              <div class="metric"><span>Psychologie</span><strong>Nutzen, Sicherheit, Dringlichkeit</strong></div>
+              <div class="metric"><span>Freigabe</span><strong>Vor Veröffentlichung</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ KUNDEN ═══ -->
+        <section class="view" data-view="customers">
+          <table class="table">
+            <thead>
+              <tr><th>Kunde</th><th>Firma</th><th>Kanal</th><th>Status</th><th>Letzter Vorgang</th></tr>
+            </thead>
+            <tbody id="customersBody"></tbody>
+          </table>
+        </section>
+
+        <!-- ═══ KI & TOKEN ═══ -->
+        <section class="view" data-view="tokens">
+          <div class="budget-layout">
+            <div class="budget-card">
+              <h2>KI-Token-Budget</h2>
+              <p>Abrechnungsperiode: 01.06.–30.06.2026</p>
+              <div class="budget-number" id="tokenBigPercent">43%</div>
+              <p>verbraucht</p>
+              <div class="bar"><span id="tokenBar" style="width:43%"></span></div>
+              <div class="metric"><span>Gesamt-Budget</span><strong>1.200.000</strong></div>
+              <div class="metric"><span>Verbraucht</span><strong id="tokenUsedNum">516.000</strong></div>
+              <div class="metric"><span>Verbleibend</span><strong class="c-green" id="tokenLeftNum">684.000</strong></div>
+              <div class="metric"><span>Reset in</span><strong>25 Tagen</strong></div>
+            </div>
+            <div class="budget-card">
+              <h2>Verbrauch nach Assistent</h2>
+              <div class="usage-row"><span>E-Mail-Assistent</span><div class="usage-bar"><i style="width:58%"></i></div><strong>299k</strong></div>
+              <div class="usage-row"><span>Kalender-Assistent</span><div class="usage-bar"><i style="width:17%"></i></div><strong>88k</strong></div>
+              <div class="usage-row"><span>Telefon-Assistent</span><div class="usage-bar"><i style="width:14%"></i></div><strong>72k</strong></div>
+              <div class="usage-row"><span>Social-Media-Assistent</span><div class="usage-bar"><i style="width:11%"></i></div><strong>57k</strong></div>
+              <h3>Jeder Vorgang nachvollziehbar</h3>
+              <div class="metric"><span>E-Mail empfangen</span><strong>OK</strong></div>
+              <div class="metric"><span>Klassifizierung</span><strong>Intent + Risiko</strong></div>
+              <div class="metric"><span>CRM-Kontext</span><strong>geladen</strong></div>
+              <div class="metric"><span>Wissensbasis</span><strong>3 Treffer</strong></div>
+              <div class="metric"><span>Antwort</span><strong>wartet auf Freigabe</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ TEST-MODUS ═══ -->
+        <section class="view" data-view="testaccount">
+          <div class="test-layout">
+            <form class="form-card" id="testMailForm">
+              <h2>Test-Mail einspeisen</h2>
+              <p>Simuliere hier eine eingehende Kundenmail. Im echten MVP kommt sie per Gmail-API direkt ins Dashboard.</p>
+              <div class="field">
+                <label for="testFrom">Absender</label>
+                <input id="testFrom" value="alexander@testkunde.de">
+              </div>
+              <div class="field">
+                <label for="testSubject">Betreff</label>
+                <input id="testSubject" value="Bitte um Demo-Termin für Five Fingers">
+              </div>
+              <div class="field">
+                <label for="testBody">Nachricht</label>
+                <textarea id="testBody">Hallo Five Fingers Team,
+
+ich interessiere mich für die KI-Plattform und würde gern einen kurzen Demo-Termin vereinbaren. Wir bekommen sehr viele E-Mails und wollen wissen, ob Five Fingers uns bei Terminabstimmung und Antwortentwürfen helfen kann.
+
+Viele Grüße
+Alexander</textarea>
+              </div>
+              <button class="action primary" type="submit">▶ Test-Mail ins Dashboard legen</button>
+            </form>
+
+            <div class="result-card">
+              <h2>Die KI-Pipeline live</h2>
+              <p>So verarbeitet Five Fingers jede eingehende Nachricht:</p>
+              <ol class="pipeline" id="pipeline">
+                <li data-step="1"><strong>Empfang</strong><span>Mail kommt über Gmail-API herein</span></li>
+                <li data-step="2"><strong>Klassifizierung</strong><span>Intent, Dringlichkeit &amp; Risiko werden erkannt</span></li>
+                <li data-step="3"><strong>Kontext</strong><span>CRM-Daten &amp; Wissensbasis werden geladen</span></li>
+                <li data-step="4"><strong>Entwurf</strong><span>KI formuliert eine Antwort mit Begründung</span></li>
+                <li data-step="5"><strong>Ampel</strong><span>Vorgang landet rot, gelb oder grün auf der Pinwand</span></li>
+              </ol>
+              <h3>Echte Anbindung</h3>
+              <div class="metric"><span>Postfach</span><strong>Gmail bevorzugt</strong></div>
+              <div class="metric"><span>Empfang</span><strong>Gmail API / Webhook</strong></div>
+              <div class="metric"><span>Antwort</span><strong>Entwurf zuerst</strong></div>
+              <div class="metric"><span>Versand</span><strong>Nur nach Freigabe</strong></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- ═══════════ DETAIL-PANEL ═══════════ -->
+    <aside class="side-panel" aria-label="Einsichtbereich">
+      <section class="panel" id="detailPanel">
+        <div class="detail-meta" id="detailMeta"></div>
+        <h2 id="detailTitle">Müller &amp; Partner</h2>
+        <p id="detailText">Terminwunsch für ein Erstgespräch. Die KI hat passende Slots gesucht und einen Antwortentwurf vorbereitet.</p>
+        <div class="ai-notice">🛈 Diese Antwort wurde mit KI-Unterstützung erstellt und wird als solche gekennzeichnet (Art. 50 EU AI Act). Versand erst nach Freigabe.</div>
+        <h3>KI-Antwortentwurf</h3>
+        <div class="answer" id="answerText"></div>
+        <div class="answer-edit" id="answerEdit" hidden>
+          <textarea id="answerTextarea"></textarea>
+          <div class="actions">
+            <button class="action primary" id="btnSaveEdit">Speichern</button>
+            <button class="action" id="btnCancelEdit">Abbrechen</button>
+          </div>
+        </div>
+        <h3>Warum diese Antwort?</h3>
+        <p id="reasonText"></p>
+        <div class="actions" id="detailActions">
+          <button class="action primary" id="btnApprove">✓ Freigeben &amp; Senden</button>
+          <button class="action" id="btnEdit">✎ Bearbeiten</button>
+          <button class="action" id="btnSnooze">⏰ Zurückstellen</button>
+          <button class="action" id="btnManual">✋ Manuell</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Verknüpfter Kalender</h2>
+        <div class="calendar-list" id="calendarList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Audit-Log</h2>
+        <p class="audit-sub">Jede Entscheidung wird protokolliert – nachvollziehbar und DSGVO-konform.</p>
+        <div class="audit-log" id="auditLog"></div>
+      </section>
+    </aside>
+  </div>
+
+  <!-- ═══════════ TOUR ═══════════ -->
+  <div class="tour-overlay" id="tourOverlay" hidden>
+    <div class="tour-card">
+      <div class="tour-step-label" id="tourStepLabel">Schritt 1 von 6</div>
+      <h2 id="tourTitle"></h2>
+      <p id="tourText"></p>
+      <div class="tour-nav">
+        <button class="action" id="tourSkip">Tour beenden</button>
+        <button class="action primary" id="tourNext">Weiter →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toast-stack" id="toastStack"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
