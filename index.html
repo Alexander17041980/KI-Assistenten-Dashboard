@@ -219,11 +219,14 @@
         <section class="view" data-view="phone">
           <div class="test-layout">
             <div class="form-card">
-              <h2>Telefon-Assistent</h2>
-              <p>Nimmt Anrufe außerhalb der Geschäftszeiten oder bei besetzter Leitung an, transkribiert, fragt den Rückrufwunsch ab und übergibt alles an die Ampellogik.</p>
-              <div class="connection-box">
-                Ansage: „Hi, ich bin der telefonische Assistent von Alexander Sänger. Bitte hinterlasse eine Nachricht. Drücke 1 für Rückruf, 2 nur zur Information."
+              <div class="phone-announce">
+                <div class="phone-announce-icon">📞</div>
+                <div>
+                  <strong>Automatischer Telefon-Assistent</strong>
+                  <span>„Guten Tag, Sie sprechen mit dem digitalen Assistenten von <b>Alexander Sänger · Five Fingers (fivefingers.io)</b>. Aktuell ist niemand persönlich erreichbar. Bitte hinterlassen Sie eine Nachricht – <b>drücken Sie 1 für einen Rückruf, 2 nur zur Information.</b>"</span>
+                </div>
               </div>
+              <p>Der Assistent nimmt Anrufe außerhalb der Geschäftszeiten oder bei besetzter Leitung an, transkribiert sie, erkennt den Rückrufwunsch und übergibt alles an die Ampellogik – inklusive Kalender- und CRM-Eintrag.</p>
               <div id="phoneCards"></div>
               <button class="action primary" type="button" id="btnSimulateCall">📞 Eingehenden Anruf simulieren</button>
             </div>
@@ -233,7 +236,8 @@
               <div class="metric"><span>Option 1</span><strong>Rückruf vereinbaren</strong></div>
               <div class="metric"><span>Option 2</span><strong>Nur informieren</strong></div>
               <div class="metric"><span>Ausgabe</span><strong>Transkript + Ampelstatus</strong></div>
-              <div class="metric"><span>Terminwunsch</span><strong>E-Mail/Kalender anpingen</strong></div>
+              <div class="metric"><span>Terminwunsch</span><strong>Kalender + CRM automatisch</strong></div>
+              <button class="action btn-process" type="button" data-process="phone">⚙ So arbeitet der Telefon-Assistent</button>
               <h3>Warum so und nicht als Callcenter-Bot?</h3>
               <p>Telefon wird bewusst als sicherer Nachrichtendienst gezeigt: Transkript, Rückruflogik, Weitergabe an E-Mail und Kalender – volle Kontrolle statt Blackbox.</p>
             </div>
@@ -245,29 +249,26 @@
           <div class="test-layout">
             <div class="form-card">
               <h2>Social-Media-Assistent</h2>
-              <p>Nutzt Kundenhistorie, CRM-Kontext, Produktdaten und Zielgruppenprofil für eine kanalübergreifende Content-Strategie. Veröffentlicht wird erst nach Freigabe.</p>
+              <p>Der Assistent zieht Kundenhistorie, CRM-Kontext, Produktdaten und Zielgruppenprofil und erstellt daraus fertige Posts pro Plattform und Zielgruppe. Veröffentlicht wird erst nach Freigabe.</p>
               <div class="field">
-                <label for="socialCustomer">Kundenprofil</label>
+                <label for="socialCustomer">Kunde / Branche</label>
                 <select id="socialCustomer">
-                  <option>Synlex Demo – serviceintensiver KMU-Anbieter</option>
-                  <option>Fahrschule – Privatkunden &amp; Eltern</option>
-                  <option>Immobilien – Eigentümer &amp; Käufer</option>
+                  <option value="handwerk">Handwerk – Meisterbetrieb Gas · Wasser · Heizung</option>
+                  <option value="immobilien">Immobilien – Makler &amp; Eigentümer</option>
+                  <option value="fahrschule">Fahrschule – Privatkunden &amp; Eltern</option>
                 </select>
               </div>
               <div class="field">
-                <label for="socialProduct">Neues Produkt / Kampagne</label>
-                <input id="socialProduct" value="Five Fingers Core-Paket für KMU-Kommunikation">
+                <label for="socialProduct">Neues Produkt / Aktion</label>
+                <input id="socialProduct" value="Heizungs-Check zum Winter – 30 % schnellere Termine">
               </div>
               <button class="action primary" type="button" id="createSocialPlan">✨ Content-Strategie erzeugen</button>
+              <button class="action btn-process" type="button" data-process="social">⚙ So arbeitet der Social-Media-Assistent</button>
             </div>
             <div class="result-card">
-              <h2>Strategie-Vorschlag</h2>
-              <p id="socialIntro">Adressatengerechte Ansprache für Entscheider in serviceintensiven KMU.</p>
-              <div class="test-feed" id="socialFeed">
-                <div class="feed-item"><strong>LinkedIn</strong><span>Problemorientierter Post: „Warum gute Kundenkommunikation nicht an vollen Postfächern scheitern darf."</span></div>
-                <div class="feed-item"><strong>Instagram / Facebook</strong><span>Kurzer Praxis-Case: E-Mail kommt rein, Kontext wird geladen, Antwortentwurf ist bereit.</span></div>
-                <div class="feed-item"><strong>Newsletter</strong><span>Vertrauensaufbau: KI als Assistenz, nicht als Blackbox. Der Mensch gibt frei.</span></div>
-              </div>
+              <h2 id="socialHeadline">Strategie-Vorschlag</h2>
+              <p id="socialIntro">Wähle Branche und Aktion und lass die KI eine kanalübergreifende Strategie erstellen.</p>
+              <div class="social-plan" id="socialFeed"></div>
               <h3>Leitplanken</h3>
               <div class="metric"><span>Quelle</span><strong>CRM + Produktdaten</strong></div>
               <div class="metric"><span>Psychologie</span><strong>Nutzen, Sicherheit, Dringlichkeit</strong></div>
@@ -306,13 +307,43 @@
               <div class="usage-row"><span>Kalender-Assistent</span><div class="usage-bar"><i style="width:17%"></i></div><strong>88k</strong></div>
               <div class="usage-row"><span>Telefon-Assistent</span><div class="usage-bar"><i style="width:14%"></i></div><strong>72k</strong></div>
               <div class="usage-row"><span>Social-Media-Assistent</span><div class="usage-bar"><i style="width:11%"></i></div><strong>57k</strong></div>
-              <h3>Jeder Vorgang nachvollziehbar</h3>
-              <div class="metric"><span>E-Mail empfangen</span><strong>OK</strong></div>
-              <div class="metric"><span>Klassifizierung</span><strong>Intent + Risiko</strong></div>
-              <div class="metric"><span>CRM-Kontext</span><strong>geladen</strong></div>
-              <div class="metric"><span>Wissensbasis</span><strong>3 Treffer</strong></div>
-              <div class="metric"><span>Antwort</span><strong>wartet auf Freigabe</strong></div>
+              <button class="action btn-process" type="button" data-process="email" style="margin-top:16px">⚙ KI-Verarbeitung live ansehen</button>
             </div>
+          </div>
+
+          <div class="budget-card arch-card">
+            <h2>Technische Architektur – so ist Five Fingers gebaut</h2>
+            <p class="dash-sub">API-basierte Overlay-Schicht: Five Fingers ersetzt nichts, sondern verbindet Ihre bestehenden Systeme. Klick auf eine Schicht zeigt Details.</p>
+            <div class="arch-flow" id="archFlow">
+              <div class="arch-layer" data-arch="in">
+                <div class="arch-title">① Eingangskanäle</div>
+                <div class="arch-nodes">
+                  <span>E-Mail / Gmail</span><span>Telefonie</span><span>Social Media</span><span>Kalender</span>
+                </div>
+              </div>
+              <div class="arch-arrow">↓</div>
+              <div class="arch-layer accent" data-arch="ai">
+                <div class="arch-title">② Five Fingers KI-Engine</div>
+                <div class="arch-nodes">
+                  <span>Klassifizierung (Intent + Risiko)</span><span>Kontext-Loader</span><span>Antwort-Generator</span><span>Ampel-Logik</span>
+                </div>
+              </div>
+              <div class="arch-arrow">↓</div>
+              <div class="arch-layer" data-arch="hub">
+                <div class="arch-title">③ CRM-Hub / Data Bridge</div>
+                <div class="arch-nodes">
+                  <span>Kundenakte</span><span>Wissensbasis</span><span>Audit-Log</span><span>Regelwerk</span>
+                </div>
+              </div>
+              <div class="arch-arrow">↓</div>
+              <div class="arch-layer" data-arch="out">
+                <div class="arch-title">④ Operations-Dashboard</div>
+                <div class="arch-nodes">
+                  <span>Ampel-Pinwand</span><span>Kalender</span><span>KPIs</span><span>Freigabe</span>
+                </div>
+              </div>
+            </div>
+            <div class="arch-detail" id="archDetail">Klick auf eine Schicht für Details – z. B. welche Modelle laufen, wo die Daten liegen (Azure Germany) und welche Schnittstellen angebunden sind.</div>
           </div>
         </section>
 
@@ -352,6 +383,7 @@ Alexander</textarea>
                 <li data-step="4"><strong>Entwurf</strong><span>KI formuliert eine Antwort mit Begründung</span></li>
                 <li data-step="5"><strong>Ampel</strong><span>Vorgang landet rot, gelb oder grün auf der Pinwand</span></li>
               </ol>
+              <button class="action btn-process" type="button" data-process="email">⚙ Das Rädchen live ansehen</button>
               <h3>Echte Anbindung</h3>
               <div class="metric"><span>Postfach</span><strong>Gmail bevorzugt</strong></div>
               <div class="metric"><span>Empfang</span><strong>Gmail API / Webhook</strong></div>
@@ -369,7 +401,23 @@ Alexander</textarea>
         <div class="detail-meta" id="detailMeta"></div>
         <h2 id="detailTitle">Müller &amp; Partner</h2>
         <p id="detailText">Terminwunsch für ein Erstgespräch. Die KI hat passende Slots gesucht und einen Antwortentwurf vorbereitet.</p>
+
+        <div class="detail-actions-top">
+          <button class="chip chip-locate" id="btnLocate">🎯 Vorgang in Ampel anzeigen</button>
+          <button class="chip chip-process" data-process="auto">⚙ Verarbeitung ansehen</button>
+        </div>
+
+        <div class="attachments" id="attachments"></div>
+
         <div class="ai-notice">🛈 Diese Antwort wurde mit KI-Unterstützung erstellt und wird als solche gekennzeichnet (Art. 50 EU AI Act). Versand erst nach Freigabe.</div>
+
+        <div class="tone-switch" id="toneSwitch">
+          <span class="tone-label">Tonfall:</span>
+          <button class="tone-btn active" data-tone="sachlich">Sachlich</button>
+          <button class="tone-btn" data-tone="persoenlich">Persönlich</button>
+          <button class="tone-btn" data-tone="empathisch">Empathisch</button>
+        </div>
+
         <h3>KI-Antwortentwurf</h3>
         <div class="answer" id="answerText"></div>
         <div class="answer-edit" id="answerEdit" hidden>
@@ -412,6 +460,14 @@ Alexander</textarea>
         <button class="action" id="tourSkip">Tour beenden</button>
         <button class="action primary" id="tourNext">Weiter →</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL (PDF / CRM / Prozess) ═══════════ -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <div class="modal-card" id="modalCard">
+      <button class="modal-close" id="modalClose" aria-label="Schließen">✕</button>
+      <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
 

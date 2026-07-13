@@ -6,6 +6,7 @@ const state = {
   tokensBudget: 1200000,
   tokensUsed: 516000,
   selected: "m3",
+  tone: "sachlich",
   editing: false,
   demoRunning: false,
   doneToday: 12
@@ -17,11 +18,20 @@ const mails = [
     subject: "Exposé – falsche Wohnfläche", sender: "Sabine Haupt", channel: "E-Mail",
     preview: "118 m² ausgewiesen, tatsächlich 94 m². Schadensersatz gefordert.",
     confidence: 96, cal: "c1", tokens: 1420,
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Sabine Haupt", meta: "Bestandskundin · 2 Vorgänge" }],
     detail: {
       title: "Sabine Haupt",
       text: "Exposé-Beschwerde mit Schadensersatzforderung. Der Vorgang bleibt rot und wird persönlich bearbeitet.",
       answer: "Keine automatische Antwort.\n\nVorschlag der KI: persönliche Entschuldigung, Sachverhalt prüfen, Rückruftermin anbieten. Zuständig: Alexander Sänger.",
       reason: "Kritische Begriffe erkannt: „falsche Wohnfläche“, „Schadensersatz“. Status Rot, weil ein Haftungsrisiko besteht – hier entscheidet immer ein Mensch."
+    },
+    crm: {
+      firma: "Immobilien Haupt", kontakt: "Sabine Haupt", seit: "2023", umsatz: "2 Objekte vermittelt",
+      timeline: [
+        { t: "08:12", e: "E-Mail: Beschwerde Wohnfläche (Risiko erkannt → Rot)" },
+        { t: "vor 3 Wo.", e: "Exposé Musterstraße versendet" },
+        { t: "vor 2 Mon.", e: "Erstkontakt über Website-Formular" }
+      ]
     }
   },
   {
@@ -29,11 +39,22 @@ const mails = [
     subject: "Vertragsfall mit Anhang", sender: "Dr. Klein Kanzlei", channel: "E-Mail",
     preview: "Sensibler Vorgang. KI darf zusammenfassen, aber nicht automatisch senden.",
     confidence: 91, cal: "c2", tokens: 1980,
+    attachments: [
+      { kind: "pdf", name: "Vertragsentwurf_2026.pdf", meta: "14 Seiten · vertraulich" },
+      { kind: "crm", name: "CRM-Notiz: Dr. Klein Kanzlei", meta: "Kanzlei · Sperr-Regel aktiv" }
+    ],
     detail: {
       title: "Dr. Klein Kanzlei",
       text: "Sensibler Vertragsfall mit Anhang. Die KI darf zusammenfassen, aber nicht automatisch senden.",
       answer: "Zusammenfassung des 14-seitigen Anhangs liegt bereit.\n\nVersand einer Antwort erst nach juristischer Freigabe durch Ralph Kleemann (Legal & Compliance).",
       reason: "Rechtlich sensibler Kontext und Anhang erkannt. Status Rot – definierte Regel: Kanzlei-Vorgänge nie automatisch beantworten."
+    },
+    crm: {
+      firma: "Kanzlei Dr. Klein", kontakt: "Dr. R. Klein", seit: "2024", umsatz: "Rahmenvertrag",
+      timeline: [
+        { t: "09:18", e: "E-Mail mit Vertragsanhang (Sperr-Regel → Rot)" },
+        { t: "vor 1 Wo.", e: "Telefonat: Fristsache besprochen" }
+      ]
     }
   },
   {
@@ -41,11 +62,19 @@ const mails = [
     subject: "Erstgespräch – Terminanfrage", sender: "Müller & Partner", channel: "E-Mail",
     preview: "Kunde möchte drei Terminvorschläge. KI hat Slots vorbereitet.",
     confidence: 82, cal: "c3", tokens: 1240,
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Müller & Partner", meta: "Neukontakt · Lead" }],
     detail: {
       title: "Müller & Partner",
       text: "Terminwunsch für ein Erstgespräch. Die KI hat den Kalender geprüft und drei freie Slots in einen Antwortentwurf übernommen.",
       answer: "Guten Tag Frau Müller,\n\nvielen Dank für Ihre Nachricht. Gern schlage ich Ihnen drei freie Termine für ein Erstgespräch vor:\n\n– Dienstag, 09.06., 10:30 Uhr\n– Mittwoch, 10.06., 14:00 Uhr\n– Freitag, 12.06., 09:00 Uhr\n\nBitte teilen Sie uns kurz mit, welcher Termin für Sie passt.\n\nFreundliche Grüße\nFive Fingers Demo-Team",
       reason: "Erkannte Absicht: Terminwunsch. CRM-Kontext vorhanden, Kalender geprüft, keine kritischen Begriffe. Status Gelb, weil Erstkontakte laut Regelwerk freigegeben werden."
+    },
+    crm: {
+      firma: "Steuerbüro Müller & Partner", kontakt: "Frau Müller", seit: "Neukontakt", umsatz: "–",
+      timeline: [
+        { t: "10:30", e: "E-Mail: Terminanfrage Erstgespräch (→ Gelb)" },
+        { t: "10:30", e: "Kalender-Assistent: 3 freie Slots gefunden" }
+      ]
     }
   },
   {
@@ -53,11 +82,23 @@ const mails = [
     subject: "Rückfrage zum Core-Paket", sender: "Nordlicht Service", channel: "E-Mail",
     preview: "Antwort passt, aber Preisdetail soll vor Versand geprüft werden.",
     confidence: 76, cal: "c4", tokens: 1080,
+    attachments: [
+      { kind: "pdf", name: "Angebot_Core-Paket.pdf", meta: "Angebot · 1 Seite" },
+      { kind: "crm", name: "CRM-Notiz: Nordlicht Service", meta: "Interessent · Angebotsphase" }
+    ],
     detail: {
       title: "Nordlicht Service",
       text: "Rückfrage zum Core-Paket. Die Antwort ist vorbereitet, ein Preisdetail soll vor Versand bestätigt werden.",
       answer: "Guten Tag,\n\nvielen Dank für Ihre Rückfrage. Anbei die Angaben zum Core-Paket:\n\n– Einrichtung: einmalig 25.000 €\n– Lizenz: ab 299 €/Monat\n– Inklusive Betreuung und laufendem Betrieb\n\nDie markierte Preisposition bitte vor Versand bestätigen.\n\nFreundliche Grüße",
       reason: "Preis- und Angebotskontext erkannt. Status Gelb, weil ein wirtschaftliches Detail betroffen ist – Zahlen gibt immer ein Mensch frei."
+    },
+    crm: {
+      firma: "Nordlicht Service GmbH", kontakt: "Herr Petersen", seit: "2026", umsatz: "Angebot offen",
+      timeline: [
+        { t: "11:05", e: "E-Mail: Rückfrage Core-Paket (→ Gelb, Preis)" },
+        { t: "vor 4 Tg.", e: "Angebot Core-Paket versendet" },
+        { t: "vor 1 Wo.", e: "Demo-Gespräch geführt" }
+      ]
     }
   },
   {
@@ -65,11 +106,19 @@ const mails = [
     subject: "Five Fingers Demo anfragen", sender: "Synlex Demo Lead", channel: "E-Mail",
     preview: "Demo-Termin und Kurzbeschreibung zum Core-Paket gewünscht.",
     confidence: 79, cal: "c5", tokens: 1150,
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Synlex Demo Lead", meta: "Neuer Lead · automatisch angelegt" }],
     detail: {
       title: "Synlex Demo Lead",
       text: "Demo-Anfrage und Wunsch nach kurzer Produktbeschreibung – als Lead im CRM angelegt.",
       answer: "Guten Tag,\n\ngern zeigen wir Ihnen Five Fingers in einer kurzen Demo. Ich schlage Ihnen Dienstag, 13:00 Uhr vor und sende vorab die wichtigsten Eckdaten zum Core-Paket.\n\nFreundliche Grüße",
       reason: "Lead-Kommunikation mit Vertriebschance. Status Gelb, weil Erstkontakt freigegeben werden soll. Lead wurde automatisch im CRM angelegt."
+    },
+    crm: {
+      firma: "Synlex UG", kontakt: "Demo-Interessent", seit: "heute", umsatz: "Lead",
+      timeline: [
+        { t: "12:44", e: "E-Mail: Demo-Anfrage (→ Gelb)" },
+        { t: "12:44", e: "Lead automatisch im CRM angelegt" }
+      ]
     }
   },
   {
@@ -77,11 +126,22 @@ const mails = [
     subject: "Intensivkurs – Terminfrage", sender: "Hansa Training", channel: "E-Mail",
     preview: "Standardfrage zu Preisen, Dauer und nächsten freien Terminen.",
     confidence: 95, cal: "c6", tokens: 920,
+    attachments: [
+      { kind: "pdf", name: "Kursangebot_Intensivkurs.pdf", meta: "Preisliste · 1 Seite" },
+      { kind: "crm", name: "CRM-Notiz: Hansa Training", meta: "Stammkunde · Auto-Regel" }
+    ],
     detail: {
       title: "Hansa Training",
       text: "Standardfrage zu Preisen, Dauer und nächsten Terminen – von der Wissensbasis vollständig abgedeckt.",
       answer: "Guten Tag,\n\nvielen Dank für Ihre Anfrage. Der nächste Intensivkurs startet am Freitag. Preise, Dauer und freie Plätze sende ich Ihnen anbei.\n\nFreundliche Grüße",
       reason: "Standard-FAQ mit 95 % Konfidenz, Antwort vollständig aus geprüfter Wissensbasis. Status Grün – Versand nach definierter Regel erlaubt."
+    },
+    crm: {
+      firma: "Fahrschule Hansa Training", kontakt: "Sekretariat", seit: "2022", umsatz: "monatl. Kursanfragen",
+      timeline: [
+        { t: "13:10", e: "E-Mail: Intensivkurs-Anfrage (→ Grün, FAQ)" },
+        { t: "letzte Wo.", e: "3 Kursanfragen automatisch beantwortet" }
+      ]
     }
   },
   {
@@ -89,11 +149,19 @@ const mails = [
     subject: "Termin bestätigt", sender: "Agentur West", channel: "E-Mail",
     preview: "Termin wurde bestätigt, Kalendereintrag bleibt sichtbar.",
     confidence: 93, cal: "c7", tokens: 680,
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Agentur West", meta: "Kunde · Termin bestätigt" }],
     detail: {
       title: "Agentur West",
       text: "Terminbestätigung ohne Risiko – Kalendereintrag wurde automatisch erstellt.",
       answer: "Der Termin wurde bestätigt und in den Kalender eingetragen. Die Bestätigung ist im Postausgang dokumentiert.",
       reason: "Terminbestätigung ohne offene Fragen. Status Grün – vollständig automatisch nach Regelwerk erledigt."
+    },
+    crm: {
+      firma: "Agentur West", kontakt: "Projektleitung", seit: "2025", umsatz: "laufender Vertrag",
+      timeline: [
+        { t: "14:02", e: "E-Mail: Terminbestätigung (→ Grün, automatisch)" },
+        { t: "14:02", e: "Kalendereintrag Fr 06.06. angelegt" }
+      ]
     }
   },
   {
@@ -101,11 +169,26 @@ const mails = [
     subject: "Rückrufwunsch nach Geschäftsschluss", sender: "Thomas Berger", channel: "Telefon",
     preview: "Anrufer drückt 1. Er möchte morgen einen Termin zur Five-Fingers-Demo.",
     confidence: 88, cal: "c8", tokens: 1310, phone: true,
+    sysactions: [
+      "Rückrufwunsch erkannt (Option 1)",
+      "Kalender: morgen 10:30 Uhr vorgeschlagen",
+      "CRM: Kontakt „Thomas Berger“ angelegt",
+      "E-Mail-Assistent: Bestätigung vorbereitet"
+    ],
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Thomas Berger", meta: "Neukontakt aus Anruf" }],
     detail: {
       title: "Telefon: Thomas Berger",
       text: "Anruf nach Geschäftsschluss. Der Anrufer hat 1 gedrückt und möchte einen Rückruf mit Demo-Termin.",
-      answer: "Transkript:\n„Guten Abend, hier ist Thomas Berger. Ich habe Five Fingers gesehen und würde gern morgen mit Alexander Sänger sprechen. Am besten vormittags. Bitte rufen Sie mich zurück.“\n\nSystemaktion:\n– Rückrufwunsch erkannt\n– Kalenderfenster morgen 10:30 Uhr vorgeschlagen\n– E-Mail-Assistent bereitet schriftliche Bestätigung vor",
+      answer: "Transkript:\n„Guten Abend, hier ist Thomas Berger. Ich habe Five Fingers gesehen und würde gern morgen mit Alexander Sänger sprechen. Am besten vormittags. Bitte rufen Sie mich zurück.“\n\nSystemaktion:\n– Rückrufwunsch erkannt\n– Kalenderfenster morgen 10:30 Uhr vorgeschlagen\n– Kontakt im CRM angelegt\n– E-Mail-Assistent bereitet schriftliche Bestätigung vor",
       reason: "Quelle: Telefon-Assistent. Absicht: Rückruf + Terminwunsch. Status Gelb, weil der Termin vor finaler Bestätigung geprüft werden soll."
+    },
+    crm: {
+      firma: "Interessent (Telefon)", kontakt: "Thomas Berger", seit: "heute", umsatz: "Lead",
+      timeline: [
+        { t: "18:42", e: "Anruf angenommen (nach Feierabend)" },
+        { t: "18:42", e: "Transkript erstellt, Rückruf erkannt (→ Gelb)" },
+        { t: "18:42", e: "Kalender + CRM automatisch befüllt" }
+      ]
     }
   },
   {
@@ -113,11 +196,25 @@ const mails = [
     subject: "Beschwerde auf Mailbox", sender: "Unbekannte Nummer", channel: "Telefon",
     preview: "Anrufer drückt 2. Tonfall verärgert, bittet um interne Klärung.",
     confidence: 94, cal: "c9", tokens: 1180, phone: true,
+    sysactions: [
+      "Kein Rückruf gewünscht (Option 2)",
+      "Negative Stimmung erkannt → Rot",
+      "Alexander Sänger wird informiert",
+      "Kein automatischer Versand"
+    ],
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Unbekannte Nummer", meta: "Beschwerde · manuell" }],
     detail: {
       title: "Telefon: Unbekannte Nummer",
       text: "Anruf nach Geschäftsschluss. Der Anrufer hat 2 gedrückt – kein Rückruf gewünscht, Inhalt aber kritisch.",
       answer: "Transkript:\n„Ich wollte nur mitteilen, dass ich seit Tagen auf eine Antwort warte. Bitte Alexander informieren. Kein Rückruf nötig, aber das sollte intern geklärt werden.“\n\nSystemaktion:\n– Kein Rückruf angelegt\n– Alexander wird informiert\n– Vorgang landet rot auf der Ampel-Pinwand",
       reason: "Quelle: Telefon-Assistent. Kritische Stimmung und Beschwerde erkannt. Status Rot, weil menschliche Klärung notwendig ist."
+    },
+    crm: {
+      firma: "Unbekannt (Telefon)", kontakt: "—", seit: "—", umsatz: "—",
+      timeline: [
+        { t: "19:08", e: "Anruf: Beschwerde auf Mailbox" },
+        { t: "19:08", e: "Stimmung negativ → Rot, kein Auto-Versand" }
+      ]
     }
   }
 ];
@@ -154,26 +251,139 @@ const activities = [
   { time: "08:13", text: "Risiko erkannt: Vorgang Haupt auf Rot gestellt", mail: "m1" }
 ];
 
+/* ═══ DOKUMENT-INHALTE (PDF-Vorschau) ═══ */
+const docs = {
+  "Angebot_Core-Paket.pdf": {
+    title: "Angebot – Five Fingers Core-Paket",
+    rows: [
+      ["Einrichtung & Integration (einmalig)", "25.000 €"],
+      ["Lizenz Core-Paket (monatlich)", "299 €"],
+      ["Betreuung & laufender Betrieb", "inklusive"],
+      ["Zusätzliche Standorte (optional)", "auf Anfrage"]
+    ],
+    total: "25.000 € einmalig + 299 €/Monat",
+    note: "Preise netto zzgl. USt. Angebot freibleibend, gültig 30 Tage. Markierte Position vor Versand bestätigen."
+  },
+  "Kursangebot_Intensivkurs.pdf": {
+    title: "Kursangebot – Führerschein-Intensivkurs",
+    rows: [
+      ["Grundgebühr", "199 €"],
+      ["Intensivkurs Klasse B (14 Tage)", "1.290 €"],
+      ["Fahrstunde (45 Min.)", "59 €"],
+      ["Nächster Start", "Freitag, 06.06. · 4 freie Plätze"]
+    ],
+    total: "ab 1.489 € · nächster Start Freitag",
+    note: "Alle Preise inkl. Lernmaterial. Prüfungsgebühren TÜV separat. Anmeldung online oder telefonisch."
+  },
+  "Vertragsentwurf_2026.pdf": {
+    title: "Vertragsentwurf 2026 (vertraulich)",
+    rows: [
+      ["Dokument", "Rahmenvertrag Entwurf"],
+      ["Seiten", "14"],
+      ["Status", "Juristische Prüfung ausstehend"],
+      ["KI-Aktion", "Zusammenfassung erstellt – KEIN Auto-Versand"]
+    ],
+    total: "Sperr-Regel aktiv – manuelle Freigabe erforderlich",
+    note: "Inhalt vertraulich. Die KI darf zusammenfassen, aber nicht antworten. Freigabe: Legal & Compliance."
+  }
+};
+
+/* ═══ SOCIAL-MEDIA-STRATEGIEN je Branche ═══ */
+const socialStrategies = {
+  handwerk: {
+    headline: "Meisterbetrieb Gas · Wasser · Heizung",
+    intro: "Zielgruppen aus dem CRM: Eigenheimbesitzer 45+, Hausverwaltungen und junge Familien. Fokus-Aktion wird pro Kanal zielgruppengerecht ausgespielt.",
+    posts: [
+      { pf: "linkedin", aud: "Hausverwaltungen", text: "Heizungsausfall im Winter? Für Ihre Objekte zählt jede Stunde. Unser Wartungsvertrag sichert Reaktionszeiten unter 24 h – planbar, dokumentiert, DSGVO-konform abgerechnet.", tags: "#Facilitymanagement #Heizung #Wartung" },
+      { pf: "instagram", aud: "Eigenheim 45+", text: "❄️ Bevor's kalt wird: Jetzt Heizungs-Check sichern. Unser Meisterteam war diese Woche bei Familie K. – neue Pumpe rein, 15 % weniger Verbrauch. Termin in 48 h.", tags: "#Heizungscheck #Handwerk #Energiesparen" },
+      { pf: "facebook", aud: "Familien regional", text: "Kennen Sie das? Heizung tropft, keiner kommt. Bei uns bekommen Sie noch echte Termine – diese Woche 30 % schneller dank digitaler Terminplanung. 📞 Einfach anrufen.", tags: "#Klempner #vorOrt #Heizung" },
+      { pf: "tiktok", aud: "Junge Hausbesitzer", text: "POV: Deine alte Heizung frisst Geld 💸 – 30-Sek-Clip: alt vs. neu, Verbrauch im Vergleich. „Bucht online in 2 Minuten.“ Trend-Sound + Vorher/Nachher.", tags: "#Heizung #Sanierung #fyp" },
+      { pf: "newsletter", aud: "Bestandskunden", text: "Winter-Aktion: Heizungs-Check + Entlüftung zum Festpreis. Als Stammkunde 4 Wochen Vorlauf – Termine gehen schnell weg. Ein Klick zur Buchung.", tags: "Betreff: „Ihr Heizungs-Check – bevor es andere buchen“" }
+    ]
+  },
+  immobilien: {
+    headline: "Immobilien – Makler & Eigentümer",
+    intro: "Zielgruppen aus dem CRM: Verkäufer von Bestandsimmobilien, Kapitalanleger und suchende Familien. Aktuelle Objekte werden je Kanal passend inszeniert.",
+    posts: [
+      { pf: "linkedin", aud: "Kapitalanleger", text: "Neu im Portfolio: 6-Parteien-Haus, 4,1 % Rendite, energetisch saniert. Für Anleger mit Weitblick – vollständige Unterlagen auf Anfrage, diskret.", tags: "#Kapitalanlage #Immobilien #Rendite" },
+      { pf: "instagram", aud: "Familien", text: "🏡 Frisch gelistet: Reihenhaus mit Garten, 5 Min. zur Schule. Home-Staging-Bilder in der Story. Wer zuerst kommt, besichtigt zuerst – DM für Termin.", tags: "#Traumhaus #Eigenheim #Immobilie" },
+      { pf: "facebook", aud: "Verkäufer 50+", text: "Sie überlegen zu verkaufen? Wir bewerten Ihre Immobilie kostenlos und ehrlich – mit echten Marktdaten aus Ihrer Straße. Unverbindlich anfragen.", tags: "#Immobilienverkauf #Wertermittlung" },
+      { pf: "tiktok", aud: "Erstkäufer", text: "3 Fehler beim ersten Hauskauf 🏠 – 20-Sek-Clip. „Nr. 2 kostet die meisten Käufer 10.000 €.“ Schnelle Cuts, Makler spricht direkt in die Kamera.", tags: "#Hauskauf #ImmoTok #fyp" },
+      { pf: "newsletter", aud: "Suchprofil-Kunden", text: "Ihr Suchprofil trifft auf 2 neue Objekte. Bevor sie online gehen: exklusiver Vorabzugang für unsere Newsletter-Kunden. Jetzt Besichtigung sichern.", tags: "Betreff: „2 neue Objekte passen zu Ihrer Suche“" }
+    ]
+  },
+  fahrschule: {
+    headline: "Fahrschule – Privatkunden & Eltern",
+    intro: "Zielgruppen aus dem CRM: Fahranfänger 17–19, Eltern und Wiedereinsteiger. Intensivkurs-Aktion wird jugend- und elterngerecht getrennt ausgespielt.",
+    posts: [
+      { pf: "instagram", aud: "Fahranfänger 17–19", text: "🚗 In 14 Tagen zum Lappen! Intensivkurs mit fixem Prüfungstermin. Diese Woche 4 Plätze frei. Swipe für die Erfolgsquote unserer letzten Gruppe (94 % 1. Versuch).", tags: "#Führerschein #Fahrschule #Intensivkurs" },
+      { pf: "tiktok", aud: "Gen Z", text: "Fahrstunde-Fails, die jeder kennt 😂 – dann: „Bei uns übst du genau das, bis es sitzt.“ Trend-Audio, Fahrlehrer als Sidekick. CTA: online anmelden.", tags: "#Fahrschule #Führerschein #fyp" },
+      { pf: "facebook", aud: "Eltern", text: "Liebe Eltern: sicher ans Ziel statt monatelang warten. Unser Intensivkurs bringt Ihr Kind in 14 Tagen zur Prüfung – transparente Preise, feste Termine.", tags: "#Fahrschule #Elternratgeber" },
+      { pf: "newsletter", aud: "Wartelisten-Kontakte", text: "Ein Platz ist frei geworden: Intensivkurs Start Freitag. Als Erstes auf der Warteliste – 24 h Reservierung für Sie. Jetzt zusagen.", tags: "Betreff: „Ihr Intensivkurs-Platz ist frei“" }
+    ]
+  }
+};
+
+/* ═══ PROZESS-DEFINITIONEN (Zahnrad) ═══ */
+const processes = {
+  email: {
+    icon: "✉️", title: "E-Mail-Assistent bei der Arbeit",
+    sub: "So verarbeitet Five Fingers eine eingehende E-Mail – Schritt für Schritt aus dem CRM heraus.",
+    steps: [
+      ["Empfang", "Mail kommt über die Gmail-API herein"],
+      ["Klassifizierung", "Intent, Dringlichkeit & Risiko werden erkannt"],
+      ["CRM-Kontext", "Kundenakte & Historie werden geladen"],
+      ["Wissensbasis", "Passende Bausteine & Preise abgeglichen (3 Treffer)"],
+      ["Entwurf", "Antwort formuliert – mit Begründung & Quelle"],
+      ["Ampel", "Vorgang landet rot/gelb/grün auf der Pinwand"]
+    ]
+  },
+  phone: {
+    icon: "📞", title: "Telefon-Assistent bei der Arbeit",
+    sub: "So verarbeitet der Assistent einen Anruf nach Feierabend – bis zum fertigen Vorgang.",
+    steps: [
+      ["Anruf annehmen", "Ansage abgespielt, 1 = Rückruf / 2 = Info"],
+      ["Transkription", "Speech-to-Text erstellt das Transkript"],
+      ["Intent & Stimmung", "Anliegen und Tonfall werden erkannt"],
+      ["CRM-Abgleich", "Kontakt gesucht oder neu angelegt"],
+      ["Kalender / Rückruf", "Terminfenster vorgeschlagen, Notiz erstellt"],
+      ["Ampel", "Vorgang übergeben an die Pinwand"]
+    ]
+  },
+  social: {
+    icon: "📣", title: "Social-Media-Assistent bei der Arbeit",
+    sub: "So holt sich der Agent die Infos aus dem Unternehmen und erzeugt fertige Posts.",
+    steps: [
+      ["Zielgruppen-Analyse", "CRM-Segmente & Kundenhistorie ausgewertet"],
+      ["Produktdaten", "Aktuelle Angebote & Aktionen geladen"],
+      ["Trend & Engagement", "Kanäle, beste Zeiten & Formate geprüft"],
+      ["Content-Generierung", "Posts je Plattform & Zielgruppe formuliert"],
+      ["Tonalität", "Sprache pro Kanal angepasst (seriös bis Gen Z)"],
+      ["Freigabe-Queue", "Entwürfe warten auf Ihre Freigabe"]
+    ]
+  }
+};
+
 const viewCopy = {
   dashboard: ["Übersicht", "Alle Kanäle, alle Vorgänge, ein Blick – die Kommandozentrale von Five Fingers."],
   inbox: ["Posteingang – Ampel-Pinwand", "Links rot (Mensch entscheidet), Mitte gelb (Mensch gibt frei), rechts grün (KI darf nach Regeln)."],
   calendar: ["Kalender", "Grün markierte Termine stammen aus E-Mails. Klick auf einen Termin öffnet den zugehörigen Vorgang."],
   outbox: ["Postausgang", "Freigegebene KI-Antworten, Entwürfe und Token-Verbrauch – jede Zeile klickbar."],
   phone: ["Telefon-Assistent", "Nimmt Anrufe bei besetzt oder nach Feierabend an und übergibt sie als Vorgang an die Ampel."],
-  social: ["Social-Media-Assistent", "Erstellt aus CRM, Zielgruppe und Produktdaten eine kanalübergreifende Content-Strategie."],
+  social: ["Social-Media-Assistent", "Erstellt aus CRM, Zielgruppe und Produktdaten fertige Posts pro Plattform und Zielgruppe."],
   customers: ["Kunden", "Kontaktübersicht mit Ampelstatus und letztem Vorgang – Klick öffnet den Vorgang."],
-  tokens: ["KI-Übersicht & Token-Budget", "Volle Transparenz über KI-Einsatz, Verbrauch und verbleibendes Monatsbudget."],
+  tokens: ["KI-Übersicht & Token-Budget", "Volle Transparenz über KI-Einsatz, Verbrauch, Architektur und verbleibendes Monatsbudget."],
   testaccount: ["Test-Modus", "Speise eine Test-Mail ein und verfolge live, wie die KI-Pipeline sie verarbeitet."]
 };
 
 const tourSteps = [
   { view: "dashboard", title: "Willkommen bei Five Fingers", text: "Eine Hand für den Mittelstand: fünf KI-Assistenten – Telefon, E-Mail, Kalender, Dashboard, Social Media – arbeiten mit demselben Kundenkontext zusammen. Diese Übersicht zeigt den Nutzen auf einen Blick." },
-  { view: "inbox", title: "Die Ampel-Pinwand", text: "Jeder Vorgang wird automatisch klassifiziert: Rot bearbeitet der Mensch, Gelb prüft der Mensch vor dem Senden, Grün darf die KI nach definierten Regeln erledigen. Klicken Sie eine Karte an – rechts erscheinen Entwurf und Begründung." },
-  { view: "inbox", title: "Human-in-the-Loop", text: "Im Detail-Panel rechts sehen Sie den KI-Antwortentwurf, die Begründung („Warum diese Antwort?“) und die KI-Kennzeichnung nach Art. 50 EU AI Act. „Freigeben & Senden“, „Bearbeiten“, „Zurückstellen“ und „Manuell“ funktionieren wirklich – probieren Sie es aus." },
-  { view: "calendar", title: "Kalender-Assistent", text: "Termine werden direkt aus E-Mails und Anrufen erkannt und eingetragen. Klick auf einen Termin springt zurück zum zugehörigen Vorgang – nichts geht verloren." },
-  { view: "phone", title: "Telefon-Assistent", text: "Nach Feierabend oder bei besetzter Leitung nimmt der Assistent an, transkribiert und übergibt an die Ampel. Simulieren Sie hier einen eingehenden Anruf." },
-  { view: "tokens", title: "Volle Kostentransparenz", text: "Jeder KI-Vorgang verbraucht Token aus einem festen Monatsbudget – aufgeschlüsselt pro Assistent. Keine Blackbox, keine Kostenüberraschung." },
-  { view: "testaccount", title: "Selbst ausprobieren", text: "Im Test-Modus speisen Sie eine eigene Mail ein und sehen live, wie die Pipeline sie klassifiziert, Kontext lädt und einen Entwurf erstellt. Und jetzt: Starten Sie die ▶ Live-Demo oben!" }
+  { view: "inbox", title: "Die Ampel-Pinwand", text: "Jeder Vorgang wird automatisch klassifiziert: Rot bearbeitet der Mensch, Gelb prüft der Mensch vor dem Senden, Grün darf die KI nach Regeln erledigen. Klicken Sie eine Karte an – rechts erscheinen Entwurf, Anhänge und Begründung." },
+  { view: "inbox", title: "Tonfall, Anhänge & Aktionen", text: "Im Detail-Panel schalten Sie den Tonfall um (Sachlich / Persönlich / Empathisch), öffnen Anhänge wie das Kursangebot-PDF oder die CRM-Notiz und nutzen „Freigeben“, „Bearbeiten“, „Zurückstellen“, „Manuell“ – alles funktioniert wirklich." },
+  { view: "phone", title: "Telefon-Assistent", text: "Nach Feierabend nimmt der Assistent an, transkribiert und legt Kalender- und CRM-Eintrag an. Über „Vorgang in Ampel anzeigen“ springen Sie direkt zur Karte. Mit ⚙ sehen Sie das Rädchen bei der Arbeit." },
+  { view: "social", title: "Social-Media-Assistent", text: "Wählen Sie Branche und Aktion – die KI erzeugt fertige Posts für LinkedIn, Instagram, Facebook, TikTok und Newsletter, je Zielgruppe und in passender Sprache. Freigabe pro Post." },
+  { view: "tokens", title: "Architektur & Kostentransparenz", text: "Jeder Vorgang verbraucht Token aus einem festen Budget – pro Assistent aufgeschlüsselt. Das Architektur-Diagramm zeigt, wie Five Fingers als Overlay Ihre Systeme verbindet, ohne sie zu ersetzen." },
+  { view: "testaccount", title: "Selbst ausprobieren", text: "Im Test-Modus speisen Sie eine eigene Mail ein und sehen live das Rädchen arbeiten. Und jetzt: Starten Sie die ▶ Live-Demo oben!" }
 ];
 
 /* ═══════════════════════════ HELFER ═══════════════════════════ */
@@ -184,22 +394,10 @@ const $$ = (sel) => [...document.querySelectorAll(sel)];
 function esc(str) {
   return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
-
-function fmtK(n) {
-  return n >= 1000000 ? (n / 1000000).toFixed(1).replace(".", ",") + "M" : Math.round(n / 1000) + "k";
-}
-
-function fmtNum(n) {
-  return n.toLocaleString("de-DE");
-}
-
-function nowTime() {
-  return new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
-}
-
-function statusColor(status) {
-  return { red: "var(--red)", yellow: "var(--yellow)", green: "var(--green)" }[status] || "var(--brand-cyan)";
-}
+function fmtK(n) { return n >= 1000000 ? (n / 1000000).toFixed(1).replace(".", ",") + "M" : Math.round(n / 1000) + "k"; }
+function fmtNum(n) { return n.toLocaleString("de-DE"); }
+function nowTime() { return new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" }); }
+function statusColor(s) { return { red: "var(--red)", yellow: "var(--yellow)", green: "var(--green)" }[s] || "var(--brand-cyan)"; }
 
 function toast(title, text, kind = "info") {
   const el = document.createElement("div");
@@ -208,13 +406,26 @@ function toast(title, text, kind = "info") {
   $("#toastStack").appendChild(el);
   setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 350); }, 4200);
 }
-
 function audit(text) {
-  const log = $("#auditLog");
   const entry = document.createElement("div");
   entry.className = "audit-entry";
   entry.innerHTML = `<time>${nowTime()}</time><span>${esc(text)}</span>`;
-  log.prepend(entry);
+  $("#auditLog").prepend(entry);
+}
+
+/* Tonfall-Transformation (gilt auch für neu eingespeiste Mails) */
+function toneVariant(base, tone) {
+  if (tone === "persoenlich") {
+    let out = base.replace(/^Guten Tag/, "Hallo").replace("Freundliche Grüße", "Herzliche Grüße");
+    if (!/Transkript/.test(base)) out += "\n\nWenn es einfacher ist, rufe ich Sie auch kurz an – sagen Sie mir einfach Bescheid.";
+    return out;
+  }
+  if (tone === "empathisch") {
+    let out = base.replace(/^(Guten Tag[^\n]*\n|Hallo[^\n]*\n)/, "$1\nich kann gut nachvollziehen, dass Ihnen das Anliegen wichtig ist – vielen Dank, dass Sie sich bei uns melden.\n");
+    out = out.replace("Freundliche Grüße", "Mit besten Grüßen und bis bald");
+    return out;
+  }
+  return base;
 }
 
 /* ═══════════════════ RENDERING: BOARD ═══════════════════ */
@@ -223,10 +434,11 @@ function noteHtml(mail) {
   const sel = mail.id === state.selected ? " selected" : "";
   const snoozed = mail.snoozed ? " snoozed" : "";
   const link = mail.cal ? "Termin verknüpft" : (mail.phone ? "Transkript erstellt" : "");
+  const attach = (mail.attachments || []).some(a => a.kind === "pdf") ? " 📎" : "";
   return `
     <button class="note ${mail.status}${sel}${snoozed}" data-id="${mail.id}">
       <div class="note-top"><span class="tag ${mail.tagClass}">${esc(mail.tag)}</span><span class="time">${esc(mail.time)}</span></div>
-      <strong class="subject">${esc(mail.subject)}</strong>
+      <strong class="subject">${esc(mail.subject)}${attach}</strong>
       <div class="sender">${esc(mail.sender)}</div>
       <p>${esc(mail.preview)}</p>
       <div class="confidence"><span style="color:${statusColor(mail.status)}">${mail.confidence}% Konfidenz</span><span class="calendar-link">${link}</span></div>
@@ -262,7 +474,7 @@ function renderCounts() {
   $("#navCustomerCount").textContent = new Set(mails.map((m) => m.sender)).size;
 }
 
-/* ═══════════════════ RENDERING: KALENDER ═══════════════════ */
+/* ═══════════════════ KALENDER ═══════════════════ */
 
 function renderCalendar() {
   const grid = $("#calendarGrid");
@@ -274,11 +486,9 @@ function renderCalendar() {
     for (let day = 0; day < 5; day++) {
       const ev = calendarEvents.find((e) => e.day === day && e.row === row);
       if (ev) {
-        const linked = mails.find((m) => m.id === ev.mail && m.id === state.selected) ? " linked" : "";
+        const linked = ev.mail === state.selected ? " linked" : "";
         html += `<div class="slot"><button class="event${linked}" data-mail="${ev.mail}"><strong>${esc(ev.title)}</strong><span>${esc(ev.sub)}</span></button></div>`;
-      } else {
-        html += `<div class="slot"></div>`;
-      }
+      } else html += `<div class="slot"></div>`;
     }
   });
   grid.innerHTML = html;
@@ -294,7 +504,7 @@ function renderCalendarList() {
   $$("#calendarList .calendar-item").forEach((item) => item.addEventListener("click", () => selectMail(item.dataset.mail, "inbox")));
 }
 
-/* ═══════════════════ RENDERING: TABELLEN ═══════════════════ */
+/* ═══════════════════ TABELLEN ═══════════════════ */
 
 function renderOutbox(markNew) {
   const body = $("#outboxBody");
@@ -316,11 +526,7 @@ function renderOutbox(markNew) {
 function renderCustomers() {
   const body = $("#customersBody");
   const seen = new Set();
-  const rows = mails.filter((m) => {
-    if (seen.has(m.sender)) return false;
-    seen.add(m.sender);
-    return true;
-  });
+  const rows = mails.filter((m) => { if (seen.has(m.sender)) return false; seen.add(m.sender); return true; });
   const firms = {
     "Sabine Haupt": "Immobilien Haupt", "Dr. Klein Kanzlei": "Kanzlei Dr. Klein", "Müller & Partner": "Steuerbüro",
     "Nordlicht Service": "Servicebetrieb", "Synlex Demo Lead": "Synlex UG", "Hansa Training": "Fahrschule",
@@ -340,30 +546,24 @@ function renderPhoneCards() {
   $$("#phoneCards .note").forEach((note) => note.addEventListener("click", () => selectMail(note.dataset.id)));
 }
 
-/* ═══════════════════ RENDERING: DASHBOARD ═══════════════════ */
+/* ═══════════════════ DASHBOARD ═══════════════════ */
 
 function renderChart() {
   const chart = $("#weekChart");
   const max = Math.max(...weekData.map((d) => d.value));
   chart.innerHTML = weekData.map((d, i) => `
-    <div class="bar-col">
-      <span class="bar-val">${d.value}</span>
+    <div class="bar-col"><span class="bar-val">${d.value}</span>
       <div class="bar-fill" data-i="${i}" style="height:0"></div>
-      <span class="bar-day">${d.day}</span>
-    </div>`).join("");
+      <span class="bar-day">${d.day}</span></div>`).join("");
   requestAnimationFrame(() => {
-    $$("#weekChart .bar-fill").forEach((bar, i) => {
-      bar.style.height = Math.round((weekData[i].value / max) * 120) + "px";
-    });
+    $$("#weekChart .bar-fill").forEach((bar, i) => { bar.style.height = Math.round((weekData[i].value / max) * 120) + "px"; });
   });
   const tip = $("#chartTooltip");
   $$("#weekChart .bar-fill").forEach((bar) => {
     bar.addEventListener("mousemove", (e) => {
       const d = weekData[+bar.dataset.i];
-      tip.hidden = false;
-      tip.textContent = `${d.day}: ${d.value} Vorgänge bearbeitet`;
-      tip.style.left = e.clientX + 14 + "px";
-      tip.style.top = e.clientY - 10 + "px";
+      tip.hidden = false; tip.textContent = `${d.day}: ${d.value} Vorgänge bearbeitet`;
+      tip.style.left = e.clientX + 14 + "px"; tip.style.top = e.clientY - 10 + "px";
     });
     bar.addEventListener("mouseleave", () => { tip.hidden = true; });
   });
@@ -373,8 +573,7 @@ function renderActivity(markNew) {
   const feed = $("#activityFeed");
   feed.innerHTML = activities.map((a, i) => `
     <button class="activity-item ${markNew === i ? "new" : ""}" data-mail="${a.mail}">
-      <span class="act-text">${esc(a.text)}</span><span class="act-time">${esc(a.time)}</span>
-    </button>`).join("");
+      <span class="act-text">${esc(a.text)}</span><span class="act-time">${esc(a.time)}</span></button>`).join("");
   $$("#activityFeed .activity-item").forEach((item) => item.addEventListener("click", () => selectMail(item.dataset.mail, "inbox")));
 }
 
@@ -382,10 +581,9 @@ function animateCounters() {
   $$("#kpiGrid [data-count]").forEach((el) => {
     const target = parseFloat(el.dataset.count);
     const decimals = +(el.dataset.decimals || 0);
-    const dur = 900;
     const t0 = performance.now();
     function tick(t) {
-      const p = Math.min(1, (t - t0) / dur);
+      const p = Math.min(1, (t - t0) / 900);
       const eased = 1 - Math.pow(1 - p, 3);
       el.textContent = (target * eased).toFixed(decimals).replace(".", ",");
       if (p < 1) requestAnimationFrame(tick);
@@ -394,7 +592,7 @@ function animateCounters() {
   });
 }
 
-/* ═══════════════════ TOKEN-BUDGET ═══════════════════ */
+/* ═══════════════════ TOKEN ═══════════════════ */
 
 function renderTokens() {
   const pct = Math.round((state.tokensUsed / state.tokensBudget) * 100);
@@ -410,28 +608,37 @@ function renderTokens() {
   $("#tokenLeftNum").textContent = fmtNum(left);
 }
 
-/* ═══════════════════ AUSWAHL & DETAIL-PANEL ═══════════════════ */
+/* ═══════════════════ DETAIL-PANEL ═══════════════════ */
 
 let typeTimer = null;
-
 function typewrite(el, text, speed = 6) {
   clearInterval(typeTimer);
   el.innerHTML = "";
-  const caret = document.createElement("span");
-  caret.className = "caret";
-  caret.textContent = " ";
-  const textNode = document.createTextNode("");
-  el.appendChild(textNode);
-  el.appendChild(caret);
+  const caret = document.createElement("span"); caret.className = "caret"; caret.textContent = " ";
+  const node = document.createTextNode(""); el.appendChild(node); el.appendChild(caret);
   let i = 0;
   typeTimer = setInterval(() => {
     i = Math.min(text.length, i + 3);
-    textNode.textContent = text.slice(0, i);
+    node.textContent = text.slice(0, i);
     if (i >= text.length) { clearInterval(typeTimer); caret.remove(); }
   }, speed);
 }
 
 const statusLabel = { red: ["Rot – Manuell", "red"], yellow: ["Gelb – Prüfen", "yellow"], green: ["Grün – Automatisch", "green"], sent: ["Gesendet", "blue"] };
+
+function currentAnswer(mail) { return toneVariant(mail.detail.answer, state.tone); }
+
+function renderAttachments(mail) {
+  const wrap = $("#attachments");
+  const list = mail.attachments || [];
+  wrap.innerHTML = list.map((a, i) => {
+    const icon = a.kind === "pdf" ? "📄" : "🗂";
+    return `<button class="attach-item" data-att="${i}">
+      <span class="attach-icon">${icon}</span>
+      <span><strong>${esc(a.name)}</strong><span>${esc(a.meta)}</span></span></button>`;
+  }).join("");
+  $$("#attachments .attach-item").forEach((btn) => btn.addEventListener("click", () => openAttachment(mail, +btn.dataset.att)));
+}
 
 function renderDetail(animate = true) {
   const mail = mails.find((m) => m.id === state.selected);
@@ -443,11 +650,26 @@ function renderDetail(animate = true) {
     <span class="tag blue">${mail.confidence}% Konfidenz</span>
     <span class="tag gray">~${fmtNum(mail.tokens)} Token</span>`;
   $("#detailTitle").textContent = mail.detail.title;
-  $("#detailText").textContent = mail.detail.text;
+
+  // Telefon: Systemaktionen sichtbar machen
+  let sysHtml = "";
+  if (mail.sysactions) {
+    sysHtml = `<div class="sysactions">` + mail.sysactions.map(s => `<div class="sysaction"><span class="sa-ic">✓</span>${esc(s)}</div>`).join("") + `</div>`;
+  }
+  $("#detailText").innerHTML = esc(mail.detail.text) + sysHtml;
+
   $("#reasonText").textContent = mail.detail.reason;
+  renderAttachments(mail);
+
+  // Ton-Umschalter nur bei E-Mail
+  $("#toneSwitch").style.display = mail.channel === "E-Mail" ? "" : "none";
+  $$("#toneSwitch .tone-btn").forEach(b => b.classList.toggle("active", b.dataset.tone === state.tone));
+
   cancelEdit();
-  if (animate) typewrite($("#answerText"), mail.detail.answer);
-  else $("#answerText").textContent = mail.detail.answer;
+  const answer = currentAnswer(mail);
+  if (animate) typewrite($("#answerText"), answer);
+  else $("#answerText").textContent = answer;
+
   const done = mail.status === "sent";
   $("#btnApprove").disabled = done;
   $("#btnApprove").textContent = done ? "✓ Gesendet" : "✓ Freigeben & Senden";
@@ -460,22 +682,141 @@ function selectMail(mailId, gotoView) {
   const mail = mails.find((m) => m.id === mailId);
   if (!mail) return;
   state.selected = mailId;
+  state.tone = "sachlich";
   if (gotoView) showView(gotoView);
   $$(".note").forEach((n) => n.classList.toggle("selected", n.dataset.id === mailId));
-  renderCalendarList();
-  renderCalendar();
-  renderDetail();
+  renderCalendarList(); renderCalendar(); renderDetail();
   const el = $(`.view.active .note[data-id="${mailId}"]`);
   if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
 }
 
+/* Vorgang in der Ampel finden + hervorheben */
+function locateInBoard() {
+  const id = state.selected;
+  showView("inbox");
+  setTimeout(() => {
+    const el = $(`#board .note[data-id="${id}"]`);
+    if (el) {
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+      el.classList.remove("pulse"); void el.offsetWidth; el.classList.add("pulse");
+      const col = { red: "roten", yellow: "gelben", green: "grünen", sent: "erledigten" };
+      const mail = mails.find(m => m.id === id);
+      toast("🎯 Vorgang gefunden", `„${mail.subject}“ liegt in der ${col[mail.status] || ""} Spalte.`, "info");
+    }
+  }, 120);
+}
+
+/* ═══════════════════ MODAL ═══════════════════ */
+
+function openModal(html, extraClass = "") {
+  $("#modalBody").className = "modal-body " + extraClass;
+  $("#modalBody").innerHTML = html;
+  $("#modalOverlay").hidden = false;
+}
+function closeModal() { $("#modalOverlay").hidden = true; if (gearTimer) { clearTimeout(gearTimer); gearTimer = null; } }
+
+function openAttachment(mail, i) {
+  const att = mail.attachments[i];
+  if (att.kind === "pdf") openDoc(att.name);
+  else openCrm(mail);
+}
+
+function openDoc(name) {
+  const d = docs[name] || { title: name, rows: [], total: "", note: "" };
+  const rows = d.rows.map(r => `<tr><td>${esc(r[0])}</td><td style="text-align:right;font-weight:700">${esc(r[1])}</td></tr>`).join("");
+  openDocSheet(`
+    <div class="doc-brand">
+      <div class="db-name">FIVE<span>FINGERS</span></div>
+      <div class="db-meta">Synlex UG · fivefingers.io<br>Dokument-Vorschau</div>
+    </div>
+    <span class="doc-note-badge">📄 ${esc(name)}</span>
+    <h3>${esc(d.title)}</h3>
+    <table class="doc-table"><tr><th>Position</th><th style="text-align:right">Betrag</th></tr>${rows}</table>
+    <div class="doc-total">${esc(d.total)}</div>
+    <p style="margin-top:14px;color:#667085;font-size:12.5px">${esc(d.note)}</p>`);
+}
+
+function openCrm(mail) {
+  const c = mail.crm || {};
+  const tl = (c.timeline || []).map(e => `<div class="crm-event"><time>${esc(e.t)}</time><span>${esc(e.e)}</span></div>`).join("");
+  openDocSheet(`
+    <div class="doc-brand">
+      <div class="db-name">CRM · Kundenakte</div>
+      <div class="db-meta">Five Fingers Data Bridge<br>DSGVO-konform</div>
+    </div>
+    <span class="doc-note-badge">🗂 ${esc(mail.sender)}</span>
+    <div style="margin-top:12px">
+      <div class="crm-field"><span>Firma</span><div>${esc(c.firma || "–")}</div></div>
+      <div class="crm-field"><span>Ansprechpartner</span><div>${esc(c.kontakt || "–")}</div></div>
+      <div class="crm-field"><span>Kunde seit</span><div>${esc(c.seit || "–")}</div></div>
+      <div class="crm-field"><span>Umsatz / Status</span><div>${esc(c.umsatz || "–")}</div></div>
+      <div class="crm-field"><span>Kanal</span><div>${esc(mail.channel)}</div></div>
+    </div>
+    <h3 style="margin-top:16px">Verlauf</h3>
+    <div class="crm-timeline">${tl}</div>`);
+}
+
+function openDocSheet(inner) { openModal(`<div class="doc-sheet">${inner}</div>`); }
+
+/* ═══════════════════ PROZESS-VISUALISIERUNG (Zahnrad) ═══════════════════ */
+
+let gearTimer = null;
+const GEAR_SVG = `<svg class="gear g1" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94a7.5 7.5 0 000-1.88l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7 7 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.58.24-1.12.55-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.68 8.84a.5.5 0 00.12.64l2.03 1.58a7.5 7.5 0 000 1.88l-2.03 1.58a.5.5 0 00-.12.64l1.92 3.32a.5.5 0 00.6.22l2.39-.96c.5.39 1.04.7 1.62.94l.36 2.54a.5.5 0 00.5.42h3.84a.5.5 0 00.5-.42l.36-2.54c.58-.24 1.12-.55 1.62-.94l2.39.96a.5.5 0 00.6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7z"/></svg>`;
+
+function openProcess(kind) {
+  if (kind === "auto") {
+    const mail = mails.find(m => m.id === state.selected);
+    kind = mail && mail.phone ? "phone" : "email";
+  }
+  const p = processes[kind] || processes.email;
+  const steps = p.steps.map((s, i) => `
+    <div class="process-step" data-ps="${i}">
+      <span class="ps-ic">${i + 1}</span>
+      <span><strong>${esc(s[0])}</strong><span>${esc(s[1])}</span></span>
+    </div>`).join("");
+  openModal(`
+    <div class="process-modal">
+      <div class="gear-stage">
+        ${GEAR_SVG}${GEAR_SVG.replace("g1", "g2")}${GEAR_SVG.replace("g1", "g3")}
+        <div class="gear-center">${p.icon}</div>
+      </div>
+      <h2>${esc(p.title)}</h2>
+      <p>${esc(p.sub)}</p>
+      <div class="process-steps">${steps}</div>
+    </div>`, "");
+  runGears(0);
+}
+
+function runGears(i) {
+  const stepsEls = $$("#modalBody .process-step");
+  if (!stepsEls.length) return;
+  if (i > 0) { stepsEls[i - 1].classList.remove("on"); stepsEls[i - 1].classList.add("done"); stepsEls[i - 1].querySelector(".ps-ic").textContent = "✓"; }
+  if (i >= stepsEls.length) { gearTimer = null; return; }
+  stepsEls[i].classList.add("on");
+  gearTimer = setTimeout(() => runGears(i + 1), 900);
+}
+
+/* ═══════════════════ ARCHITEKTUR ═══════════════════ */
+
+const archInfo = {
+  in: "<strong>Eingangskanäle:</strong> Office 365 / Gmail (Microsoft Graph & Gmail API), Telefonie-Anbindung, Social-Media-APIs und Kalender. Five Fingers liest, wo Sie schon arbeiten – ohne Datenmigration.",
+  ai: "<strong>KI-Engine:</strong> Azure OpenAI (GPT-4o), modellagnostisch und austauschbar – kein Vendor-Lock-in. Klassifizierung nach Intent + Risiko, Kontext-Loader, Antwort-Generator und die Ampel-Logik. Kosten transparent: ca. 0,04–0,46 € pro E-Mail.",
+  hub: "<strong>CRM-Hub / Data Bridge:</strong> Pufferschicht zwischen Kanälen und Ihrem CRM. Hält Kundenakte, Wissensbasis, Regelwerk und ein revisionssicheres Audit-Log. Serverstandort Azure Germany (Frankfurt/Berlin), DSGVO Art. 32.",
+  out: "<strong>Operations-Dashboard:</strong> Die Ampel-Pinwand, Kalender, KPIs und die Freigabe-Schicht (Human-in-the-Loop). Nichts wird ohne Regel oder Freigabe versendet."
+};
+function renderArch() {
+  $$("#archFlow .arch-layer").forEach((layer) => {
+    layer.addEventListener("click", () => {
+      $$("#archFlow .arch-layer").forEach(l => l.classList.remove("active"));
+      layer.classList.add("active");
+      $("#archDetail").innerHTML = archInfo[layer.dataset.arch] || "";
+    });
+  });
+}
+
 /* ═══════════════════ AKTIONEN ═══════════════════ */
 
-function bump(sel) {
-  const el = $(sel);
-  el.classList.add("bump");
-  setTimeout(() => el.classList.remove("bump"), 250);
-}
+function bump(sel) { const el = $(sel); el.classList.add("bump"); setTimeout(() => el.classList.remove("bump"), 250); }
 
 function approveMail(id) {
   const mail = mails.find((m) => m.id === id);
@@ -484,8 +825,7 @@ function approveMail(id) {
   const finish = () => {
     mail.status = "sent";
     outbox.unshift({ to: mail.sender, subject: "Re: " + mail.subject, status: "sent", ki: "KI-geprüft", tokens: mail.tokens, time: nowTime(), mail: mail.id });
-    state.tokensUsed += mail.tokens;
-    state.doneToday += 1;
+    state.tokensUsed += mail.tokens; state.doneToday += 1;
     activities.unshift({ time: nowTime(), text: `Antwort an ${mail.sender} freigegeben & gesendet`, mail: mail.id });
     renderBoard(); renderOutbox(0); renderPhoneCards(); renderCustomers(); renderTokens(); renderActivity(0); renderDetail(false);
     bump("#navOutboxCount");
@@ -519,22 +859,18 @@ function startEdit() {
   state.editing = true;
   $("#answerText").style.display = "none";
   $("#answerEdit").hidden = false;
-  $("#answerTextarea").value = mail.detail.answer;
+  $("#answerTextarea").value = currentAnswer(mail);
   $("#answerTextarea").focus();
 }
-
-function cancelEdit() {
-  state.editing = false;
-  $("#answerText").style.display = "";
-  $("#answerEdit").hidden = true;
-}
-
+function cancelEdit() { state.editing = false; $("#answerText").style.display = ""; $("#answerEdit").hidden = true; }
 function saveEdit() {
   const mail = mails.find((m) => m.id === state.selected);
   if (!mail) return;
   mail.detail.answer = $("#answerTextarea").value;
+  state.tone = "sachlich";
   cancelEdit();
   $("#answerText").textContent = mail.detail.answer;
+  $$("#toneSwitch .tone-btn").forEach(b => b.classList.toggle("active", b.dataset.tone === "sachlich"));
   toast("✎ Entwurf gespeichert", "Ihre Änderungen wurden übernommen – die KI lernt aus Ihrer Korrektur.", "success");
   audit(`Entwurf für „${mail.subject}“ manuell überarbeitet`);
 }
@@ -549,6 +885,43 @@ function showView(viewName) {
   if (viewName === "dashboard") animateCounters();
 }
 
+/* ═══════════════════ SOCIAL-MEDIA ═══════════════════ */
+
+const pfMeta = {
+  linkedin: ["LinkedIn", "in"], instagram: ["Instagram", "◎"], facebook: ["Facebook", "f"],
+  tiktok: ["TikTok", "♪"], newsletter: ["Newsletter", "✉"]
+};
+
+function renderSocialPlan(branche, product) {
+  const strat = socialStrategies[branche];
+  $("#socialHeadline").textContent = "Strategie – " + strat.headline;
+  $("#socialIntro").textContent = strat.intro + (product ? ` Aktuelle Aktion: „${product}“.` : "");
+  const feed = $("#socialFeed");
+  feed.innerHTML = strat.posts.map((p, i) => {
+    const [name, ic] = pfMeta[p.pf];
+    return `<div class="social-post" style="animation-delay:${i * 70}ms">
+      <div class="social-post-head pf-${p.pf}"><span>${ic}</span>${esc(name)}<span class="aud">${esc(p.aud)}</span></div>
+      <div class="social-post-body"><p>${esc(p.text)}</p><div class="hashtags">${esc(p.tags)}</div></div>
+      <div class="social-post-foot">
+        <button data-sp="${i}" data-act="approve">✓ Freigeben &amp; planen</button>
+        <button data-sp="${i}" data-act="edit">✎ Anpassen</button>
+      </div></div>`;
+  }).join("");
+  $$("#socialFeed .social-post-foot button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.act === "approve") {
+        btn.classList.add("approved"); btn.textContent = "✓ Eingeplant";
+        toast("✓ Post eingeplant", "Der Beitrag wurde zur Freigabe-Queue hinzugefügt.", "success");
+      } else {
+        const p = strat.posts[+btn.dataset.sp];
+        const body = btn.closest(".social-post").querySelector("p");
+        const edited = prompt("Beitrag anpassen:", p.text);
+        if (edited != null) { body.textContent = edited; toast("✎ Angepasst", "Der Beitragstext wurde geändert.", "info"); }
+      }
+    });
+  });
+}
+
 /* ═══════════════════ TEST-MAIL & PIPELINE ═══════════════════ */
 
 function runPipeline(onDone) {
@@ -558,8 +931,7 @@ function runPipeline(onDone) {
   function next() {
     if (i > 0) { steps[i - 1].classList.remove("working"); steps[i - 1].classList.add("done"); }
     if (i >= steps.length) { onDone && onDone(); return; }
-    steps[i].classList.add("working");
-    i += 1;
+    steps[i].classList.add("working"); i += 1;
     setTimeout(next, 650);
   }
   next();
@@ -571,12 +943,14 @@ function injectTestMail(from, subject, body) {
   mails.push({
     id, status: "yellow", tag: "Test-Mail", tagClass: "purple", time: nowTime(),
     subject, sender: from, channel: "E-Mail", preview: short, confidence: 84, cal: null, tokens: 1180,
+    attachments: [{ kind: "crm", name: "CRM-Notiz: " + from, meta: "Neukontakt aus Test-Mail" }],
     detail: {
       title: from,
       text: `${subject} – die Test-Mail wurde in den MVP-Ablauf eingespeist und als gelber Freigabe-Vorgang markiert.`,
       answer: "Guten Tag,\n\nvielen Dank für Ihre Nachricht. Five Fingers klassifiziert eingehende E-Mails, lädt passenden Kontext aus Kundendaten und Wissensbasis und bereitet daraus einen Antwortentwurf vor.\n\nGern schlage ich Ihnen einen kurzen Demo-Termin vor: Dienstag um 10:30 Uhr oder Donnerstag um 14:00 Uhr?\n\nHinweis: Diese E-Mail wurde mit Unterstützung von KI erstellt.\n\nFreundliche Grüße\nFive Fingers Demo-Team",
       reason: "Test-Mail erkannt. Absicht: Demo-/Informationsanfrage. Status Gelb, weil externe Antworten im MVP vor Versand freigegeben werden. Verbrauch: ~1.180 Token."
-    }
+    },
+    crm: { firma: from, kontakt: from, seit: "heute", umsatz: "Lead", timeline: [{ t: nowTime(), e: "Test-Mail eingespeist (→ Gelb)" }] }
   });
   activities.unshift({ time: nowTime(), text: `Neue Mail von ${from} klassifiziert: Gelb (84 %)`, mail: id });
   renderBoard(); renderCustomers(); renderActivity(0);
@@ -590,43 +964,25 @@ function runLiveDemo() {
   if (state.demoRunning) return;
   state.demoRunning = true;
   const btn = $("#btnLiveDemo");
-  btn.classList.add("running");
-  btn.textContent = "● Demo läuft …";
-
+  btn.classList.add("running"); btn.textContent = "● Demo läuft …";
   const seq = [
-    [0, () => {
-      showView("inbox");
-      toast("▶ Live-Demo gestartet", "Szenario: Ein normaler Dienstagvormittag – schauen Sie zu.", "info");
-    }],
-    [1800, () => {
-      toast("📥 Neue E-Mail", "Von: buero@steinberg-immobilien.de – „Besichtigungstermin Musterstraße 12?“", "info");
-    }],
+    [0, () => { showView("inbox"); toast("▶ Live-Demo gestartet", "Szenario: Ein normaler Dienstagvormittag – schauen Sie zu.", "info"); }],
+    [1800, () => { toast("📥 Neue E-Mail", "Von: buero@steinberg-immobilien.de – „Besichtigungstermin Musterstraße 12?“", "info"); }],
     [3400, () => {
       const id = injectTestMail("Steinberg Immobilien", "Besichtigungstermin Musterstraße 12", "Guten Tag, wir hätten Interesse an einer Besichtigung der Musterstraße 12. Geht bei Ihnen Donnerstag?");
       selectMail(id, "inbox");
       toast("🧠 KI-Analyse", "Intent: Terminwunsch · CRM-Kontext geladen · 84 % Konfidenz → Gelb", "warn");
       audit("Live-Demo: Mail von Steinberg Immobilien klassifiziert (Gelb, 84 %)");
     }],
-    [7200, () => {
-      toast("📞 Anruf nach Feierabend", "Der Telefon-Assistent nimmt an, transkribiert und erstellt einen Vorgang.", "info");
-      audit("Live-Demo: Anruf angenommen & transkribiert");
-    }],
-    [9200, () => {
-      selectMail("m8", "phone");
-    }],
-    [11600, () => {
-      selectMail("m6", "inbox");
-      toast("🟢 Automatik-Regel greift", "Standardfrage der Fahrschule erkannt – die KI darf laut Regel senden.", "success");
-    }],
-    [13600, () => {
-      approveMail("m6");
-    }],
-    [15800, () => {
+    [7000, () => { toast("📞 Anruf nach Feierabend", "Der Telefon-Assistent nimmt an, transkribiert und erstellt einen Vorgang.", "info"); audit("Live-Demo: Anruf angenommen & transkribiert"); }],
+    [9000, () => { selectMail("m8", "phone"); }],
+    [11400, () => { selectMail("m6", "inbox"); toast("🟢 Automatik-Regel greift", "Standardfrage der Fahrschule erkannt – die KI darf laut Regel senden.", "success"); }],
+    [13400, () => { approveMail("m6"); }],
+    [15400, () => { showView("social"); renderSocialPlan("handwerk", $("#socialProduct").value.trim()); toast("📣 Social-Media-Agent", "Fertige Posts für 5 Kanäle & Zielgruppen erzeugt – aus CRM & Produktdaten.", "info"); }],
+    [17800, () => {
       showView("dashboard");
-      toast("✓ Live-Demo beendet", "Drei Kanäle, ein Kontext, volle Kontrolle. Jetzt selbst klicken!", "success");
-      state.demoRunning = false;
-      btn.classList.remove("running");
-      btn.textContent = "▶ Live-Demo";
+      toast("✓ Live-Demo beendet", "E-Mail, Telefon, Automatik & Social – ein Kontext, volle Kontrolle. Jetzt selbst klicken!", "success");
+      state.demoRunning = false; btn.classList.remove("running"); btn.textContent = "▶ Live-Demo";
     }]
   ];
   seq.forEach(([delay, fn]) => setTimeout(fn, delay));
@@ -635,7 +991,6 @@ function runLiveDemo() {
 /* ═══════════════════ TOUR ═══════════════════ */
 
 let tourIndex = 0;
-
 function showTourStep() {
   const step = tourSteps[tourIndex];
   $("#tourStepLabel").textContent = `Schritt ${tourIndex + 1} von ${tourSteps.length}`;
@@ -644,17 +999,8 @@ function showTourStep() {
   $("#tourNext").textContent = tourIndex === tourSteps.length - 1 ? "Fertig ✓" : "Weiter →";
   showView(step.view);
 }
-
-function startTour() {
-  tourIndex = 0;
-  $("#tourOverlay").hidden = false;
-  showTourStep();
-}
-
-function endTour() {
-  $("#tourOverlay").hidden = true;
-  showView("dashboard");
-}
+function startTour() { tourIndex = 0; $("#tourOverlay").hidden = false; showTourStep(); }
+function endTour() { $("#tourOverlay").hidden = true; showView("dashboard"); }
 
 /* ═══════════════════ INIT & EVENTS ═══════════════════ */
 
@@ -667,13 +1013,27 @@ $("#btnSaveEdit").addEventListener("click", saveEdit);
 $("#btnCancelEdit").addEventListener("click", cancelEdit);
 $("#btnSnooze").addEventListener("click", () => snoozeMail(state.selected));
 $("#btnManual").addEventListener("click", () => manualMail(state.selected));
+$("#btnLocate").addEventListener("click", locateInBoard);
+
+$$("#toneSwitch .tone-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    state.tone = btn.dataset.tone;
+    $$("#toneSwitch .tone-btn").forEach(b => b.classList.toggle("active", b === btn));
+    const mail = mails.find(m => m.id === state.selected);
+    if (state.editing) { $("#answerTextarea").value = currentAnswer(mail); }
+    else typewrite($("#answerText"), currentAnswer(mail), 3);
+  });
+});
+
+$$("[data-process]").forEach((btn) => btn.addEventListener("click", () => openProcess(btn.dataset.process)));
+
+$("#modalClose").addEventListener("click", closeModal);
+$("#modalOverlay").addEventListener("click", (e) => { if (e.target === $("#modalOverlay")) closeModal(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
 $("#btnLiveDemo").addEventListener("click", runLiveDemo);
 $("#btnTour").addEventListener("click", startTour);
-$("#tourNext").addEventListener("click", () => {
-  if (tourIndex >= tourSteps.length - 1) endTour();
-  else { tourIndex += 1; showTourStep(); }
-});
+$("#tourNext").addEventListener("click", () => { if (tourIndex >= tourSteps.length - 1) endTour(); else { tourIndex += 1; showTourStep(); } });
 $("#tourSkip").addEventListener("click", endTour);
 
 $("#btnSimulateCall").addEventListener("click", () => {
@@ -682,35 +1042,34 @@ $("#btnSimulateCall").addEventListener("click", () => {
     id, status: "yellow", tag: "Telefon", tagClass: "yellow", time: nowTime(),
     subject: "Rückrufwunsch – Angebotsfrage", sender: "Petra Lindner", channel: "Telefon",
     preview: "Anruferin drückt 1. Sie möchte ein Angebot für 3 Standorte besprechen.", confidence: 86, cal: null, tokens: 1290, phone: true,
+    sysactions: ["Rückrufwunsch erkannt (Option 1)", "Kalender: heute 15:30 Uhr vorgeschlagen", "CRM: Neukontakt „Petra Lindner“ angelegt", "Thema: Mehrstandort-Angebot"],
+    attachments: [{ kind: "crm", name: "CRM-Notiz: Petra Lindner", meta: "Neukontakt aus Anruf" }],
     detail: {
       title: "Telefon: Petra Lindner",
       text: "Simulierter Anruf bei besetzter Leitung. Die Anruferin hat 1 gedrückt und möchte einen Rückruf zum Thema Mehrstandort-Angebot.",
       answer: "Transkript:\n„Guten Tag, Lindner hier von der Lindner Gebäudeservice GmbH. Wir haben drei Standorte und würden gern über ein Angebot sprechen. Bitte um Rückruf am Nachmittag.“\n\nSystemaktion:\n– Rückrufwunsch erkannt (Nachmittag)\n– CRM: Neukontakt angelegt\n– Kalendervorschlag: heute 15:30 Uhr",
       reason: "Quelle: Telefon-Assistent (Simulation). Absicht: Rückruf + Angebotsanfrage. Status Gelb – Angebotsthemen werden laut Regelwerk vom Menschen freigegeben."
-    }
+    },
+    crm: { firma: "Lindner Gebäudeservice GmbH", kontakt: "Petra Lindner", seit: "heute", umsatz: "Lead (3 Standorte)", timeline: [{ t: nowTime(), e: "Anruf simuliert, transkribiert (→ Gelb)" }, { t: nowTime(), e: "Kalender + CRM automatisch befüllt" }] }
   });
   activities.unshift({ time: nowTime(), text: "Telefon-Assistent: Anruf von Petra Lindner transkribiert", mail: id });
   renderBoard(); renderPhoneCards(); renderCustomers(); renderActivity(0);
   bump("#navPhoneCount");
   selectMail(id);
-  toast("📞 Anruf angenommen", "Transkript erstellt, Rückrufwunsch erkannt – Vorgang liegt in der gelben Spalte.", "info");
+  toast("📞 Anruf angenommen & simuliert", "Transkript erstellt, Rückruf erkannt, Kalender + CRM befüllt – Vorgang liegt in Gelb.", "info");
   audit("Anruf von Petra Lindner angenommen & transkribiert");
 });
 
 $("#createSocialPlan").addEventListener("click", () => {
-  const product = $("#socialProduct").value.trim() || "Five Fingers Core-Paket";
-  const feed = $("#socialFeed");
-  $("#socialIntro").textContent = "Die KI analysiert CRM-Daten, Zielgruppe und Produktinfos …";
-  feed.innerHTML = `<div class="feed-item shimmer"><strong>⏳ Strategie wird erstellt …</strong><span>Zielgruppenprofil wird mit Kundenhistorie abgeglichen.</span></div>`;
+  const branche = $("#socialCustomer").value;
+  const product = $("#socialProduct").value.trim();
+  $("#socialIntro").textContent = "Die KI analysiert CRM-Segmente, Zielgruppen und Produktdaten …";
+  $("#socialFeed").innerHTML = `<div class="social-post"><div class="social-post-body"><p>⏳ Zielgruppen werden mit Kundenhistorie abgeglichen, Produktdaten geladen, Content pro Kanal erzeugt …</p></div></div>`;
   setTimeout(() => {
-    $("#socialIntro").textContent = `Strategie für „${product}“: Vertrauen aufbauen, Schmerzpunkt zeigen, Demo als nächsten kleinen Schritt anbieten.`;
-    feed.innerHTML = `
-      <div class="feed-item"><strong>LinkedIn</strong><span>Fokus auf Entscheider: weniger Reaktionszeit, mehr Qualität, Mensch behält die Freigabe.</span></div>
-      <div class="feed-item"><strong>Instagram / Facebook</strong><span>Vorher-nachher-Story: volle Inbox wird zur sortierten Ampel-Pinwand.</span></div>
-      <div class="feed-item"><strong>Newsletter</strong><span>Vertrauensmail: KI antwortet nicht blind, sondern mit Kontext, Quellen und Freigabe.</span></div>`;
-    toast("✨ Content-Strategie erstellt", "Drei Kanalvorschläge liegen bereit – Veröffentlichung erst nach Freigabe.", "success");
-    audit(`Social-Media-Strategie für „${product}“ erzeugt`);
-  }, 1400);
+    renderSocialPlan(branche, product);
+    toast("✨ Content-Strategie erstellt", "Fertige Posts für 5 Kanäle & Zielgruppen – Veröffentlichung erst nach Freigabe.", "success");
+    audit(`Social-Media-Strategie für „${socialStrategies[branche].headline}“ erzeugt`);
+  }, 1300);
 });
 
 $("#testMailForm").addEventListener("submit", (e) => {
@@ -735,14 +1094,7 @@ $("#testMailForm").addEventListener("submit", (e) => {
 ].forEach(audit);
 
 /* Erst-Render */
-renderBoard();
-renderCalendar();
-renderCalendarList();
-renderOutbox();
-renderCustomers();
-renderPhoneCards();
-renderChart();
-renderActivity();
-renderTokens();
-renderDetail(false);
-animateCounters();
+renderBoard(); renderCalendar(); renderCalendarList(); renderOutbox();
+renderCustomers(); renderPhoneCards(); renderChart(); renderActivity();
+renderTokens(); renderArch(); renderSocialPlan("handwerk", $("#socialProduct").value.trim());
+renderDetail(false); animateCounters();
