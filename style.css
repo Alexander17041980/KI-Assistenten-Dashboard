@@ -1251,3 +1251,14 @@ button, input, textarea, select { font: inherit; }
   .kpi-strip { grid-template-columns: 1fr 1fr; }
   .pricing-grid { grid-template-columns: 1fr; }
 }
+
+/* Social-Post Inline-Edit */
+.social-post-body p.editing {
+  outline: 2px solid var(--brand-cyan);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--blue-soft);
+  box-shadow: 0 0 0 4px rgba(37,196,223,0.14);
+  cursor: text;
+}
+.social-post-foot button[data-act="approve"]:disabled { opacity: 0.4; cursor: not-allowed; }

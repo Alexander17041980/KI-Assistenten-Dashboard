@@ -718,10 +718,36 @@ function socialPostHtml(p, i, delay) {
 function wireSocialFoot() {
   $$("#socialFeed .social-post").forEach((card) => {
     const p = card.querySelector("p");
-    card.querySelectorAll(".social-post-foot button").forEach((btn) => btn.addEventListener("click", () => {
-      if (btn.dataset.act === "approve") { btn.classList.add("approved"); btn.textContent = "✓ Eingeplant"; toast("✓ Post eingeplant", "Der Beitrag wurde zur Freigabe-Queue hinzugefügt.", "success"); }
-      else { const edited = prompt("Beitrag anpassen:", p.textContent); if (edited != null) { p.textContent = edited; toast("✎ Angepasst", "Der Beitragstext wurde geändert.", "info"); } }
-    }));
+    const approveBtn = card.querySelector('[data-act="approve"]');
+    const editBtn = card.querySelector('[data-act="edit"]');
+    editBtn.addEventListener("click", () => {
+      const editing = p.getAttribute("contenteditable") === "true";
+      if (!editing) {
+        p.setAttribute("contenteditable", "true");
+        p.classList.add("editing");
+        p.focus();
+        // Cursor ans Ende setzen
+        const r = document.createRange(); r.selectNodeContents(p); r.collapse(false);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        editBtn.textContent = "✓ Speichern";
+        approveBtn.disabled = true;
+      } else {
+        p.setAttribute("contenteditable", "false");
+        p.classList.remove("editing");
+        editBtn.textContent = "✎ Anpassen";
+        approveBtn.disabled = false;
+        toast("✎ Angepasst", "Der Beitragstext wurde direkt im Post übernommen.", "info");
+        audit("Social-Post inline bearbeitet");
+      }
+    });
+    p.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); editBtn.click(); }
+    });
+    approveBtn.addEventListener("click", () => {
+      if (approveBtn.disabled) return;
+      approveBtn.classList.add("approved"); approveBtn.textContent = "✓ Eingeplant";
+      toast("✓ Post eingeplant", "Der Beitrag wurde zur Freigabe-Queue hinzugefügt.", "success");
+    });
   });
 }
 function renderSocialPlan(branche, product) {
@@ -769,17 +795,19 @@ function injectTestMail(from, subject, body) {
 function runLiveDemo() {
   if (state.demoRunning) return;
   state.demoRunning = true;
+  let demoLeadId = null;
   const btn = $("#btnLiveDemo"); btn.classList.add("running"); btn.textContent = "● Demo läuft …";
   const seq = [
-    [0, () => { showView("dashboard"); toast("▶ Live-Demo gestartet", "Szenario: ein normaler Dienstagvormittag – schauen Sie zu.", "info"); }],
+    [0, () => { showView("dashboard"); toast("▶ Live-Demo", "1 von 5 · E-Mail: ein normaler Dienstagvormittag – schauen Sie zu.", "info"); }],
     [1600, () => { toast("📥 Neue E-Mail", "Von: buero@steinberg-immobilien.de – „Besichtigungstermin Musterstraße 12?“", "info"); }],
-    [3200, () => { const id = injectTestMail("Steinberg Immobilien", "Besichtigungstermin Musterstraße 12", "Guten Tag, wir hätten Interesse an einer Besichtigung der Musterstraße 12. Geht bei Ihnen Donnerstag?"); selectMail(id, "dashboard"); toast("🧠 KI-Analyse", "Intent: Terminwunsch · CRM geladen · 84 % → Gelb (erscheint oben)", "warn"); audit("Live-Demo: Steinberg Immobilien klassifiziert (Gelb, 84 %)"); }],
-    [6600, () => { toast("📞 Anruf nach Feierabend", "Der Telefon-Assistent nimmt an, transkribiert und erstellt einen Vorgang.", "info"); audit("Live-Demo: Anruf angenommen & transkribiert"); }],
-    [8600, () => { selectMail("m8", "phone"); }],
-    [11000, () => { selectMail("m6", "dashboard"); toast("🟢 Automatik-Regel greift", "Standardfrage der Fahrschule – die KI darf laut Regel senden.", "success"); }],
-    [13000, () => { approveMail("m6"); }],
-    [15000, () => { showView("social"); renderSocialPlan("handwerk", $("#socialProduct").value.trim()); toast("📣 Social-Media-Agent", "Fertige Posts für 5 Kanäle & Zielgruppen – aus CRM & Produktdaten.", "info"); }],
-    [17400, () => { showView("dashboard"); toast("✓ Live-Demo beendet", "E-Mail, Telefon, Automatik & Social – ein Kontext, volle Kontrolle. Jetzt selbst klicken!", "success"); state.demoRunning = false; btn.classList.remove("running"); btn.textContent = "▶ Live-Demo"; }]
+    [3200, () => { demoLeadId = injectTestMail("Steinberg Immobilien", "Besichtigungstermin Musterstraße 12", "Guten Tag, wir hätten Interesse an einer Besichtigung der Musterstraße 12. Geht bei Ihnen Donnerstag?"); selectMail(demoLeadId, "dashboard"); toast("🧠 KI-Analyse", "Intent: Terminwunsch · CRM geladen · 84 % → Gelb (erscheint oben)", "warn"); audit("Live-Demo: Steinberg Immobilien klassifiziert (Gelb, 84 %)"); }],
+    [6400, () => { toast("📞 Live-Demo", "2 von 5 · Telefon: Anruf nach Feierabend wird angenommen & transkribiert.", "info"); audit("Live-Demo: Anruf angenommen & transkribiert"); }],
+    [8400, () => { selectMail("m8", "phone"); }],
+    [10800, () => { showView("dashboard"); selectMail("m6", "dashboard"); toast("🟢 Live-Demo", "3 von 5 · Automatik: Standardfrage der Fahrschule – die KI darf senden.", "success"); }],
+    [12800, () => { approveMail("m6"); }],
+    [15000, () => { showView("social"); renderSocialPlan("handwerk", $("#socialProduct").value.trim()); toast("📣 Live-Demo", "4 von 5 · Social: fertige Posts für 5 Kanäle & Zielgruppen aus CRM & Produktdaten.", "info"); }],
+    [17600, () => { showView("customers"); if (demoLeadId) playJourney(demoLeadId); toast("🧭 Live-Demo", "5 von 5 · Kundenreise: derselbe Kunde – von der Anfrage bis zufrieden.", "info"); }],
+    [22400, () => { showView("dashboard"); toast("✓ Live-Demo beendet", "E-Mail · Telefon · Automatik · Social · Kundenreise – ein Kontext, volle Kontrolle. Jetzt selbst klicken!", "success"); state.demoRunning = false; btn.classList.remove("running"); btn.textContent = "▶ Live-Demo"; }]
   ];
   seq.forEach(([d, fn]) => setTimeout(fn, d));
 }
