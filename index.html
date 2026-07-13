@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
+  <div class="app" id="app">
 
     <!-- ═══════════ SIDEBAR ═══════════ -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="brand">
         <div class="brand-row">
           <svg class="brand-hand" viewBox="0 0 64 64" aria-hidden="true">
@@ -29,33 +29,19 @@
       </div>
 
       <nav class="nav" aria-label="Hauptnavigation">
-        <button class="active" data-view-target="dashboard">Übersicht <span class="badge badge-accent">KPI</span></button>
-        <button data-view-target="inbox">Posteingang <span class="badge" id="navInboxCount">7</span></button>
+        <button class="active" data-view-target="dashboard">Dashboard <span class="badge badge-accent">Alle</span></button>
+        <button data-view-target="inbox">Posteingang <span class="nav-badges" id="navInbox"></span></button>
         <button data-view-target="calendar">Kalender <span class="badge" id="navCalCount">7</span></button>
         <button data-view-target="outbox">Postausgang <span class="badge" id="navOutboxCount">4</span></button>
-        <button data-view-target="phone">Telefon <span class="badge" id="navPhoneCount">2</span></button>
+        <button data-view-target="phone">Telefon <span class="nav-badges" id="navPhone"></span></button>
         <button data-view-target="social">Social Media <span class="badge">Demo</span></button>
         <button data-view-target="customers">Kunden <span class="badge" id="navCustomerCount">6</span></button>
-        <button data-view-target="tokens">KI &amp; Token <span class="badge" id="navTokenBadge">43%</span></button>
+        <button data-view-target="tokens">KI &amp; Pakete <span class="badge">Abo</span></button>
         <button data-view-target="testaccount">Test-Modus <span class="badge badge-accent">Live</span></button>
       </nav>
 
       <div class="sidebar-bottom">
-        <div class="token-mini">
-          <div class="token-mini-head">
-            <div class="ring" id="tokenRing"><span id="tokenRingLabel">43%</span></div>
-            <div>
-              <strong>Token-Budget</strong>
-              <small id="tokenMiniUsed">516k von 1,2M verbraucht</small>
-              <strong class="token-left" id="tokenMiniLeft">684k übrig</strong>
-            </div>
-          </div>
-        </div>
-        <div class="legend">
-          <div class="legend-row"><span><i class="dot dot-red"></i>Manuell</span><strong class="c-red" id="legendRed">2</strong></div>
-          <div class="legend-row"><span><i class="dot dot-yellow"></i>Prüfen</span><strong class="c-yellow" id="legendYellow">3</strong></div>
-          <div class="legend-row"><span><i class="dot dot-green"></i>Automatisch</span><strong class="c-green" id="legendGreen">2</strong></div>
-        </div>
+        <div class="alert-hint" id="alertHint"></div>
         <div class="sidebar-legal">
           © 2026 Synlex UG · <a href="https://fivefingers.io" target="_blank" rel="noopener">fivefingers.io</a><br>
           DSGVO-konform · EU AI Act ready
@@ -66,138 +52,58 @@
     <!-- ═══════════ HAUPTBEREICH ═══════════ -->
     <section class="work">
       <header class="topbar">
-        <div class="topbar-titles">
-          <h1 id="pageTitle">Übersicht</h1>
-          <p id="pageSubtitle">Alle Kanäle, alle Vorgänge, ein Blick – die Kommandozentrale von Five Fingers.</p>
+        <div class="topbar-left">
+          <button class="burger" id="btnMenu" aria-label="Menü ein-/ausklappen" title="Menü ein-/ausklappen">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="topbar-titles">
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="pageSubtitle">Alle Kanäle in einer Ansicht – E-Mail, Telefon und Kalender live.</p>
+          </div>
         </div>
         <div class="topbar-actions">
           <button class="btn btn-demo" id="btnLiveDemo">▶ Live-Demo</button>
-          <button class="btn btn-tour" id="btnTour">Tour starten</button>
-          <div class="status-tabs" aria-label="Ampelstatus">
-            <span class="status-pill red" id="pillRed">Rot · 2</span>
-            <span class="status-pill yellow" id="pillYellow">Gelb · 3</span>
-            <span class="status-pill green" id="pillGreen">Grün · 2</span>
-          </div>
+          <button class="btn btn-sim" id="btnSimTop">✉ Anfrage simulieren</button>
+          <button class="btn btn-tour" id="btnTour">Tour</button>
         </div>
       </header>
 
       <main>
-        <!-- ═══ ÜBERSICHT / KPI ═══ -->
+        <!-- ═══ DASHBOARD (alle Kanäle) ═══ -->
         <section class="view active" data-view="dashboard">
-          <div class="kpi-grid" id="kpiGrid">
+          <div class="kpi-strip" id="kpiGrid">
             <div class="kpi-tile">
               <span class="kpi-label">Ø Antwortzeit heute</span>
               <span class="kpi-value"><span data-count="1.8" data-decimals="1">0</span><small> Min</small></span>
-              <span class="kpi-delta up">vorher Ø 8 Std – 99 % schneller</span>
+              <span class="kpi-delta up">vorher Ø 8 Std</span>
             </div>
             <div class="kpi-tile">
-              <span class="kpi-label">Gesparte Zeit diese Woche</span>
+              <span class="kpi-label">Gesparte Zeit / Woche</span>
               <span class="kpi-value"><span data-count="19">0</span><small> Std</small></span>
-              <span class="kpi-delta up">≈ 988 Std pro Jahr</span>
+              <span class="kpi-delta up">≈ 988 Std / Jahr</span>
             </div>
             <div class="kpi-tile">
               <span class="kpi-label">Automatisierungsquote</span>
               <span class="kpi-value"><span data-count="38">0</span><small> %</small></span>
-              <span class="kpi-delta">Grüne Vorgänge, regelbasiert</span>
+              <span class="kpi-delta">regelbasiert</span>
             </div>
             <div class="kpi-tile">
               <span class="kpi-label">Verlorene Anfragen</span>
               <span class="kpi-value kpi-zero"><span data-count="0">0</span></span>
-              <span class="kpi-delta up">Kein Kunde gleitet durch die Finger</span>
+              <span class="kpi-delta up">kein Kunde verloren</span>
             </div>
           </div>
 
-          <div class="dash-grid">
-            <div class="dash-card">
-              <h2>Die fünf Finger</h2>
-              <p class="dash-sub">Jeder Assistent kennt denselben Kunden und dieselben Vorgänge. Klick öffnet das Modul.</p>
-              <div class="finger-grid">
-                <button class="finger" data-goto="phone">
-                  <span class="finger-name">Daumen</span>
-                  <strong>Telefon-Assistent</strong>
-                  <span>24/7 erreichbar. Kein Anruf geht verloren.</span>
-                </button>
-                <button class="finger" data-goto="inbox">
-                  <span class="finger-name">Zeigefinger</span>
-                  <strong>E-Mail-Assistent</strong>
-                  <span>Versteht Kontext. Antwortet. Priorisiert.</span>
-                </button>
-                <button class="finger" data-goto="calendar">
-                  <span class="finger-name">Mittelfinger</span>
-                  <strong>Kalender-Assistent</strong>
-                  <span>Termine automatisch erkannt &amp; eingetragen.</span>
-                </button>
-                <button class="finger" data-goto="dashboard">
-                  <span class="finger-name">Ringfinger</span>
-                  <strong>Dashboard</strong>
-                  <span>Alle Vorgänge. Alle KPIs. Ein Blick.</span>
-                </button>
-                <button class="finger" data-goto="social">
-                  <span class="finger-name">Kleiner Finger</span>
-                  <strong>Social-Media-Assistent</strong>
-                  <span>Versteht Zielgruppen. Erstellt Content.</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="dash-card">
-              <h2>Vorgänge diese Woche</h2>
-              <p class="dash-sub">Bearbeitete Kommunikationsvorgänge pro Tag, alle Kanäle.</p>
-              <div class="chart" id="weekChart" role="img" aria-label="Balkendiagramm: bearbeitete Vorgänge pro Wochentag"></div>
-              <div class="chart-tooltip" id="chartTooltip" hidden></div>
-            </div>
-
-            <div class="dash-card">
-              <h2>Live-Aktivität</h2>
-              <p class="dash-sub">Was die Assistenten gerade tun. Klick öffnet den Vorgang.</p>
-              <div class="activity-feed" id="activityFeed"></div>
-            </div>
-
-            <div class="dash-card roi-card">
-              <h2>Ihr Nutzen in Zahlen</h2>
-              <div class="metric"><span>Zurückgewonnene Arbeitszeit</span><strong>19 Std/Woche</strong></div>
-              <div class="metric"><span>Zeitwert pro Jahr</span><strong>≈ 49.400 €</strong></div>
-              <div class="metric"><span>Vorteil bereits in Jahr 1</span><strong class="c-green">+20.812 €</strong></div>
-              <div class="metric"><span>Antwortzeit E-Mail</span><strong>&lt; 2 Minuten</strong></div>
-              <p class="roi-note">Konservativ gerechnet – zusätzliche Umsätze durch schnellere Reaktion sind noch nicht enthalten.</p>
-            </div>
+          <div class="dash-head">
+            <h2>Eingang – alle Kanäle</h2>
+            <p>E-Mail, Telefon &amp; Sprachnachrichten gemeinsam auf der Ampel-Pinwand. Neueste oben.</p>
           </div>
+          <div class="board" id="boardAll" aria-label="Alle Kanäle"></div>
         </section>
 
-        <!-- ═══ POSTEINGANG ═══ -->
+        <!-- ═══ POSTEINGANG (nur E-Mail) ═══ -->
         <section class="view" data-view="inbox">
-          <div class="board" id="board" aria-label="Ampel-Pinwand">
-            <div class="column" data-status="red">
-              <div class="column-head">
-                <div class="column-title">
-                  <i class="dot dot-red"></i>
-                  <div><strong>Manuell</strong><span>Persönlich bearbeiten</span></div>
-                </div>
-                <span class="count count-red" data-count-for="red">0</span>
-              </div>
-              <div class="column-body" data-body="red"></div>
-            </div>
-            <div class="column" data-status="yellow">
-              <div class="column-head">
-                <div class="column-title">
-                  <i class="dot dot-yellow"></i>
-                  <div><strong>Prüfen</strong><span>Vor Senden kontrollieren</span></div>
-                </div>
-                <span class="count count-yellow" data-count-for="yellow">0</span>
-              </div>
-              <div class="column-body" data-body="yellow"></div>
-            </div>
-            <div class="column" data-status="green">
-              <div class="column-head">
-                <div class="column-title">
-                  <i class="dot dot-green"></i>
-                  <div><strong>Automatisch</strong><span>KI darf nach Regeln senden</span></div>
-                </div>
-                <span class="count count-green" data-count-for="green">0</span>
-              </div>
-              <div class="column-body" data-body="green"></div>
-            </div>
-          </div>
+          <div class="board" id="boardInbox" aria-label="E-Mail-Pinwand"></div>
         </section>
 
         <!-- ═══ KALENDER ═══ -->
@@ -248,102 +154,144 @@
         <section class="view" data-view="social">
           <div class="test-layout">
             <div class="form-card">
-              <h2>Social-Media-Assistent</h2>
-              <p>Der Assistent zieht Kundenhistorie, CRM-Kontext, Produktdaten und Zielgruppenprofil und erstellt daraus fertige Posts pro Plattform und Zielgruppe. Veröffentlicht wird erst nach Freigabe.</p>
-              <div class="field">
-                <label for="socialCustomer">Kunde / Branche</label>
-                <select id="socialCustomer">
-                  <option value="handwerk">Handwerk – Meisterbetrieb Gas · Wasser · Heizung</option>
-                  <option value="immobilien">Immobilien – Makler &amp; Eigentümer</option>
-                  <option value="fahrschule">Fahrschule – Privatkunden &amp; Eltern</option>
-                </select>
+              <div class="accordion" id="socialSteps">
+                <div class="acc-head" data-acc="how">
+                  <strong>So arbeitet der Assistent – 5 Schritte</strong><span class="acc-arrow">▾</span>
+                </div>
+                <div class="acc-body" data-acc-body="how">
+                  <ol class="mini-steps">
+                    <li>Zielgruppen aus dem CRM analysieren</li>
+                    <li>Produktdaten &amp; Aktionen laden</li>
+                    <li>Trends, beste Zeiten &amp; Formate prüfen</li>
+                    <li>Content je Plattform &amp; Zielgruppe erzeugen</li>
+                    <li>Freigabe – erst dann wird veröffentlicht</li>
+                  </ol>
+                </div>
+
+                <div class="acc-head" data-acc="crm">
+                  <strong>① CRM-Analyse</strong><span class="acc-arrow">▾</span>
+                </div>
+                <div class="acc-body open" data-acc-body="crm">
+                  <p class="acc-hint">Kundendaten, Excel-, PDF- oder Word-Unterlagen hochladen – oder einsprechen. Die KI erkennt Segmente.</p>
+                  <label class="dropzone" for="crmUpload">
+                    <input type="file" id="crmUpload" multiple hidden>
+                    <span class="dz-icon">📁</span><span>Dateien hierher – Excel · PDF · Word · CSV</span>
+                  </label>
+                  <div class="upload-list" id="crmUploadList"></div>
+                  <div class="acc-actions">
+                    <button class="mic-btn" type="button" data-mic="crm">🎤 Einsprechen</button>
+                    <button class="action primary sm" type="button" data-analyze="crm">Dokumente analysieren</button>
+                  </div>
+                  <div class="analysis-out" id="crmOut"></div>
+                </div>
+
+                <div class="acc-head" data-acc="psy">
+                  <strong>② Verhaltenspsychologie</strong><span class="acc-arrow">▾</span>
+                </div>
+                <div class="acc-body" data-acc-body="psy">
+                  <p class="acc-hint">Studien, Persona-Dokumente oder Marktanalysen laden. Die KI leitet psychologische Trigger ab.</p>
+                  <label class="dropzone" for="psyUpload">
+                    <input type="file" id="psyUpload" multiple hidden>
+                    <span class="dz-icon">📁</span><span>Dokumente laden – Studien · Persona · Markt</span>
+                  </label>
+                  <div class="upload-list" id="psyUploadList"></div>
+                  <div class="acc-actions">
+                    <button class="mic-btn" type="button" data-mic="psy">🎤 Einsprechen</button>
+                    <button class="action primary sm" type="button" data-analyze="psy">Nur Dokumente analysieren</button>
+                  </div>
+                  <div class="analysis-out" id="psyOut"></div>
+                </div>
+
+                <div class="acc-head" data-acc="content">
+                  <strong>③ Content</strong><span class="acc-arrow">▾</span>
+                </div>
+                <div class="acc-body open" data-acc-body="content">
+                  <div class="field">
+                    <label for="socialCustomer">Kunde / Branche</label>
+                    <select id="socialCustomer">
+                      <option value="handwerk">Handwerk – Meisterbetrieb Gas · Wasser · Heizung</option>
+                      <option value="immobilien">Immobilien – Makler &amp; Eigentümer</option>
+                      <option value="fahrschule">Fahrschule – Privatkunden &amp; Eltern</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="socialProduct">Eigenes Thema / Aktion</label>
+                    <input id="socialProduct" value="Heizungs-Check zum Winter – 30 % schnellere Termine" placeholder="z. B. Neue Altersvorsorge-Förderung 2026">
+                  </div>
+                  <button class="action primary" type="button" id="createSocialPlan">✨ Content-Strategie erzeugen</button>
+                  <button class="action btn-process sm" type="button" data-process="social">⚙ Das Rädchen live ansehen</button>
+                </div>
               </div>
-              <div class="field">
-                <label for="socialProduct">Neues Produkt / Aktion</label>
-                <input id="socialProduct" value="Heizungs-Check zum Winter – 30 % schnellere Termine">
-              </div>
-              <button class="action primary" type="button" id="createSocialPlan">✨ Content-Strategie erzeugen</button>
-              <button class="action btn-process" type="button" data-process="social">⚙ So arbeitet der Social-Media-Assistent</button>
             </div>
+
             <div class="result-card">
               <h2 id="socialHeadline">Strategie-Vorschlag</h2>
-              <p id="socialIntro">Wähle Branche und Aktion und lass die KI eine kanalübergreifende Strategie erstellen.</p>
+              <p id="socialIntro">Wähle Branche und Thema und lass die KI eine kanalübergreifende Strategie erstellen.</p>
               <div class="social-plan" id="socialFeed"></div>
-              <h3>Leitplanken</h3>
-              <div class="metric"><span>Quelle</span><strong>CRM + Produktdaten</strong></div>
-              <div class="metric"><span>Psychologie</span><strong>Nutzen, Sicherheit, Dringlichkeit</strong></div>
-              <div class="metric"><span>Freigabe</span><strong>Vor Veröffentlichung</strong></div>
+              <div class="refocus">
+                <label for="refocusInput">Neue Zielgruppe anvisieren – kompletten Prozess dafür starten:</label>
+                <div class="refocus-row">
+                  <input id="refocusInput" placeholder="z. B. Junge Familien 30–40, erstes Eigenheim">
+                  <button class="action primary sm" type="button" id="btnRefocus">🎯 Für Zielgruppe erzeugen</button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- ═══ KUNDEN ═══ -->
+        <!-- ═══ KUNDEN (Reise) ═══ -->
         <section class="view" data-view="customers">
-          <table class="table">
-            <thead>
-              <tr><th>Kunde</th><th>Firma</th><th>Kanal</th><th>Status</th><th>Letzter Vorgang</th></tr>
-            </thead>
-            <tbody id="customersBody"></tbody>
-          </table>
+          <div class="cust-layout">
+            <table class="table cust-table">
+              <thead>
+                <tr><th>Kunde</th><th>Firma</th><th>Kanal</th><th>Status</th></tr>
+              </thead>
+              <tbody id="customersBody"></tbody>
+            </table>
+            <div class="journey-card">
+              <h2>Kundenreise – live</h2>
+              <p class="dash-sub" id="journeyIntro">Klick auf einen Kunden – die KI spielt den kompletten Vorgang Schritt für Schritt ab.</p>
+              <div class="journey" id="journey"></div>
+            </div>
+          </div>
         </section>
 
-        <!-- ═══ KI & TOKEN ═══ -->
+        <!-- ═══ KI & PAKETE ═══ -->
         <section class="view" data-view="tokens">
-          <div class="budget-layout">
-            <div class="budget-card">
-              <h2>KI-Token-Budget</h2>
-              <p>Abrechnungsperiode: 01.06.–30.06.2026</p>
-              <div class="budget-number" id="tokenBigPercent">43%</div>
-              <p>verbraucht</p>
-              <div class="bar"><span id="tokenBar" style="width:43%"></span></div>
-              <div class="metric"><span>Gesamt-Budget</span><strong>1.200.000</strong></div>
-              <div class="metric"><span>Verbraucht</span><strong id="tokenUsedNum">516.000</strong></div>
-              <div class="metric"><span>Verbleibend</span><strong class="c-green" id="tokenLeftNum">684.000</strong></div>
-              <div class="metric"><span>Reset in</span><strong>25 Tagen</strong></div>
+          <div class="plan-current">
+            <div class="pc-left">
+              <span class="pc-label">Ihr aktuelles Paket</span>
+              <strong class="pc-name">Business</strong>
+              <span class="pc-sub">Abrechnungsperiode 01.06.–30.06.2026 · Reset in 25 Tagen</span>
             </div>
-            <div class="budget-card">
-              <h2>Verbrauch nach Assistent</h2>
-              <div class="usage-row"><span>E-Mail-Assistent</span><div class="usage-bar"><i style="width:58%"></i></div><strong>299k</strong></div>
-              <div class="usage-row"><span>Kalender-Assistent</span><div class="usage-bar"><i style="width:17%"></i></div><strong>88k</strong></div>
-              <div class="usage-row"><span>Telefon-Assistent</span><div class="usage-bar"><i style="width:14%"></i></div><strong>72k</strong></div>
-              <div class="usage-row"><span>Social-Media-Assistent</span><div class="usage-bar"><i style="width:11%"></i></div><strong>57k</strong></div>
-              <button class="action btn-process" type="button" data-process="email" style="margin-top:16px">⚙ KI-Verarbeitung live ansehen</button>
+            <div class="pc-right">
+              <div class="ring big" id="tokenRing"><span id="tokenRingLabel">43%</span></div>
+              <div>
+                <strong id="tokenUsedNum">516.000</strong> von 1,2M Token
+                <div class="bar"><span id="tokenBar" style="width:43%"></span></div>
+                <small class="c-green" id="tokenLeftNum">684.000 übrig</small>
+              </div>
             </div>
           </div>
 
-          <div class="budget-card arch-card">
-            <h2>Technische Architektur – so ist Five Fingers gebaut</h2>
-            <p class="dash-sub">API-basierte Overlay-Schicht: Five Fingers ersetzt nichts, sondern verbindet Ihre bestehenden Systeme. Klick auf eine Schicht zeigt Details.</p>
-            <div class="arch-flow" id="archFlow">
-              <div class="arch-layer" data-arch="in">
-                <div class="arch-title">① Eingangskanäle</div>
-                <div class="arch-nodes">
-                  <span>E-Mail / Gmail</span><span>Telefonie</span><span>Social Media</span><span>Kalender</span>
-                </div>
+          <div class="dash-head"><h2>Pakete &amp; Preise</h2><p>Einmalige Einrichtung plus feste Monatsgebühr – transparent und planbar. Preise netto zzgl. USt.</p></div>
+          <div class="pricing-grid" id="pricingGrid"></div>
+
+          <div class="accordion arch-acc">
+            <div class="acc-head" data-acc="arch"><strong>Technische Architektur (Details)</strong><span class="acc-arrow">▾</span></div>
+            <div class="acc-body" data-acc-body="arch">
+              <p class="dash-sub">API-basierte Overlay-Schicht – Five Fingers ersetzt nichts, sondern verbindet Ihre Systeme. Klick auf eine Schicht zeigt Details.</p>
+              <div class="arch-flow" id="archFlow">
+                <div class="arch-layer" data-arch="in"><div class="arch-title">① Eingangskanäle</div><div class="arch-nodes"><span>E-Mail / Gmail</span><span>Telefonie</span><span>Social Media</span><span>Kalender</span></div></div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer accent" data-arch="ai"><div class="arch-title">② Five Fingers KI-Engine</div><div class="arch-nodes"><span>Klassifizierung</span><span>Kontext-Loader</span><span>Antwort-Generator</span><span>Ampel-Logik</span></div></div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer" data-arch="hub"><div class="arch-title">③ CRM-Hub / Data Bridge</div><div class="arch-nodes"><span>Kundenakte</span><span>Wissensbasis</span><span>Audit-Log</span><span>Regelwerk</span></div></div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer" data-arch="out"><div class="arch-title">④ Operations-Dashboard</div><div class="arch-nodes"><span>Ampel-Pinwand</span><span>Kalender</span><span>KPIs</span><span>Freigabe</span></div></div>
               </div>
-              <div class="arch-arrow">↓</div>
-              <div class="arch-layer accent" data-arch="ai">
-                <div class="arch-title">② Five Fingers KI-Engine</div>
-                <div class="arch-nodes">
-                  <span>Klassifizierung (Intent + Risiko)</span><span>Kontext-Loader</span><span>Antwort-Generator</span><span>Ampel-Logik</span>
-                </div>
-              </div>
-              <div class="arch-arrow">↓</div>
-              <div class="arch-layer" data-arch="hub">
-                <div class="arch-title">③ CRM-Hub / Data Bridge</div>
-                <div class="arch-nodes">
-                  <span>Kundenakte</span><span>Wissensbasis</span><span>Audit-Log</span><span>Regelwerk</span>
-                </div>
-              </div>
-              <div class="arch-arrow">↓</div>
-              <div class="arch-layer" data-arch="out">
-                <div class="arch-title">④ Operations-Dashboard</div>
-                <div class="arch-nodes">
-                  <span>Ampel-Pinwand</span><span>Kalender</span><span>KPIs</span><span>Freigabe</span>
-                </div>
-              </div>
+              <div class="arch-detail" id="archDetail">Klick auf eine Schicht für Details – z. B. Modelle, Serverstandort (Azure Germany) und Schnittstellen.</div>
             </div>
-            <div class="arch-detail" id="archDetail">Klick auf eine Schicht für Details – z. B. welche Modelle laufen, wo die Daten liegen (Azure Germany) und welche Schnittstellen angebunden sind.</div>
           </div>
         </section>
 
@@ -405,6 +353,7 @@ Alexander</textarea>
         <div class="detail-actions-top">
           <button class="chip chip-locate" id="btnLocate">🎯 Vorgang in Ampel anzeigen</button>
           <button class="chip chip-process" data-process="auto">⚙ Verarbeitung ansehen</button>
+          <button class="chip chip-callback" id="btnCallback" hidden>📞 Kunde zurückrufen</button>
         </div>
 
         <div class="attachments" id="attachments"></div>
@@ -463,7 +412,7 @@ Alexander</textarea>
     </div>
   </div>
 
-  <!-- ═══════════ MODAL (PDF / CRM / Prozess) ═══════════ -->
+  <!-- ═══════════ MODAL ═══════════ -->
   <div class="modal-overlay" id="modalOverlay" hidden>
     <div class="modal-card" id="modalCard">
       <button class="modal-close" id="modalClose" aria-label="Schließen">✕</button>
@@ -471,7 +420,6 @@ Alexander</textarea>
     </div>
   </div>
 
-  <!-- Toasts -->
   <div class="toast-stack" id="toastStack"></div>
 
   <script src="script.js"></script>
