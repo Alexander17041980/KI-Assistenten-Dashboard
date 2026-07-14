@@ -207,6 +207,39 @@ const socialStrategies = {
       { pf: "facebook", aud: "Eltern", text: "Liebe Eltern: sicher ans Ziel statt monatelang warten. Unser Intensivkurs bringt Ihr Kind in 14 Tagen zur Prüfung – transparente Preise, feste Termine.", tags: "#Fahrschule #Elternratgeber" },
       { pf: "newsletter", aud: "Wartelisten-Kontakte", text: "Ein Platz ist frei geworden: Intensivkurs Start Freitag. Als Erstes auf der Warteliste – 24 h Reservierung für Sie. Jetzt zusagen.", tags: "Betreff: „Ihr Intensivkurs-Platz ist frei“" }
     ]
+  },
+  steuerberatung: {
+    headline: "Steuerberatung – Kanzlei & Mandanten",
+    intro: "Zielgruppen aus dem CRM: Selbstständige, GmbH-Geschäftsführer und Gründer. Die Fristen- und Beratungs-Aktion wird pro Kanal seriös und vertrauensbildend ausgespielt.",
+    posts: [
+      { pf: "linkedin", aud: "GmbH-Geschäftsführer", text: "Jahresabschluss 2025: Wer jetzt strukturiert, spart im Q1 Nerven und Geld. Unsere Kanzlei arbeitet vollständig digital über DATEV – Belege rein, Auswertung raus. Termin für die Vorbereitung sichern.", tags: "#Steuerberatung #DATEV #Jahresabschluss" },
+      { pf: "instagram", aud: "Selbstständige", text: "📊 Steuer-Tipp der Woche: Diese 3 Ausgaben vergessen Selbstständige am häufigsten abzusetzen. Swipe für die Checkliste – und ja, wir prüfen das für Sie individuell.", tags: "#Steuertipp #Selbstständig #Finanzen" },
+      { pf: "facebook", aud: "Gründer regional", text: "Frisch gegründet? Die ersten Steuerentscheidungen legen den Grundstein. Wir begleiten Sie von der Rechtsform bis zur ersten Umsatzsteuer-Voranmeldung – klar und ohne Fachchinesisch.", tags: "#Gründung #Steuerberatung #Startup" },
+      { pf: "tiktok", aud: "Junge Selbstständige", text: "„Kann ich das absetzen?“ – 30-Sek-Clip, Beraterin beantwortet 5 echte Fragen aus dem Postfach. Trend-Sound, klare Cuts. CTA: Erstgespräch buchen.", tags: "#Steuern #Selbstständig #fyp" },
+      { pf: "newsletter", aud: "Bestandsmandanten", text: "Fristen-Erinnerung: Ihre Unterlagen für den Abschluss bitte bis Ende des Monats. Als Mandant nutzen Sie den digitalen Upload – ein Klick, alles sicher in der Kanzlei.", tags: "Betreff: „Ihre Frist rückt näher – so bleibt es entspannt“" }
+    ]
+  },
+  praxis: {
+    headline: "Gesundheit – Arzt- & Zahnarztpraxis",
+    intro: "Zielgruppen aus dem CRM: Bestandspatienten, Neupatienten und Prophylaxe-Kontakte. Recall- und Vorsorge-Aktionen werden pro Kanal empathisch und DSGVO-konform ausgespielt.",
+    posts: [
+      { pf: "instagram", aud: "Neupatienten", text: "🦷 Neu in der Praxis: digitale Terminvergabe rund um die Uhr. Kein Warten in der Leitung – Termin online sichern, Erinnerung kommt automatisch. Ihr Lächeln hat Vorrang.", tags: "#Zahnarzt #Prophylaxe #Praxis" },
+      { pf: "facebook", aud: "Familien regional", text: "Vorsorge nicht vergessen: Für die ganze Familie planen wir Kontrolltermine, die zusammenpassen. Ein Anruf – oder online in 2 Minuten. Wir kümmern uns um den Rest.", tags: "#Vorsorge #Familie #Gesundheit" },
+      { pf: "linkedin", aud: "Regionale Arbeitgeber", text: "Betriebliche Gesundheitsvorsorge: Wir bieten Kooperationen für Unternehmen – kompakte Check-up-Termine für Ihr Team, planbar und diskret. Sprechen Sie uns an.", tags: "#BGM #Gesundheit #Prävention" },
+      { pf: "tiktok", aud: "Jüngere Patienten", text: "Angst vorm Zahnarzt? 🫣 – 20-Sek-Clip: so läuft der erste Termin bei uns wirklich ab. Ruhige Musik, echtes Team. CTA: Wohlfühl-Termin buchen.", tags: "#Zahnarzt #Angstpatient #fyp" },
+      { pf: "newsletter", aud: "Recall-Patienten", text: "Ihre Prophylaxe ist wieder fällig. Als Stammpatient reservieren wir Ihnen bevorzugt einen Termin – bitte online bestätigen, dann ist alles vorbereitet.", tags: "Betreff: „Zeit für Ihre Prophylaxe – Termin reserviert“" }
+    ]
+  },
+  gastronomie: {
+    headline: "Gastronomie – Restaurant & Café",
+    intro: "Zielgruppen aus dem CRM: Stammgäste, Firmenkunden für Events und Laufkundschaft. Reservierungs- und Event-Aktionen werden pro Kanal appetitlich und regional ausgespielt.",
+    posts: [
+      { pf: "instagram", aud: "Foodies regional", text: "🍝 Neu auf der Karte: hausgemachte Pasta mit Trüffel aus der Region. Diese Woche als Empfehlung des Hauses. Tisch sichern – die Fensterplätze sind schnell weg.", tags: "#Foodie #Restaurant #Regional" },
+      { pf: "facebook", aud: "Familien & Feiern", text: "Geburtstag, Taufe, Firmenfeier? Wir richten Ihre Feier aus – von 10 bis 60 Personen, mit eigenem Menü. Jetzt unverbindlich anfragen, Termine im Sommer sind gefragt.", tags: "#Feiern #Eventlocation #Gastronomie" },
+      { pf: "linkedin", aud: "Firmenkunden", text: "Geschäftsessen mit Eindruck: separater Raum, planbarer Ablauf, Rechnung auf das Unternehmen. Ideal für Team-Lunches und Kundentermine. Kontingente anfragen.", tags: "#Business #Catering #Firmenevent" },
+      { pf: "tiktok", aud: "Gen Z", text: "POV: Du siehst, wie unser Signature-Dessert entsteht 🍰 – 15-Sek-Clip, Zeitlupe, Trend-Sound. „Nur samstags, solange Vorrat reicht.“ CTA: Tisch buchen.", tags: "#Food #Dessert #fyp" },
+      { pf: "newsletter", aud: "Stammgäste", text: "Unser Herbst-Menü ist da – und Stammgäste probieren zuerst. Reservieren Sie in dieser Woche und erhalten Sie einen Aperitif aufs Haus. Ein Klick zum Tisch.", tags: "Betreff: „Unser Herbst-Menü – für Sie zuerst“" }
+    ]
   }
 };
 
