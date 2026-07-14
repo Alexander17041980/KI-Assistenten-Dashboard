@@ -349,8 +349,8 @@ function renderCounts() {
   const red = open.filter(m => m.status === "red").length;
   const yellow = open.filter(m => m.status === "yellow").length;
   const hint = $("#alertHint");
-  if (red > 0) { hint.className = "alert-hint"; hint.innerHTML = `⚠ ${red} Vorgang${red > 1 ? "e" : ""} brauchen Sie persönlich${yellow ? ` · ${yellow} zur Freigabe` : ""}.`; }
-  else if (yellow > 0) { hint.className = "alert-hint calm"; hint.innerHTML = `✓ Nichts Kritisches – ${yellow} Vorgang${yellow > 1 ? "e" : ""} warten nur auf Ihre Freigabe.`; }
+  if (red > 0) { hint.className = "alert-hint"; hint.innerHTML = `⚠ ${red} ${red > 1 ? "Vorgänge brauchen" : "Vorgang braucht"} Sie persönlich${yellow ? ` · ${yellow} zur Freigabe` : ""}.`; }
+  else if (yellow > 0) { hint.className = "alert-hint calm"; hint.innerHTML = `✓ Nichts Kritisches – ${yellow} ${yellow > 1 ? "Vorgänge warten" : "Vorgang wartet"} nur auf Ihre Freigabe.`; }
   else { hint.className = "alert-hint calm"; hint.innerHTML = "✓ Alles erledigt – kein offener Vorgang."; }
 }
 

@@ -1262,3 +1262,13 @@ button, input, textarea, select { font: inherit; }
   cursor: text;
 }
 .social-post-foot button[data-act="approve"]:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ═══════════ v3.2: MARKEN-LOGOS ═══════════ */
+.brand-hand { width: 44px; height: 44px; flex-shrink: 0; }
+
+/* SYNLEX Co-Branding (Betreiber) */
+.operator { margin: 4px 0 14px; }
+.operator-label { display: block; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-soft); margin-bottom: 5px; }
+.operator-brand { display: flex; align-items: center; gap: 8px; color: #8a929c; }
+.synlex-mark { width: 26px; height: 26px; flex-shrink: 0; }
+.synlex-word { font-size: 14px; font-weight: 600; letter-spacing: 0.28em; color: #7b828c; }
