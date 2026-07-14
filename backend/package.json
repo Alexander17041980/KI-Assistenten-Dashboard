@@ -1,0 +1,21 @@
+{
+  "name": "five-fingers-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Five Fingers – KI-Kommunikations-Hub: Backend das echte E-Mails mit Claude klassifiziert (Ampel-Logik) und Antwortentwürfe erzeugt.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check src/ai.js && node --check src/rules.js && node --check src/gmail.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
+    "dotenv": "^17.0.0",
+    "express": "^4.21.0"
+  }
+}
