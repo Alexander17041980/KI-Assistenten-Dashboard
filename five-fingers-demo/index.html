@@ -1413,6 +1413,32 @@ button.calendar-kpi { cursor: pointer; }
 .slot-copy > span { border-radius: 999px; padding: 5px 8px; background: #eafaff; color: var(--cyan-dark); font-size: 11px; font-weight: 900; }
 .slot-copy > b { color: var(--navy); }
 
+.dashboard-slot-banner[hidden], .card-slot-link[hidden] { display: none; }
+.dashboard-slot-banner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 13px 15px;
+  border: 1px solid rgba(37,196,223,.52);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eafaff, #fff 66%);
+  color: var(--navy);
+  text-align: left;
+  box-shadow: 0 8px 22px rgba(11,43,73,.07);
+}
+.dashboard-slot-banner:hover, .dashboard-slot-banner:focus-visible { border-color: var(--cyan-dark); transform: translateY(-1px); }
+.dashboard-slot-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: var(--navy); color: white; font-size: 19px; font-weight: 900; }
+.dashboard-slot-copy { display: grid; gap: 2px; min-width: 0; }
+.dashboard-slot-copy small { color: var(--cyan-dark); font-size: 10px; font-weight: 900; letter-spacing: .055em; text-transform: uppercase; }
+.dashboard-slot-copy strong { font-size: 16px; }
+.dashboard-slot-copy em { color: var(--muted); font-size: 12px; font-style: normal; }
+.dashboard-slot-banner > b { border-radius: 999px; padding: 6px 9px; background: var(--green-soft); color: var(--green); font-size: 11px; white-space: nowrap; }
+.mail-card.slot-linked { border-color: rgba(37,196,223,.75); box-shadow: 0 0 0 3px rgba(37,196,223,.1); }
+.card-slot-link { display: inline-flex; margin-top: 8px; border-radius: 999px; padding: 5px 8px; background: #eafaff; color: var(--cyan-dark); font-size: 10px; font-weight: 900; }
+
 .customer-list { align-content: start; }
 .customer-list-head {
   padding: 14px;
@@ -2809,6 +2835,15 @@ input, select {
             <div><span>Risiko</span><b>niedrig</b></div>
           </div>
         </section>
+        <button class="dashboard-slot-banner" id="dashboardSlotBanner" data-open-mail="course" hidden>
+          <span class="dashboard-slot-icon">◴</span>
+          <span class="dashboard-slot-copy">
+            <small>Kalender mit Dashboard synchronisiert</small>
+            <strong id="dashboardSlotTitle">Termin wird nach Auswahl angezeigt</strong>
+            <em id="dashboardSlotMeta">Nora Berger · Intensivkurs</em>
+          </span>
+          <b>Im Entwurf</b>
+        </button>
         <div class="board">
           <section class="lane lane-red">
             <header><span></span><h2>Manuell</h2><small>Pers&ouml;nlich bearbeiten</small><b>4</b></header>
@@ -2819,7 +2854,7 @@ input, select {
           </section>
           <section class="lane lane-yellow">
             <header><span></span><h2>Pr&uuml;fen</h2><small>Vor Senden kontrollieren</small><b>4</b></header>
-            <button class="mail-card yellow selected" data-origin="mail" data-mail="course" data-detail="CRM: Neukontakt per Empfehlung. Kalender hat passende Vormittagsslots gefunden. Entwurf wartet auf Freigabe."><div class="card-top"><em>✉ E-Mail</em><span>10:30</span></div><b>Intensivkurs im Juli?</b><strong>Nora Berger</strong><p>Terminwunsch, Preisfrage und Verf&uuml;gbarkeit.</p><small>82% Termin markiert</small></button>
+            <button class="mail-card yellow selected" data-origin="mail" data-mail="course" data-detail="CRM: Neukontakt per Empfehlung. Kalender hat passende Vormittagsslots gefunden. Entwurf wartet auf Freigabe."><div class="card-top"><em>✉ E-Mail</em><span>10:30</span></div><b>Intensivkurs im Juli?</b><strong>Nora Berger</strong><p>Terminwunsch, Preisfrage und Verf&uuml;gbarkeit.</p><span class="card-slot-link" id="courseSlotLink" hidden></span><small>82% Termin markiert</small></button>
             <button class="mail-card yellow" data-origin="phone" data-mail="phoneLead" data-detail="Telefonassistent: Anruf transkribiert. Rückrufwunsch erkannt, Kalender 10:30 vorgeschlagen, CRM-Notiz erstellt."><div class="card-top"><em>☎ Telefon</em><span>10:42</span></div><b>R&uuml;ckruf morgen</b><strong>Thomas Berger</strong><p>Anruf wurde transkribiert und mit Kalender/CRM verkn&uuml;pft.</p><small>Gelb: Freigabe</small></button>
             <button class="mail-card yellow" data-origin="mail" data-mail="lead" data-detail="Warmer Lead. Datenschutz, Setup und Pilotstart sind kaufentscheidend. Antwortentwurf braucht Sales-Freigabe."><div class="card-top"><em>✉ E-Mail</em><span>10:46</span></div><b>Demo f&uuml;r 3 Standorte</b><strong>Thomas Berger</strong><p>Fragt nach Setup, Datenschutz und Pilotstart.</p><small>Sales-Freigabe</small></button>
             <button class="mail-card yellow" data-origin="mail" data-mail="pricing" data-detail="Professional-Potenzial erkannt. Preisdetail und Leistungsumfang vor Versand kurz prüfen."><div class="card-top"><em>✉ E-Mail</em><span>11:05</span></div><b>Was kostet Professional?</b><strong>Nordlicht Service</strong><p>Preisdetail soll vor Versand einmal gepr&uuml;ft werden.</p><small>Angebotskontext</small></button>
@@ -2909,35 +2944,7 @@ input, select {
             </div>
             <div class="calendar-head-actions">
               <button class="ghost-btn" id="insertSlot">Freien Slot in Antwort übernehmen</button>
-              <button class="primary-btn" id="calendarOpenButton" data-calendar-mail="confirm">1 offenen Vorgang bearbeiten</button>
             </div>
-          </div>
-
-          <div class="calendar-overview" aria-label="Kalenderübersicht">
-            <button class="calendar-kpi attention" id="calendarOpenKpi" data-calendar-mail="confirm">
-              <span>Jetzt zu tun</span>
-              <strong id="calendarOpenCount">1 Aktion offen</strong>
-              <small id="calendarOpenText">Agentur West · Bestätigung senden</small>
-            </button>
-            <div class="calendar-kpi">
-              <span>Diese Woche</span>
-              <strong>8 verknüpfte Termine</strong>
-              <small>E-Mail, Rückruf und CRM-Kontext inklusive</small>
-            </div>
-            <div class="calendar-kpi free">
-              <span>Direkt verfügbar</span>
-              <strong>2 freie Zeitfenster</strong>
-              <small>Mit einem Klick in die Kundenantwort</small>
-            </div>
-          </div>
-
-          <div class="calendar-legend">
-            <div><strong>So liest sich der Kalender:</strong><span>Die Farbe zeigt das Kommunikationsrisiko – nicht die Zahl offener Kalenderaktionen.</span></div>
-            <span class="legend-pill red">Rot · sensibel</span>
-            <span class="legend-pill yellow">Gelb · Freigabe</span>
-            <span class="legend-pill green">Grün · sicher</span>
-            <span class="legend-pill free">＋ Freier Slot</span>
-            <span class="legend-pill open">OFFEN · Aktion nötig</span>
           </div>
 
           <div class="calendar-grid" aria-label="Wochenkalender">
@@ -4215,6 +4222,21 @@ document.getElementById("insertSlot").addEventListener("click", () => {
   selectMail("course", true);
   answerBox.textContent = withAssistantDisclosure("Guten Tag Frau Berger,\n\nvielen Dank für Ihre Anfrage. Passend zu Ihrem Wunsch nach einem Vormittagstermin habe ich für Sie " + readableSlot + " ausgewählt. Gern reservieren wir dieses Zeitfenster für Ihren Intensivkurs.\n\nFalls der Termin nicht passt, senden wir Ihnen alternativ einen persönlichen Kalender-Link.\n\nFreundliche Grüße\nIhr Five Fingers Demo-Team");
   document.getElementById("slotCopy").innerHTML = '<span>In Antwort übernommen</span><b id="slotTitle">' + escapeHtml(readableSlot) + '</b> ist jetzt im Entwurf für Nora Berger enthalten.';
+  const dashboardSlotBanner = document.getElementById("dashboardSlotBanner");
+  const dashboardSlotTitle = document.getElementById("dashboardSlotTitle");
+  const dashboardSlotMeta = document.getElementById("dashboardSlotMeta");
+  const courseCard = document.querySelector('.mail-card[data-mail="course"]');
+  const courseSlotLink = document.getElementById("courseSlotLink");
+  if (dashboardSlotBanner) dashboardSlotBanner.hidden = false;
+  if (dashboardSlotTitle) dashboardSlotTitle.textContent = readableSlot;
+  if (dashboardSlotMeta) dashboardSlotMeta.textContent = "Nora Berger · Intensivkurs · im Antwortentwurf";
+  if (courseSlotLink) {
+    courseSlotLink.hidden = false;
+    courseSlotLink.textContent = "◴ " + readableSlot + " vorgemerkt";
+  }
+  courseCard?.classList.add("slot-linked");
+  const courseCardStatus = courseCard?.querySelector("small");
+  if (courseCardStatus) courseCardStatus.textContent = "Kalender verknüpft · Antwort prüfen";
   showTourStatus("Kalender-Slot wurde in Noras Antwort übernommen");
   setTimeout(hideTourStatus, 1800);
   logEvent("Slot übernommen", readableSlot + " wurde in den Entwurf geschrieben.");
@@ -4714,6 +4736,14 @@ document.getElementById("resetDemo").addEventListener("click", () => {
   selectMail("course", false);
   handledCount = 0;
   updateSessionStats();
+  const dashboardSlotBanner = document.getElementById("dashboardSlotBanner");
+  const courseSlotLink = document.getElementById("courseSlotLink");
+  const courseCard = document.querySelector('.mail-card[data-mail="course"]');
+  if (dashboardSlotBanner) dashboardSlotBanner.hidden = true;
+  if (courseSlotLink) courseSlotLink.hidden = true;
+  courseCard?.classList.remove("slot-linked");
+  const courseCardStatus = courseCard?.querySelector("small");
+  if (courseCardStatus) courseCardStatus.textContent = "82% Termin markiert";
   advanceDemo(0);
 });
 
