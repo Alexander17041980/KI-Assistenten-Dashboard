@@ -3585,6 +3585,7 @@ function focusAmpelCard(id) {
   document.querySelectorAll(".mail-tabs button").forEach(tab => tab.classList.remove("active"));
   document.querySelector(".mail-tabs button:first-child")?.classList.add("active");
   syncOpenBoardVisibility();
+  refreshLaneCounts();
   selectMail(id, true);
   const card = document.querySelector('[data-mail="' + id + '"]');
   if (!card) return;
@@ -3609,8 +3610,12 @@ function refreshLaneCounts() {
   const byStatus = status => visibleCards.filter(card => card.classList.contains(status));
   const byOrigin = origin => visibleCards.filter(card => card.dataset.origin === origin);
   const originStatus = (origin, status) => byOrigin(origin).filter(card => card.classList.contains(status)).length;
+  const laneOriginFilter = activeOpenOriginFilter();
   document.querySelectorAll(".lane").forEach(lane => {
-    const count = [...lane.querySelectorAll(".mail-card")].filter(card => !card.classList.contains("sent")).length;
+    const count = [...lane.querySelectorAll(".mail-card")].filter(card =>
+      !card.classList.contains("sent") &&
+      (!laneOriginFilter || card.dataset.origin === laneOriginFilter)
+    ).length;
     const badge = lane.querySelector("header b");
     if (badge) badge.textContent = String(count);
   });
@@ -4310,6 +4315,7 @@ document.querySelectorAll("[data-filter-origin]").forEach(button => {
     document.getElementById("outboxPanel").hidden = true;
     const origin = button.dataset.filterOrigin;
     syncOpenBoardVisibility(origin);
+    refreshLaneCounts();
   });
 });
 
@@ -4325,6 +4331,7 @@ document.querySelector(".mail-tabs button:first-child")?.addEventListener("click
   document.querySelector(".board").hidden = false;
   document.getElementById("outboxPanel").hidden = true;
   syncOpenBoardVisibility();
+  refreshLaneCounts();
 });
 
 document.getElementById("outboxTab").addEventListener("click", event => {
