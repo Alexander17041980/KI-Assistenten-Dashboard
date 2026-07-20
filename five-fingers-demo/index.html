@@ -2551,7 +2551,7 @@ input, select {
         <div>
           <div class="eyebrow" id="viewKicker">Five Fingers</div>
           <h1 id="viewTitle">Dashboard</h1>
-          <p id="viewSubtitle">E-Mail, Telefon und Kalender landen in einer gemeinsamen Ampel. Das Aktuellste steht oben.</p>
+          <p id="viewSubtitle">E-Mail, Telefon und Kalender werden mit dem CRM-Kontext verbunden. Five Fingers versteht das Anliegen, schlägt passende nächste Schritte vor und hält sensible Entscheidungen beim Menschen.</p>
         </div>
         <div class="topbar-actions">
           <button class="ghost-btn" id="resetDemo">Zur&uuml;cksetzen</button>
@@ -3026,7 +3026,7 @@ input, select {
         </div>
         <p id="detailText">Termin- und Preisfrage f&uuml;r einen Intensivkurs. CRM-Kontext und Kalender wurden geladen.</p>
         <div class="context-box" id="contextBox">
-          <span class="small-label">Kundenkontext</span>
+          <span class="small-label">Verstandener Kundenkontext</span>
           <p>Neukontakt per Empfehlung eines Bestandskunden. Noch kein Vertrag, hohe Priorit&auml;t laut CRM-Notiz.</p>
         </div>
       </section>
@@ -3055,7 +3055,7 @@ input, select {
           <button class="ghost-btn" data-suggestion="empathy">Empathisch</button>
           <button class="ghost-btn" data-suggestion="direct">Kurz &amp; direkt</button>
         </div>
-        <span class="small-label">KI-Antwortentwurf</span>
+        <span class="small-label">Kontext- und inhaltsbezogener Antwortentwurf</span>
         <div class="answer-box" id="answerBox">Guten Tag Frau Berger,
 
 vielen Dank f&uuml;r Ihre Anfrage. F&uuml;r den Intensivkurs im Juli haben wir aktuell passende Zeitfenster am Dienstag um 10:30 Uhr, Mittwoch um 14:00 Uhr oder Freitag um 09:00 Uhr.
@@ -3115,7 +3115,7 @@ let currentMailId = "course";
 let currentMode = "approval";
 
 const copy = {
-  email: ["Five Fingers", "Dashboard", "E-Mail, Telefon und Kalender landen in einer gemeinsamen Ampel. Das Aktuellste steht oben."],
+  email: ["Five Fingers", "Dashboard", "E-Mail, Telefon und Kalender werden mit dem CRM-Kontext verbunden. Five Fingers versteht das Anliegen, schlägt passende nächste Schritte vor und hält sensible Entscheidungen beim Menschen."],
   phone: ["Telefon", "Telefonassistent", "Anrufe werden transkribiert, bewertet und an Kalender, E-Mail und CRM uebergeben."],
   calendar: ["Kalender", "Kalenderassistenz", "Freie Slots werden aus Regeln, Verfuegbarkeit und Kundenwunsch vorgeschlagen."],
   customers: ["CRM", "Kunden-CRM", "Kundenhistorie, Vorgänge, Dokumente und Ampelstatus laufen in einer gemeinsamen Kundenakte zusammen."],
@@ -3482,7 +3482,7 @@ function selectMail(id, shouldOpen = true) {
   answerBox.textContent = withAssistantDisclosure(data.answer, id.startsWith("phone") ? "Telefon" : "E-Mail");
   explainText.textContent = data.explain;
   if (contextBox) {
-    contextBox.innerHTML = '<span class="small-label">Kundenkontext</span><p>' + escapeHtml(data.context || "Kein zusaetzlicher Kontext hinterlegt.") + "</p>";
+    contextBox.innerHTML = '<span class="small-label">Verstandener Kundenkontext</span><p>' + escapeHtml(data.context || "Kein zusaetzlicher Kontext hinterlegt.") + "</p>";
   }
   if (sourceList) {
     sourceList.innerHTML = (data.sources || ["Wissensbasis Five Fingers"]).map(source => '<button data-source="' + escapeHtml(source) + '">▣ ' + escapeHtml(source) + "</button>").join("");
@@ -4130,35 +4130,35 @@ document.getElementById("socialTargetApply").addEventListener("click", () => {
 });
 
 document.getElementById("simulateMail").addEventListener("click", () => {
-  showProcessing("Anfrage simuliert", "E-Mail kommt rein, CRM-Kontext wird geladen, Kalender-Slots werden gesucht.");
+  showProcessing("Kontext wird verstanden", "Krankheit, Terminabsage und Beitragsfrage werden erkannt. CRM und Kalender liefern die passenden nächsten Schritte.");
   const id = "sim-" + Date.now();
   mails[id] = {
-    title: "Maja Scholz",
+    title: "Martin Mustermann",
     tag: "Gelb",
-    text: "Neue E-Mail: Kundin ist krank, moechte Termin verschieben und ueber Zahlung/Preis sprechen.",
-    context: "Neuer Lead mit sensibler Situation. Krankheit, Terminabsage und Preisfrage erkannt; empathische Antwort und persoenliches Gespraech empfohlen.",
-    sources: ["E-Mail Maja Scholz", "Kalender freie Slots", "CRM-Notiz Erstkontakt"],
-    answer: "Guten Tag Frau Scholz,\n\nvielen Dank für Ihre Nachricht. Es tut uns leid zu hören, dass es Ihnen aktuell nicht gut geht. Erst einmal gute Besserung.\n\nWir können den Termin gern verschieben. Frei wären Dienstag um 10:30 Uhr oder Donnerstag um 14:00 Uhr. Falls beides nicht passt, senden wir Ihnen gern einen Kalenderlink, über den Sie selbst einen passenden Termin auswählen können.\n\nÜber den Vertrag und das Thema Zahlung sprechen wir am besten persönlich. Wir bereiten dafür alles vor, damit wir gemeinsam eine gute Lösung finden.\n\nFreundliche Grüße\nIhr E-Mail-Assistent im Auftrag von Alexander Sänger",
-    explain: "Grund: Krankheit + Terminverschiebung + Preisfrage. Gelb, weil Tonalitaet und Loesung vor Versand freigegeben werden."
+    text: "Kunde ist krank, kann den Termin nicht wahrnehmen und fragt nach einer Beitragsreduzierung.",
+    context: "Bestandskunde. Krankheit und Terminabsage wurden erkannt. Die gewünschte Beitragsreduzierung ist eine sensible wirtschaftliche Entscheidung; deshalb macht Five Fingers keine automatische Zusage.",
+    sources: ["E-Mail Martin Mustermann", "CRM-Kundenhistorie", "Kalender Alexander Sänger", "Beitragsregeln"],
+    answer: "Guten Tag Herr Mustermann,\n\nzunächst wünsche ich Ihnen gute Besserung. Ihren aktuellen Termin können wir selbstverständlich verschieben.\n\nIch habe zwei passende Alternativen für Sie gefunden:\n- Donnerstag, 23. Juli, um 13:30 Uhr\n- Freitag, 24. Juli, um 15:00 Uhr\n\nSollte keiner der Termine passen, senden wir Ihnen gern den persönlichen Kalender-Link von Alexander Sänger, über den Sie selbst einen passenden Termin auswählen können.\n\nÜber Ihren Beitrag und eine mögliche Beitragsreduzierung sprechen wir am besten persönlich. Ich bin überzeugt, dass wir gemeinsam eine passende Lösung für Sie finden.\n\nIch wünsche Ihnen einen angenehmen Tag.\n\nFreundliche Grüße\nIhr E-Mail-Assistent im Auftrag von Alexander Sänger",
+    explain: "Verstanden: Krankheit → empathische Ansprache; Terminabsage → passende Kalenderalternativen; Beitragsreduzierung → persönliche Klärung. Gelb, weil der Entwurf vor Versand freigegeben wird."
   };
-  customers.maja = {
-    name: "Maja Scholz",
-    summary: "Neue Anfrage mit Krankheit, Terminverschiebung und Zahlungsthema. Der Assistent bereitet empathische Antwort und persoenlichen Klaerungstermin vor.",
-    facts: ["Neuer Vorgang", "Freigabe", "mittel"],
+  customers.mustermann = {
+    name: "Martin Mustermann",
+    summary: "Bestandskunde ist krank, kann den Termin nicht wahrnehmen und bittet um eine Beitragsreduzierung. Der Assistent verbindet Empathie, Kalender und Kundenhistorie, ohne eine wirtschaftliche Zusage zu machen.",
+    facts: ["Bestandskunde", "Persönlich klären", "mittel"],
     status: "yellow",
-    transfer: ["Krankheit und Terminabsage aus E-Mail erkannt", "Zahlungsthema als persoenlich zu klaeren markiert", "Zwei Ersatztermine und Kalenderlink vorbereitet"],
-    history: ["Gerade eben · E-Mail: Krankheit, Termin und Zahlung erkannt", "CRM · Noch keine lange Historie, deshalb vorsichtige Ansprache", "Kalender · Zwei freie Ersatztermine gefunden"],
-    products: ["Terminverschiebung", "Zahlungsklaerung", "Kalenderlink", "Empathische Antwort"]
+    transfer: ["Krankheit und Terminabsage aus der E-Mail erkannt", "Beitragsreduzierung als sensible Entscheidung markiert", "Zwei passende Ersatztermine und ein persönlicher Kalender-Link vorbereitet"],
+    history: ["Gerade eben · E-Mail: Krankheit, Terminabsage und Beitragsfrage erkannt", "CRM · Bestandskunde mit persönlicher Klärung bei Beitragsthemen", "Kalender · Donnerstag 13:30 und Freitag 15:00 verfügbar"],
+    products: ["Terminverschiebung", "Beitragsreduzierung", "Kalender-Link", "Persönliche Klärung"]
   };
-  if (!document.querySelector('[data-customer="maja"]')) {
+  if (!document.querySelector('[data-customer="mustermann"]')) {
     const row = document.createElement("button");
     row.className = "customer-row yellow";
-    row.dataset.customer = "maja";
-    row.innerHTML = "<b>Maja Scholz</b><span>Krankheit + Zahlungsthema</span><em>Gelb</em>";
+    row.dataset.customer = "mustermann";
+    row.innerHTML = "<b>Martin Mustermann</b><span>Krankheit + Beitragsreduzierung</span><em>Gelb</em>";
     row.addEventListener("click", () => {
       document.querySelectorAll(".customer-row").forEach(other => other.classList.remove("active"));
       row.classList.add("active");
-      updateCustomerView("maja");
+      updateCustomerView("mustermann");
     });
     document.querySelector(".customer-list")?.prepend(row);
   }
@@ -4167,8 +4167,8 @@ document.getElementById("simulateMail").addEventListener("click", () => {
   card.className = "mail-card yellow selected";
   card.dataset.mail = id;
   card.dataset.origin = "mail";
-  card.dataset.detail = "Krankheit, Terminverschiebung und Preisfrage erkannt. Empathische Antwort mit zwei Terminvorschlaegen vorbereitet.";
-  card.innerHTML = '<div class="card-top"><em>✉ E-Mail</em><span>jetzt</span></div><b>Termin verschieben</b><strong>Maja Scholz</strong><p>Krank, moechte neu planen und ueber Zahlung sprechen.</p><small>Gelb: Ton pruefen</small>';
+  card.dataset.detail = "Krankheit, Terminabsage und Beitragsreduzierung erkannt. Empathische Antwort, zwei Kalendertermine und persönliche Klärung vorbereitet.";
+  card.innerHTML = '<div class="card-top"><em>✉ E-Mail</em><span>jetzt</span></div><b>Termin & Beitragsreduzierung</b><strong>Martin Mustermann</strong><p>Krank, kann den Termin nicht wahrnehmen und fragt nach einer Beitragsreduzierung.</p><small>Gelb: Kontext prüfen</small>';
   document.querySelectorAll(".mail-card").forEach(other => other.classList.remove("selected"));
   lane.prepend(card);
   card.addEventListener("click", () => selectMail(id));
