@@ -1301,6 +1301,178 @@ h1 { margin-bottom: 4px; font-size: 24px; color: var(--navy); letter-spacing: 0;
   background: var(--surface-soft);
 }
 
+
+.calendar-head-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.calendar-overview {
+  display: grid;
+  grid-template-columns: 1.18fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.calendar-kpi {
+  display: grid;
+  gap: 4px;
+  min-height: 104px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #fff, #f7fafc);
+  text-align: left;
+  color: var(--navy);
+  box-shadow: 0 8px 22px rgba(11,43,73,.06);
+}
+button.calendar-kpi { cursor: pointer; }
+.calendar-kpi span { color: var(--muted); font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.calendar-kpi strong { font-size: 20px; line-height: 1.15; }
+.calendar-kpi small { color: var(--muted); line-height: 1.35; }
+.calendar-kpi.attention { border-color: rgba(37,196,223,.55); background: linear-gradient(135deg, #eafaff, #fff); }
+.calendar-kpi.attention strong { color: var(--cyan-dark); }
+.calendar-kpi.attention.resolved { border-color: rgba(22,163,74,.35); background: var(--green-soft); }
+.calendar-kpi.attention.resolved strong { color: var(--green); }
+.calendar-kpi.free { border-color: rgba(37,196,223,.32); }
+.calendar-legend {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fbfdff;
+}
+.calendar-legend > div { flex: 1 0 100%; min-width: 240px; }
+.calendar-legend > div strong, .calendar-legend > div span { display: block; }
+.calendar-legend > div span { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.legend-pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 9px;
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.legend-pill.red { color: var(--red); background: var(--red-soft); border-color: rgba(239,68,68,.28); }
+.legend-pill.yellow { color: #9a6200; background: var(--yellow-soft); border-color: rgba(245,158,11,.32); }
+.legend-pill.green { color: var(--green); background: var(--green-soft); border-color: rgba(22,163,74,.28); }
+.legend-pill.free { color: var(--cyan-dark); background: #eafaff; border-style: dashed; border-color: rgba(37,196,223,.65); }
+.legend-pill.open { color: white; background: var(--navy); border-color: var(--navy); }
+.calendar-grid { grid-auto-rows: minmax(132px, auto); background: var(--surface); }
+.day-head { min-height: 66px; padding: 13px 12px; }
+.day-head small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 700; }
+.time-col { padding-top: 18px; }
+.calendar-cell-empty {
+  display: grid;
+  place-items: center;
+  min-height: 132px;
+  background: repeating-linear-gradient(135deg, #fff, #fff 10px, #fbfdff 10px, #fbfdff 20px);
+}
+.calendar-cell-empty span { color: #c4ced9; font-size: 10px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+.calendar-event {
+  margin: 8px;
+  min-height: 112px;
+  padding: 11px;
+  overflow: visible;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.calendar-event:hover, .calendar-event:focus-visible { transform: translateY(-2px) scale(1.025); min-height: 112px; }
+.calendar-event .event-time { margin: 0 0 7px; color: #6f7d90; font-size: 9px; font-weight: 900; letter-spacing: .035em; text-transform: uppercase; }
+.calendar-event strong { display: block; color: var(--navy); font-size: 13px; line-height: 1.2; }
+.calendar-event > span:not(.event-time) { margin-top: 4px; font-size: 11px; line-height: 1.25; }
+.calendar-event .event-state {
+  display: inline-flex;
+  margin-top: 8px;
+  border-radius: 999px;
+  padding: 4px 7px;
+  background: rgba(255,255,255,.72);
+  color: #556274;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.calendar-event.free-slot {
+  border: 2px dashed rgba(37,196,223,.72);
+  border-left-width: 2px;
+  background: linear-gradient(145deg, #effcff, #fff);
+}
+.calendar-event.free-slot strong, .calendar-event.free-slot .event-state { color: var(--cyan-dark); }
+.calendar-event.free-slot .event-state { background: rgba(37,196,223,.12); }
+.calendar-event.free-slot.selected { outline: 3px solid rgba(37,196,223,.28); }
+.calendar-event.info-event { border-left-color: #94a3b8; background: #f8fafc; }
+.calendar-event.action-open { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(11,43,73,.12), 0 10px 24px rgba(11,43,73,.12); }
+.calendar-event .calendar-open-flag { background: var(--navy); color: white; }
+.calendar-event.action-resolved { border-color: rgba(22,163,74,.38); box-shadow: none; }
+.calendar-event.action-resolved .calendar-open-flag { background: var(--green-soft); color: var(--green); }
+.slot-copy { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 13px 15px; }
+.slot-copy > span { border-radius: 999px; padding: 5px 8px; background: #eafaff; color: var(--cyan-dark); font-size: 11px; font-weight: 900; }
+.slot-copy > b { color: var(--navy); }
+
+.customer-list { align-content: start; }
+.customer-list-head {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #eafaff, #fff);
+}
+.customer-list-head strong { display: block; color: var(--navy); font-size: 17px; }
+.customer-list-head span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+.customer-list-stats { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.customer-list-stats b { border: 1px solid rgba(37,196,223,.35); border-radius: 999px; background: white; color: var(--cyan-dark); padding: 5px 7px; font-size: 10px; }
+.crm-record-head > div:nth-child(2) { min-width: 0; }
+.crm-head-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 9px; }
+.crm-live-pill { border-radius: 999px; background: var(--green-soft); color: var(--green); padding: 5px 8px; font-size: 11px; font-weight: 900; }
+.crm-last-signal { color: var(--muted); font-size: 11px; font-weight: 750; }
+.crm-insight-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 15px;
+  border: 1px solid rgba(37,196,223,.42);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eafaff, #fff 60%);
+}
+.crm-insight-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; background: var(--navy); color: white; font-size: 20px; }
+.crm-insight-copy h3 { margin: 3px 0 4px; color: var(--navy); font-size: 18px; }
+.crm-insight-copy p { margin: 0; color: var(--muted); line-height: 1.4; }
+.crm-insight-side { display: grid; gap: 8px; justify-items: end; }
+.crm-context-chips { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.crm-context-chips span { border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--navy); padding: 5px 7px; font-size: 10px; font-weight: 850; }
+.crm-record-grid { grid-template-columns: minmax(220px, .78fr) minmax(0, 1.22fr); }
+.crm-panel.crm-ai-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(220px, .85fr) minmax(320px, 1.3fr) minmax(200px, .8fr);
+  gap: 12px;
+  align-items: start;
+}
+.crm-ai-panel .crm-transfer-log, .crm-ai-panel .crm-documents { margin-top: 0; height: 100%; }
+.crm-value-proof { border: 1px solid var(--line); border-radius: var(--radius); background: white; padding: 13px; }
+.crm-value-proof p { margin: 8px 0 0; color: var(--muted); line-height: 1.42; }
+.crm-value-proof strong { display: block; margin-top: 5px; color: var(--navy); }
+
+@media (max-width: 1380px) {
+  .calendar-overview { grid-template-columns: 1.15fr 1fr 1fr; }
+  .calendar-kpi strong { font-size: 17px; }
+  .crm-panel.crm-ai-panel { grid-template-columns: 1fr 1fr; }
+  .crm-value-proof { grid-column: 1 / -1; }
+}
+@media (max-width: 1180px) {
+  .calendar-overview, .crm-insight-bar { grid-template-columns: 1fr; }
+  .calendar-head-actions { justify-content: flex-start; }
+  .crm-insight-side { justify-items: start; }
+  .crm-context-chips { justify-content: flex-start; }
+  .crm-panel.crm-ai-panel { grid-template-columns: 1fr; }
+  .crm-value-proof { grid-column: auto; }
+}
+
 .customer-list {
   display: grid;
   gap: 8px;
@@ -2533,6 +2705,37 @@ input, select {
   .savings-panel span:not(.small-label) { text-align: left; }
 }
 
+
+.crm-record-grid {
+  grid-template-columns: minmax(220px, .78fr) minmax(0, 1.22fr);
+}
+.crm-panel.crm-ai-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(220px, .85fr) minmax(320px, 1.3fr) minmax(200px, .8fr);
+}
+@media (max-width: 1380px) {
+  .inspector {
+    position: fixed;
+    grid-column: auto;
+    grid-row: auto;
+    top: 14px;
+    right: 14px;
+    bottom: 14px;
+    width: min(420px, calc(100vw - 28px));
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(11, 43, 73, .22);
+  }
+  .crm-panel.crm-ai-panel { grid-template-columns: 1fr 1fr; }
+  .crm-value-proof { grid-column: 1 / -1; }
+}
+@media (max-width: 1180px) {
+  .crm-record-grid, .crm-panel.crm-ai-panel { grid-template-columns: 1fr; }
+  .crm-value-proof { grid-column: auto; }
+}
+
 </style>
 </head>
 <body>
@@ -2699,48 +2902,92 @@ input, select {
       <section class="view" data-view="calendar">
         <section class="calendar-board full-calendar">
           <div class="calendar-head">
-            <div><h2>Kalender</h2><p>Der Kalender zeigt alle Termine und freien Slots. Die Zahl links z&auml;hlt nur offene Kalendervorg&auml;nge, bei denen noch etwas zu tun ist.</p></div>
-            <button class="primary-btn" id="insertSlot">Ausgew&auml;hlten Slot in Antwort &uuml;bernehmen</button>
+            <div>
+              <span class="small-label">Vernetzte Wochenplanung</span>
+              <h2>Kalender</h2>
+              <p>Termine, Rückrufe und freie Zeitfenster werden mit E-Mail, Telefon und Kundenakte verbunden.</p>
+            </div>
+            <div class="calendar-head-actions">
+              <button class="ghost-btn" id="insertSlot">Freien Slot in Antwort übernehmen</button>
+              <button class="primary-btn" id="calendarOpenButton" data-calendar-mail="confirm">1 offenen Vorgang bearbeiten</button>
+            </div>
           </div>
-          <div class="calendar-grid">
+
+          <div class="calendar-overview" aria-label="Kalenderübersicht">
+            <button class="calendar-kpi attention" id="calendarOpenKpi" data-calendar-mail="confirm">
+              <span>Jetzt zu tun</span>
+              <strong id="calendarOpenCount">1 Aktion offen</strong>
+              <small id="calendarOpenText">Agentur West · Bestätigung senden</small>
+            </button>
+            <div class="calendar-kpi">
+              <span>Diese Woche</span>
+              <strong>8 verknüpfte Termine</strong>
+              <small>E-Mail, Rückruf und CRM-Kontext inklusive</small>
+            </div>
+            <div class="calendar-kpi free">
+              <span>Direkt verfügbar</span>
+              <strong>2 freie Zeitfenster</strong>
+              <small>Mit einem Klick in die Kundenantwort</small>
+            </div>
+          </div>
+
+          <div class="calendar-legend">
+            <div><strong>So liest sich der Kalender:</strong><span>Die Farbe zeigt das Kommunikationsrisiko – nicht die Zahl offener Kalenderaktionen.</span></div>
+            <span class="legend-pill red">Rot · sensibel</span>
+            <span class="legend-pill yellow">Gelb · Freigabe</span>
+            <span class="legend-pill green">Grün · sicher</span>
+            <span class="legend-pill free">＋ Freier Slot</span>
+            <span class="legend-pill open">OFFEN · Aktion nötig</span>
+          </div>
+
+          <div class="calendar-grid" aria-label="Wochenkalender">
             <div class="time-col"></div>
-            <div class="day-head">Mo 02.06.</div>
-            <div class="day-head">Di 03.06.</div>
-            <div class="day-head">Mi 04.06.</div>
-            <div class="day-head">Do 05.06.</div>
-            <div class="day-head">Fr 06.06.</div>
+            <div class="day-head">Mo 02.06.<small>2 Termine</small></div>
+            <div class="day-head">Di 03.06.<small>1 Termin · 1 frei</small></div>
+            <div class="day-head">Mi 04.06.<small>1 Termin</small></div>
+            <div class="day-head">Do 05.06.<small>2 Vorgänge</small></div>
+            <div class="day-head">Fr 06.06.<small>2 Termine · 1 frei</small></div>
+
             <div class="time-col">09:00</div>
-            <button class="calendar-event red" data-mail="legal" data-detail="Rot: Vertragsfrage mit Anhang. Nur Zusammenfassung, kein automatischer Versand.">✉ Kanzlei<br><span>R&uuml;cksprache</span></button>
-            <button class="calendar-event muted" data-slot="Di 10:30">Freier Slot<br><span>vormittags</span></button>
-            <button class="calendar-event yellow selected" data-mail="course" data-slot="Mi 09:00" data-detail="Gelb: Erstkontakt Nora. Intensivkurs, Preisfrage, Antwortentwurf wartet auf Freigabe.">✉ Nora<br><span>Intensivkurs</span></button>
-            <div></div>
-            <button class="calendar-event green" data-mail="faq" data-detail="Grün: Routineinfo aus Wissensbasis. Automatisch beantwortbar.">✉ Hansa<br><span>Kursinfo</span></button>
+            <button class="calendar-event red" data-mail="legal" data-detail="Rot: Vertragsfrage mit Anhang. Nur Zusammenfassung, kein automatischer Versand."><span class="event-time">09:00–09:45 · E-Mail</span><strong>Kanzlei Klein</strong><span>Vertragsrücksprache</span><em class="event-state">sensibel</em></button>
+            <button class="calendar-event free-slot selected" data-slot="Di 10:30"><span class="event-time">10:30–11:30</span><strong>＋ Freies Zeitfenster</strong><span>passt zu Noras Wunsch</span><em class="event-state">direkt anbieten</em></button>
+            <button class="calendar-event yellow" data-mail="course" data-slot="Mi 09:00" data-detail="Gelb: Erstkontakt Nora. Intensivkurs, Preisfrage, Antwortentwurf wartet auf Freigabe."><span class="event-time">09:00–10:00 · E-Mail</span><strong>Nora Berger</strong><span>Intensivkurs</span><em class="event-state">Antwort prüfen</em></button>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <button class="calendar-event green" data-mail="faq" data-detail="Grün: Routineinfo aus Wissensbasis. Automatisch beantwortbar."><span class="event-time">09:30–10:00 · E-Mail</span><strong>Hansa Training</strong><span>Kursinformation</span><em class="event-state">sicher</em></button>
+
             <div class="time-col">11:00</div>
-            <button class="calendar-event red" data-mail="complaint" data-detail="Rot: Beschwerde und Zahlungskonflikt. Rückruf durch Mensch empfohlen.">✉ Haupt<br><span>Kl&auml;rung</span></button>
-            <div></div>
-            <div></div>
-            <button class="calendar-event yellow" data-mail="pricing" data-detail="Gelb: Preisfrage Professional. Wirtschaftliche Zusage vor Versand prüfen.">✉ Nordlicht<br><span>Angebot</span></button>
-            <button class="calendar-event green" data-mail="confirm" data-detail="Grün: Terminbestätigung. CRM-Notiz und Ausgang vorbereitet.">📅 Agentur West<br><span>Abstimmung</span></button>
+            <button class="calendar-event red" data-mail="complaint" data-detail="Rot: Beschwerde und Zahlungskonflikt. Rückruf durch Mensch empfohlen."><span class="event-time">11:00–11:45 · E-Mail</span><strong>Sabine Haupt</strong><span>Rechnung klären</span><em class="event-state">Rückruf empfohlen</em></button>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <button class="calendar-event yellow" data-mail="pricing" data-detail="Gelb: Preisfrage Professional. Wirtschaftliche Zusage vor Versand prüfen."><span class="event-time">11:00–12:00 · E-Mail</span><strong>Nordlicht Service</strong><span>Angebot besprechen</span><em class="event-state">Preis prüfen</em></button>
+            <button class="calendar-event green action-open" id="calendarOpenEvent" data-mail="confirm" data-detail="Eine Kalenderaktion ist offen: Bestätigung an Agentur West senden und im CRM dokumentieren."><span class="event-time">11:00–11:30 · Kalender</span><strong>Agentur West</strong><span>Terminabstimmung</span><em class="event-state calendar-open-flag" id="calendarOpenState">OFFEN · Bestätigung senden</em></button>
+
             <div class="time-col">13:00</div>
-            <div></div>
-            <button class="calendar-event yellow" data-mail="lead" data-detail="Gelb: Sales-Lead mit Datenschutzfrage. Demo-Termin vorbereitet.">✉ Synlex<br><span>Demo</span></button>
-            <div></div>
-            <div></div>
-            <button class="calendar-event muted" data-slot="Fr 13:00">Freier Slot<br><span>nachmittags</span></button>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <button class="calendar-event yellow" data-mail="lead" data-detail="Gelb: Sales-Lead mit Datenschutzfrage. Demo-Termin vorbereitet."><span class="event-time">13:00–14:00 · E-Mail</span><strong>Synlex</strong><span>Produktdemo</span><em class="event-state">Freigabe</em></button>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <button class="calendar-event free-slot" data-slot="Fr 13:00"><span class="event-time">13:00–14:30</span><strong>＋ Freies Zeitfenster</strong><span>ideal für Beratung</span><em class="event-state">direkt anbieten</em></button>
+
             <div class="time-col">15:00</div>
-            <div></div>
-            <button class="calendar-event yellow" data-mail="phoneLead" data-slot="Di 15:00" data-detail="Gelb: Telefon-Rückruf aus Transkript. Kalender und CRM wurden verknüpft.">☎ R&uuml;ckruf Berger<br><span>Morgen 10:30</span></button>
-            <div></div>
-            <button class="calendar-event muted" data-slot="Do 15:00">Nur Info<br><span>kein Termin</span></button>
-            <div></div>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <button class="calendar-event yellow" data-mail="phoneLead" data-slot="Di 15:00" data-detail="Gelb: Telefon-Rückruf aus Transkript. Kalender und CRM wurden verknüpft."><span class="event-time">15:00–15:30 · Telefon</span><strong>☎ Rückruf Berger</strong><span>aus Telefonassistent</span><em class="event-state">Rückruf geplant</em></button>
+            <div class="calendar-cell-empty"><span>frei</span></div>
+            <button class="calendar-event info-event" data-slot="Do 15:00"><span class="event-time">15:00–16:00 · Intern</span><strong>Fokusblock</strong><span>keine Kundenaktion</span><em class="event-state">nur Information</em></button>
+            <div class="calendar-cell-empty"><span>frei</span></div>
           </div>
-          <p class="slot-copy" id="slotCopy">Ausgew&auml;hlt: <b id="slotTitle">Mi 09:00 ist vorbereitet</b>. Der Termin ist mit Nora Berger, CRM-Kontext und Antwortentwurf verkn&uuml;pft.</p>
+          <p class="slot-copy" id="slotCopy"><span>Ausgewählter freier Slot</span><b id="slotTitle">Di 10:30–11:30</b> passt zu Noras bevorzugtem Zeitfenster und kann direkt in den Antwortentwurf übernommen werden.</p>
         </section>
       </section>
 
       <section class="view" data-view="customers">
         <div class="customers-layout">
           <section class="customer-list">
+            <div class="customer-list-head">
+              <strong>Aktive Kundenakten</strong>
+              <span>Priorisiert nach Handlungsbedarf – nicht alphabetisch.</span>
+              <div class="customer-list-stats"><b>5 aktive Kontakte</b><b>alle Kanäle verbunden</b></div>
+            </div>
             <button class="customer-row yellow active" data-customer="nora"><b>Nora Berger</b><span>Interessentin Intensivkurs</span><em>Gelb</em></button>
             <button class="customer-row yellow" data-customer="thomas"><b>Thomas Berger</b><span>Telefonischer R&uuml;ckruf</span><em>Gelb</em></button>
             <button class="customer-row red" data-customer="sabine"><b>Sabine Haupt</b><span>Rechnungsbeschwerde</span><em>Rot</em></button>
@@ -2753,14 +3000,27 @@ input, select {
               <div>
                 <span class="small-label">Kundenakte</span>
                 <h2 id="customerName">Nora Berger</h2>
-                <p id="customerSummary">Neue Anfrage f&uuml;r Intensivkurs im Juli. Hat bereits telefonisch nach freien Vormittagen gefragt.</p>
+                <p id="customerSummary">Neue Anfrage für Intensivkurs im Juli. Hat bereits telefonisch nach freien Vormittagen gefragt.</p>
+                <div class="crm-head-meta"><span class="crm-live-pill">● Live synchronisiert</span><span class="crm-last-signal" id="customerLastSignal">Aktualisiert: Heute 10:30</span></div>
               </div>
             </div>
             <div class="crm-facts" id="customerFacts">
               <div><span>Status</span><b>Lead warm</b></div>
-              <div><span>N&auml;chster Schritt</span><b>Terminvorschlag</b></div>
+              <div><span>Nächster Schritt</span><b>Terminvorschlag</b></div>
               <div><span>Risiko</span><b>niedrig</b></div>
             </div>
+            <section class="crm-insight-bar">
+              <div class="crm-insight-icon">✦</div>
+              <div class="crm-insight-copy">
+                <span class="small-label">Five Fingers empfiehlt</span>
+                <h3 id="customerRecommendation">Terminvorschlag freigeben</h3>
+                <p id="customerRecommendationText">Kalender-Slots und Kundenwunsch sind bereits abgeglichen. Die Antwort wartet nur noch auf Ihre Freigabe.</p>
+              </div>
+              <div class="crm-insight-side">
+                <div class="crm-context-chips"><span>✉ E-Mail</span><span>☎ Telefon</span><span>◴ Kalender</span><span>▣ Dokumente</span></div>
+                <button class="primary-btn" id="customerActionButton" data-open-mail="course">Vorgang bearbeiten</button>
+              </div>
+            </section>
             <div class="crm-record-grid">
               <section class="crm-panel">
                 <span class="small-label">Kontaktprofil</span>
@@ -2783,7 +3043,7 @@ input, select {
                   <button><b>Vor 2 Monaten · Erstkontakt</b><span>Interesse an schnellen Kursstarts notiert.</span></button>
                 </div>
               </section>
-              <section class="crm-panel">
+              <section class="crm-panel crm-ai-panel">
                 <div class="crm-transfer-log" id="customerTransferLog">
                   <span class="small-label">Von Five Fingers eingetragen</span>
                   <ul>
@@ -2805,8 +3065,11 @@ input, select {
                     <span>W&auml;hlen Sie ein Dokument aus. Five Fingers zeigt, welche Informationen f&uuml;r Antwort, Ampel und Kundenakte genutzt werden.</span>
                   </div>
                 </div>
-                <div>
-                  <span class="small-label">Produkte &amp; Signale</span>
+                <div class="crm-value-proof">
+                  <span class="small-label">Sofort sichtbarer Mehrwert</span>
+                  <strong>Kein Suchen. Kein Kontextwechsel.</strong>
+                  <p>Kommunikation, Termine, Dokumente, Risiko und nächster Schritt stehen in einer Kundenakte bereit.</p>
+                  <span class="small-label" style="margin-top:12px">Produkte &amp; Signale</span>
                   <div class="crm-products" id="customerProducts">
                     <span>Intensivkurs Juli</span>
                     <span>Vormittagstermine</span>
@@ -3413,10 +3676,28 @@ function customerMeta(key, data) {
     sabine: ["Bestandskundin Fahrschule", "E-Mail + Telefon", "sabine.haupt@example.de", "+49 40 987654", "Service-Team"],
     hansa: ["Pilotkunde", "E-Mail", "kontakt@hansa-training.de", "+49 511 445566", "Customer Success"],
     nordlicht: ["Professional-Interessent", "E-Mail", "info@nordlicht-service.de", "+49 431 778899", "Sales"],
-    maja: ["Neuer Lead", "E-Mail", "maja.scholz@example.de", "noch nicht hinterlegt", "Alexander Sänger"]
+    mustermann: ["Bestandskunde", "E-Mail", "martin.mustermann@example.de", "+49 30 246810", "Alexander Sänger"]
   };
   return presets[key] || [data?.facts?.[0] || "Kontakt", "E-Mail", "nicht hinterlegt", "nicht hinterlegt", "Team"];
 }
+
+const customerActionMap = {
+  nora: "course",
+  thomas: "phoneLead",
+  sabine: "complaint",
+  hansa: "docs",
+  nordlicht: "pricing",
+  mustermann: "simulated-context-request"
+};
+
+const customerRecommendationMap = {
+  nora: ["Terminvorschlag freigeben", "Kalender und Kundenwunsch sind abgeglichen. Drei passende Zeitfenster warten nur noch auf die Freigabe der Antwort."],
+  thomas: ["Rückruf bestätigen", "Der Telefonassistent hat den Rückrufwunsch verstanden und morgen um 10:30 Uhr als passenden Termin vorbereitet."],
+  sabine: ["Persönlichen Rückruf übernehmen", "Der automatische Versand ist wegen Beschwerde und Rückerstattungsforderung gesperrt. Menschliche Klärung wird empfohlen."],
+  hansa: ["Routineantwort automatisch senden", "Rahmenvertrag und Wissensbasis erlauben den sicheren Versand der angefragten Kursunterlagen."],
+  nordlicht: ["Angebot vor Versand prüfen", "Professional-Umfang, Datenschutz und Preisdetails sind vorbereitet und benötigen nur noch die wirtschaftliche Freigabe."],
+  mustermann: ["Persönliche Klärung anbieten", "Krankheit, Terminabsage und Beitragsreduzierung wurden erkannt. Zwei Ersatztermine sind vorbereitet; die Beitragsfrage bleibt beim Menschen."]
+};
 
 function updateCustomerView(key) {
   const data = customers[key];
@@ -3426,6 +3707,15 @@ function updateCustomerView(key) {
   if (avatar) avatar.textContent = customerInitials(data.name);
   document.getElementById("customerName").textContent = data.name;
   document.getElementById("customerSummary").textContent = data.summary;
+  const recommendation = document.getElementById("customerRecommendation");
+  const recommendationText = document.getElementById("customerRecommendationText");
+  const actionButton = document.getElementById("customerActionButton");
+  const lastSignal = document.getElementById("customerLastSignal");
+  const recommendationData = customerRecommendationMap[key] || [data.facts[1], data.transfer[data.transfer.length - 1] || "Der nächste Schritt ist aus dem Kundenkontext vorbereitet."];
+  if (recommendation) recommendation.textContent = recommendationData[0];
+  if (recommendationText) recommendationText.textContent = recommendationData[1];
+  if (actionButton) actionButton.dataset.openMail = customerActionMap[key] || "course";
+  if (lastSignal) lastSignal.textContent = "Aktualisiert: " + ((data.history?.[0] || "gerade eben").split(" · ")[0]);
   document.getElementById("customerFacts").innerHTML = "<div><span>Status</span><b>" + escapeHtml(data.facts[0]) + "</b></div><div><span>Nächster Schritt</span><b>" + escapeHtml(data.facts[1]) + "</b></div><div><span>Risiko</span><b>" + escapeHtml(data.facts[2]) + "</b></div>";
   document.getElementById("customerTransferLog").innerHTML = '<span class="small-label">Von Five Fingers eingetragen</span><ul>' + data.transfer.map(item => "<li>" + escapeHtml(item) + "</li>").join("") + "</ul>";
   const fields = [
@@ -3653,6 +3943,23 @@ function refreshLaneCounts() {
     calendarBadge.innerHTML = '<i class="red"></i><i class="yellow"></i><span>' + calendarCount + " offen</span>";
     calendarBadge.setAttribute("aria-label", calendarCount + " offene Kalendervorgänge. Rot: " + originStatus("calendar", "red") + ", Gelb: " + originStatus("calendar", "yellow") + ", Grün: " + originStatus("calendar", "green"));
   }
+  const calendarOpenKpi = document.getElementById("calendarOpenKpi");
+  const calendarOpenCount = document.getElementById("calendarOpenCount");
+  const calendarOpenText = document.getElementById("calendarOpenText");
+  const calendarOpenButton = document.getElementById("calendarOpenButton");
+  const calendarOpenEvent = document.getElementById("calendarOpenEvent");
+  const calendarOpenState = document.getElementById("calendarOpenState");
+  const hasCalendarAction = calendarCount > 0;
+  calendarOpenKpi?.classList.toggle("resolved", !hasCalendarAction);
+  if (calendarOpenCount) calendarOpenCount.textContent = hasCalendarAction ? calendarCount + (calendarCount === 1 ? " Aktion offen" : " Aktionen offen") : "Alles erledigt";
+  if (calendarOpenText) calendarOpenText.textContent = hasCalendarAction ? "Agentur West · Bestätigung senden" : "Keine Kalenderaktion wartet auf Sie";
+  if (calendarOpenButton) {
+    calendarOpenButton.textContent = hasCalendarAction ? calendarCount + (calendarCount === 1 ? " offenen Vorgang bearbeiten" : " offene Vorgänge bearbeiten") : "Keine offene Kalenderaktion";
+    calendarOpenButton.disabled = !hasCalendarAction;
+  }
+  calendarOpenEvent?.classList.toggle("action-open", hasCalendarAction);
+  calendarOpenEvent?.classList.toggle("action-resolved", !hasCalendarAction);
+  if (calendarOpenState) calendarOpenState.textContent = hasCalendarAction ? "OFFEN · Bestätigung senden" : "Erledigt · Bestätigung gesendet";
   const phoneBadge = document.querySelector('[data-view-target="phone"] .nav-alerts');
   if (phoneBadge) {
     phoneBadge.innerHTML = '<i class="red"></i><i class="yellow"></i><span>' + phoneCount + " offen</span>";
@@ -3876,23 +4183,41 @@ document.querySelectorAll(".slot.free").forEach(slot => {
   });
 });
 
+document.querySelectorAll("[data-calendar-mail]").forEach(button => {
+  button.addEventListener("click", () => selectMail(button.dataset.calendarMail, true));
+});
+
 document.querySelectorAll(".calendar-event").forEach(event => {
   event.addEventListener("click", () => {
     document.querySelectorAll(".calendar-event").forEach(other => other.classList.remove("selected"));
     event.classList.add("selected");
-    const slot = event.dataset.slot || event.textContent.trim().replace(/\s+/g, " ");
-    document.getElementById("slotTitle").textContent = slot + " ist vorbereitet";
-    document.getElementById("slotCopy").innerHTML = 'Ausgewählt: <b id="slotTitle">' + escapeHtml(slot) + ' ist vorbereitet</b>. Der Termin ist mit Vorgang, CRM-Kontext und Antwortentwurf verknüpft.';
+    const slot = event.dataset.slot || event.querySelector("strong")?.textContent || event.textContent.trim().replace(/\s+/g, " ");
+    document.getElementById("slotTitle").textContent = slot;
+    if (event.classList.contains("free-slot")) {
+      document.getElementById("slotCopy").innerHTML = '<span>Ausgewählter freier Slot</span><b id="slotTitle">' + escapeHtml(slot) + '</b> kann direkt in den Antwortentwurf übernommen werden.';
+    } else {
+      document.getElementById("slotCopy").innerHTML = '<span>Vernetzter Vorgang</span><b id="slotTitle">' + escapeHtml(slot) + '</b> ist mit Kundenakte, Kommunikation und nächstem Schritt verbunden.';
+    }
     if (event.dataset.mail) selectMail(event.dataset.mail, true);
-    else openDrawer();
     logEvent("Kalender verknüpft", slot);
   });
 });
 
 document.getElementById("insertSlot").addEventListener("click", () => {
-  const selected = document.querySelector(".calendar-event.selected")?.dataset.slot || document.querySelector(".slot.selected")?.dataset.slot || "Mi 09:00";
-  answerBox.textContent = answerBox.textContent.replace(/Dienstag um 10:30 Uhr|Mittwoch um 14:00 Uhr|Freitag um 09:00 Uhr/g, selected);
-  logEvent("Slot übernommen", selected + " wurde in den Entwurf geschrieben.");
+  const selected = document.querySelector(".calendar-event.selected")?.dataset.slot || "Di 10:30";
+  const slotLabels = {
+    "Di 10:30": "Dienstag, 3. Juni, um 10:30 Uhr",
+    "Fr 13:00": "Freitag, 6. Juni, um 13:00 Uhr",
+    "Mi 09:00": "Mittwoch, 4. Juni, um 09:00 Uhr",
+    "Di 15:00": "Dienstag, 3. Juni, um 15:00 Uhr"
+  };
+  const readableSlot = slotLabels[selected] || selected;
+  selectMail("course", true);
+  answerBox.textContent = withAssistantDisclosure("Guten Tag Frau Berger,\n\nvielen Dank für Ihre Anfrage. Passend zu Ihrem Wunsch nach einem Vormittagstermin habe ich für Sie " + readableSlot + " ausgewählt. Gern reservieren wir dieses Zeitfenster für Ihren Intensivkurs.\n\nFalls der Termin nicht passt, senden wir Ihnen alternativ einen persönlichen Kalender-Link.\n\nFreundliche Grüße\nIhr Five Fingers Demo-Team");
+  document.getElementById("slotCopy").innerHTML = '<span>In Antwort übernommen</span><b id="slotTitle">' + escapeHtml(readableSlot) + '</b> ist jetzt im Entwurf für Nora Berger enthalten.';
+  showTourStatus("Kalender-Slot wurde in Noras Antwort übernommen");
+  setTimeout(hideTourStatus, 1800);
+  logEvent("Slot übernommen", readableSlot + " wurde in den Entwurf geschrieben.");
 });
 
 document.querySelectorAll(".customer-row").forEach(row => {
